@@ -15,12 +15,12 @@
 								@foreach ($sports as $sport)
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" value="{{ $sport->id }}">{{ $sport->name }}
+											<input name="sports[]" type="checkbox" value="{{ $sport->id }}">{{ $sport->name }}
 										</label>
 									</div>
 								@endforeach
 								<div class="checkbox">
-									<label><input type="checkbox" value="visitor">I'm only visitor</label>
+									<label><input name="visitor" type="checkbox" value="1">I'm only visitor</label>
 								</div>
 							</div>
 						</div>

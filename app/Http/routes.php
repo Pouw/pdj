@@ -19,4 +19,4 @@ Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::get('/sport', 'SportController@index');
-Route::post('/sport', 'SportController@index');
+Route::post('/sport', 'SportController@sports');
