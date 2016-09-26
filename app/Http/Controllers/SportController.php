@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests;
 use App\Sport;
 use App\Level;
-use App\Regs;
+use App\Reg;
 use App\RegSport;
 
 class SportController extends Controller
@@ -21,17 +21,20 @@ class SportController extends Controller
 	public function index(Request $request)
 	{
 		$sports = Sport::orderBy('name')->get();
-		return view('sport', ['sports' => $sports]);
+		$user = Auth::user();
+		$plucked = $user->reg->sports->pluck('sport_id');
+		$selectedSportIds = $plucked->all();
+		return view('sport', ['sports' => $sports, 'user' => $user, 'selectedSportIds' => $selectedSportIds]);
 	}
 
 	protected function sports(Request $request) {
         $sportIds = $request->get('sports');
         $user = Auth::user();
 
-        $reg = Regs::whereUserId($user->id);
+        $reg = Reg::whereUserId($user->id);
         if ($reg->count() === 0) {
 			$item = ['user_id' => $user->id];
-			$regId = Regs::insertGetId($item);
+			$regId = Reg::insertGetId($item);
 		} else {
 			$regId = $reg->first()->id;
         }
