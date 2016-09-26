@@ -1,28 +1,46 @@
-@extends('layouts.app')
+<div class="form-group{{ $errors->has('volleyball_level') ? ' has-error' : '' }}">
+    <label for="volleyball_level" class="col-md-4 control-label">Level</label>
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Volleyball form</div>
+    <div class="col-md-6">
+        <select id="volleyball_level" class="form-control" name="volleyball_level">
+            @foreach ($levels as $level)
+                <option value="{{ $level->id }}">{{ $level->name }}</option>
+            @endforeach
+        </select>
 
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST">
-						{{ csrf_field() }}
-
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-3">
-								<button type="submit" class="btn btn-primary">
-									Next <i class="fa fa-btn fa-chevron-circle-right"></i>
-								</button>
-							</div>
-						</div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        @if ($errors->has('volleyball_level'))
+            <span class="help-block">
+                <strong>{{ $errors->first('password') }}</strong>
+            </span>
+        @endif
     </div>
+
 </div>
-@endsection
+
+<div class="form-group{{ $errors->has('volleyball_team') ? ' has-error' : '' }}">
+	<label for="volleyball_team" class="col-md-4 control-label">Name of your team</label>
+
+	<div class="col-md-6">
+		<input id="volleyball_team" type="text" class="form-control" name="volleyball_team" value="{{ old('volleyball_team') }}">
+
+		@if ($errors->has('volleyball_team'))
+			<span class="help-block">
+                	<strong>{{ $errors->first('volleyball_team') }}</strong>
+				</span>
+		@endif
+	</div>
+</div>
+
+<div class="form-group{{ $errors->has('volleyball_club') ? ' has-error' : '' }}">
+	<label for="volleyball_team" class="col-md-4 control-label">Name of your club</label>
+
+	<div class="col-md-6">
+		<input id="volleyball_club" type="text" class="form-control" name="volleyball_club" value="{{ old('volleyball_club') }}">
+
+		@if ($errors->has('volleyball_club'))
+			<span class="help-block">
+                	<strong>{{ $errors->first('volleyball_club') }}</strong>
+				</span>
+		@endif
+	</div>
+</div>

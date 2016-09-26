@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests;
 use App\Sport;
+use App\Level;
+use App\Regs;
+use App\RegSport;
 
 class SportController extends Controller
 {
@@ -17,27 +20,50 @@ class SportController extends Controller
 
 	public function index(Request $request)
 	{
-		/*if ($request->isMethod('post')) {
-			return $this->volleyball();
-		}
-		*/
-
-
-
 		$sports = Sport::orderBy('name')->get();
 		return view('sport', ['sports' => $sports]);
-//		return view('sport');
 	}
 
 	protected function sports(Request $request) {
-
         $sportIds = $request->get('sports');
         $user = Auth::user();
-        dump($sportIds);
 
-        $regSport = Sport::where('user_id', $user->id);
+        $reg = Regs::whereUserId($user->id);
+        if ($reg->count() === 0) {
+			$item = ['user_id' => $user->id];
+			$regId = Regs::insertGetId($item);
+		} else {
+			$regId = $reg->first()->id;
+        }
+        dump($regId);
 
-		return view('sports/volleyball');
+        if ($sportIds) {
+            foreach ($sportIds as $sportId) {
+                $item = [
+          		    'reg_id' => $regId,
+                    'sport_id' => $sportId,
+                ];
+                $regSport = RegSport::where($item);
+                if ($regSport->count() === 0) {
+                    $regSport->insert($item);
+                }
+            }
+            RegSport::where('reg_id', $regId)
+                ->whereNotIn('sport_id', $sportIds)
+                ->delete();
+        } else {
+            RegSport::where('reg_id', $regId)->delete();
+        }
+
+        $regSports = RegSport::whereRegId($regId);
+        dump($regSports->get());
+//        $regSports->update();
+
+		return view('sports', [
+			'regSports' => $regSports,
+			'sports' => Sport::whereIn('id', $sportIds)->get(),
+			'levels' => Level::all(),
+		]);
 	}
 
 }

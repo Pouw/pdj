@@ -11,6 +11,10 @@
                     <form class="form-horizontal" role="form" method="POST">
 						{{ csrf_field() }}
 
+                        @foreach($sports as $sport)
+                            <h3>{{ $sport->name }}</h3>
+                            @include('sports/volleyball')
+                        @endforeach
 
 						<div class="form-group">
 							<div class="col-md-6 col-md-offset-3">
