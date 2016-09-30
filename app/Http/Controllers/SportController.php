@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests;
 use App\Sport;
-use App\Level;
-use App\Reg;
-use App\RegSport;
+use App\RegistrationSportDisciplines;
 
 class SportController extends Controller
 {
@@ -18,55 +16,72 @@ class SportController extends Controller
 		$this->middleware('auth');
 	}
 
-	public function index(Request $request)
-	{
-		$sports = Sport::orderBy('name')->get();
+	public function index(Request $request) {
 		$user = Auth::user();
-		$plucked = $user->reg->sports->pluck('sport_id');
-		$selectedSportIds = $plucked->all();
-		return view('sport', ['sports' => $sports, 'user' => $user, 'selectedSportIds' => $selectedSportIds]);
+
+//		$plucked = $user->registration->sports->pluck('sport_id');
+//		$selectedSportIds = $plucked->all();
+
+		$data = [
+			'user' => $user,
+		];
+		return view('sport', $data);
 	}
 
-	protected function sports(Request $request) {
-        $sportIds = $request->get('sports');
-        $user = Auth::user();
+	public function save(Request $request) {
+		$user = Auth::user();
 
-        $reg = Reg::whereUserId($user->id);
-        if ($reg->count() === 0) {
-			$item = ['user_id' => $user->id];
-			$regId = Reg::insertGetId($item);
-		} else {
-			$regId = $reg->first()->id;
-        }
-        dump($regId);
+//		dump($request);
 
-        if ($sportIds) {
-            foreach ($sportIds as $sportId) {
-                $item = [
-          		    'reg_id' => $regId,
-                    'sport_id' => $sportId,
-                ];
-                $regSport = RegSport::where($item);
-                if ($regSport->count() === 0) {
-                    $regSport->insert($item);
-                }
-            }
-            RegSport::where('reg_id', $regId)
-                ->whereNotIn('sport_id', $sportIds)
-                ->delete();
-        } else {
-            RegSport::where('reg_id', $regId)->delete();
-        }
 
-        $regSports = RegSport::whereRegId($regId);
-        dump($regSports->get());
-//        $regSports->update();
 
-		return view('sports', [
-			'regSports' => $regSports,
-			'sports' => Sport::whereIn('id', $sportIds)->get(),
-			'levels' => Level::all(),
-		]);
+		foreach ($user->registration->sports as $sport) {
+			$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
+			$sport->players = $request->get($sportKey . '_players');
+			$sport->level_id = $request->get($sportKey . '_level');
+			$sport->club = $request->get($sportKey . '_club');
+			$sport->team = $request->get($sportKey . '_team');
+			$sport->captain = $request->get($sportKey . '_captain');
+			$sport->save();
+			if ($sport->sport->id === Sport::BADMINTON) {
+				$oldDisciplineIds = array_column($sport->disciplines->toArray(), 'discipline_id');
+				$newDisciplineIds = $request->get($sportKey . '_discipline');
+				$deleteIds = array_diff($oldDisciplineIds, $newDisciplineIds);
+				$insertIds = array_diff($newDisciplineIds, $oldDisciplineIds);
+				foreach ($deleteIds as $deleteId) {
+					RegistrationSportDisciplines::where('registration_sport_id', $sport->id)->where('discipline_id', $deleteId)->delete();
+				}
+				foreach ($insertIds as $disciplineId) {
+					$item = [
+						'registration_sport_id' => $sport->id,
+						'discipline_id' => $disciplineId,
+					];
+					RegistrationSportDisciplines::insert($item);
+				}
+			}
+			if ($sport->sport->id === Sport::SWIMMING) {
+				$oldDisciplineIds = array_column($sport->disciplines->toArray(), 'discipline_id');
+				$newDisciplineIds = $request->get($sportKey . '_discipline');
+				$deleteIds = array_diff($oldDisciplineIds, $newDisciplineIds);
+				$insertIds = array_diff($newDisciplineIds, $oldDisciplineIds);
+				foreach ($deleteIds as $deleteId) {
+					RegistrationSportDisciplines::where('registration_sport_id', $sport->id)->where('discipline_id', $deleteId)->delete();
+				}
+				foreach ($insertIds as $disciplineId) {
+					$item = [
+						'registration_sport_id' => $sport->id,
+						'discipline_id' => $disciplineId,
+					];
+					RegistrationSportDisciplines::insert($item);
+				}
+			}
+		}
+
+		$data = [
+			'user' => $user,
+		];
+		return back()->withInput();
+//		return view('sport', $data)->withInput();
 	}
 
 }

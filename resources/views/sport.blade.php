@@ -5,32 +5,33 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Select sport(s) you want to participate</div>
+                <div class="panel-heading">Please fill detail about sport{{ $user->registration->sports->count() > 1 ? 's': ''}}</div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST">
 						{{ csrf_field() }}
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-3">
-								@foreach ($sports as $sport)
-									<div class="checkbox">
-										<label>
-											<input name="sports[]" type="checkbox" value="{{ $sport->id }}" {{ in_array($sport->id, $selectedSportIds) ? ' checked' : '' }}>
-											{{ $sport->name }}
-										</label>
-									</div>
-								@endforeach
-								<div class="checkbox">
-									<label>
-										<input name="visitor" type="checkbox" value="1">
-										I'm only visitor
-									</label>
-								</div>
-							</div>
-						</div>
+
+						@foreach($user->registration->sports as $regSport)
+							<h3>{{ $regSport->sport->name }}</h3>
+							@if($regSport->sport->id === 1)
+								@include('sports/volleyball')
+							@elseif($regSport->sport->id === 3)
+								@include('sports/soccer')
+							@elseif($regSport->sport->id === 4)
+								@include('sports/swimming')
+							@elseif($regSport->sport->id === 6)
+								@include('sports/badminton')
+							@endif
+						@endforeach
 
 						<div class="form-group">
-							<div class="col-md-6 col-md-offset-3">
+							<div class="col-md-6 col-md-offset-2">
+								<a class="btn btn-primary" href="{{ url('/registration') }}">
+									<i class="fa fa-btn fa-chevron-circle-left"></i> Previous
+								</a>
+							</div>
+
+							<div class="col-md-2">
 								<button type="submit" class="btn btn-primary">
 									<i class="fa fa-btn fa-chevron-circle-right"></i> Next
 								</button>

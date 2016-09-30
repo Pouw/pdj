@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/registration', 'RegistrationController@index');
+Route::post('/registration', 'RegistrationController@save');
+
 Route::get('/sport', 'SportController@index');
-Route::post('/sport', 'SportController@sports');
+Route::post('/sport', 'SportController@save');

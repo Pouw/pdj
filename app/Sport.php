@@ -21,5 +21,20 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Sport extends Model
 {
-    //
+
+	const VOLLEYBALL = 1;
+	const BEACH_VOLLEYBALL = 2;
+	const SOCCER = 3;
+	const SWIMMING = 4;
+	const RUNNING = 5;
+	const BADMINTON = 6;
+
+	public function levels() {
+		return $this->hasMany(\App\Level::class);
+	}
+
+	public function disciplines() {
+		return $this->hasMany(\App\Discipline::class);
+	}
+
 }

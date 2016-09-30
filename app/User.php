@@ -43,8 +43,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-	public function reg() {
-		return $this->hasOne('App\Reg');
+	public function registration() {
+		return $this->hasOne(\App\Registration::class);
 	}
 
 }
