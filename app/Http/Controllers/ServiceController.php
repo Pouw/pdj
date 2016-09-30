@@ -33,7 +33,7 @@ class ServiceController extends Controller
 		$user->registration->note = $request->get('note');
 		$user->registration->save();
 
-		return back()->withInput();
+		return redirect('/overview');
 	}
 
 }
