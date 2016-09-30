@@ -5,7 +5,7 @@
 	<div class="col-md-4">
 		@foreach ($disciplines as $discipline)
 			<label>
-				<input type="checkbox" name="{{ $name }}[]" value="{{ $discipline->id }}" {{ old($name) != null && in_array($discipline->id, old($name)) ? ' checked' : '' }}>
+				<input type="checkbox" name="{{ $name }}[]" value="{{ $discipline->id }}" {{ in_array($discipline->id, old($name, $default)) ? ' checked' : '' }}>
 				{{ $discipline->name }}
 			</label>
 		@endforeach

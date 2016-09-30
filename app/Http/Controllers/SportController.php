@@ -30,11 +30,6 @@ class SportController extends Controller
 
 	public function save(Request $request) {
 		$user = Auth::user();
-
-//		dump($request);
-
-
-
 		foreach ($user->registration->sports as $sport) {
 			$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
 			$sport->players = $request->get($sportKey . '_players');
@@ -45,7 +40,7 @@ class SportController extends Controller
 			$sport->save();
 			if ($sport->sport->id === Sport::BADMINTON) {
 				$oldDisciplineIds = array_column($sport->disciplines->toArray(), 'discipline_id');
-				$newDisciplineIds = $request->get($sportKey . '_discipline');
+				$newDisciplineIds = $request->get($sportKey . '_discipline', []);
 				$deleteIds = array_diff($oldDisciplineIds, $newDisciplineIds);
 				$insertIds = array_diff($newDisciplineIds, $oldDisciplineIds);
 				foreach ($deleteIds as $deleteId) {
@@ -61,7 +56,7 @@ class SportController extends Controller
 			}
 			if ($sport->sport->id === Sport::SWIMMING) {
 				$oldDisciplineIds = array_column($sport->disciplines->toArray(), 'discipline_id');
-				$newDisciplineIds = $request->get($sportKey . '_discipline');
+				$newDisciplineIds = $request->get($sportKey . '_discipline', []);
 				$deleteIds = array_diff($oldDisciplineIds, $newDisciplineIds);
 				$insertIds = array_diff($newDisciplineIds, $oldDisciplineIds);
 				foreach ($deleteIds as $deleteId) {
@@ -71,17 +66,16 @@ class SportController extends Controller
 					$item = [
 						'registration_sport_id' => $sport->id,
 						'discipline_id' => $disciplineId,
+						'time' => $request->get($sportKey . '_discipline_time_' . $disciplineId),
 					];
 					RegistrationSportDisciplines::insert($item);
 				}
+				// TODO UPDATE
 			}
 		}
 
-		$data = [
-			'user' => $user,
-		];
-		return back()->withInput();
-//		return view('sport', $data)->withInput();
+//		return back()->withInput();
+		return redirect('/service');
 	}
 
 }

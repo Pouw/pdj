@@ -5,7 +5,7 @@
 	<div class="col-md-4">
 		<select id="{{ $name }}" class="form-control" name="{{ $name }}">
 			@foreach ($levels as $level)
-				<option value="{{ $level->id }}" {{ old($name) == $level->id ? ' selected' : ''}}>
+				<option value="{{ $level->id }}" {{ old($name, $default) == $level->id ? ' selected' : ''}}>
 					{{ $level->name }}
 				</option>
 			@endforeach

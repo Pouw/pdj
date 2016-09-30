@@ -17,27 +17,34 @@ class RegistrationController extends Controller
 
 	public function index(Request $request)
 	{
-		$sports = Sport::orderBy('name')->get();
 		$user = Auth::user();
-		$plucked = $user->registration->sports->pluck('sport_id');
-		$selectedSportIds = $plucked->all();
+		$defaultSports = [];
+		if ($user->registration != null) {
+			$defaultSports = array_column($user->registration->sports->all(), 'sport_id');
+		}
 		$data = [
-			'sports' => $sports,
+			'sports' => Sport::orderBy('name')->get(),
 			'user' => $user,
-			'selectedSportIds' => $selectedSportIds
+			'defaultSports' => $defaultSports,
 		];
 		return view('registration', $data);
 	}
 
 	public function save(Request $request) {
 		$user = Auth::user();
-		$reg = $user->registration;
 
-		if ($reg->count() === 0) {
+
+		$validator = $this->getValidationFactory()->make($request->all(), []);
+		if ($request->get('sports') == null && $request->get('visitor') == null) {
+			$validator->errors()->add('checkbox', 'Please, select some option!');
+			$this->throwValidationException($request, $validator);
+		}
+
+		if ($user->registration === null) {
 			$item = ['user_id' => $user->id];
 			$regId = Registration::insertGetId($item);
 		} else {
-			$regId = $reg->first()->id;
+			$regId = $user->registration->id;
 		}
 
 		$sportIds = $request->get('sports');
@@ -56,7 +63,8 @@ class RegistrationController extends Controller
 				->whereNotIn('sport_id', $sportIds)
 				->delete();
 		} else {
-			RegistrationSport::where('reg_id', $regId)->delete();
+			RegistrationSport::where('registration_id', $regId)->delete();
+			return redirect('/service');
 		}
 		return redirect('/sport');
 	}

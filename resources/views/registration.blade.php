@@ -8,6 +8,15 @@
                 <div class="panel-heading">Select sport(s) you want to participate</div>
 
                 <div class="panel-body">
+					@if (count($errors) > 0)
+						<div class="alert alert-danger">
+							<ul>
+								@foreach ($errors->all() as $error)
+									<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div>
+					@endif
                     <form class="form-horizontal" role="form" method="POST">
 						{{ csrf_field() }}
 						<div class="form-group">
@@ -15,7 +24,7 @@
 								@foreach ($sports as $sport)
 									<div class="checkbox">
 										<label>
-											<input name="sports[]" type="checkbox" value="{{ $sport->id }}" {{ in_array($sport->id, $selectedSportIds) ? ' checked' : '' }}>
+											<input name="sports[]" type="checkbox" value="{{ $sport->id }}" {{ in_array($sport->id, old('sports', $defaultSports)) ? ' checked' : '' }}>
 											{{ $sport->name }}
 										</label>
 									</div>
@@ -29,13 +38,7 @@
 							</div>
 						</div>
 
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-8">
-								<button type="submit" class="btn btn-primary">
-									<i class="fa fa-btn fa-chevron-circle-right"></i> Next
-								</button>
-							</div>
-						</div>
+						@include('form/footer')
                     </form>
                 </div>
             </div>
