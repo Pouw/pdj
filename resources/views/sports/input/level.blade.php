@@ -4,6 +4,9 @@
 
 	<div class="col-md-4">
 		<select id="{{ $name }}" class="form-control" name="{{ $name }}">
+			@if (isset($enableEmpty) && $enableEmpty)
+				<option></option>
+			@endif
 			@foreach ($levels as $level)
 				<option value="{{ $level->id }}" {{ old($name, $default) == $level->id ? ' selected' : ''}}>
 					{{ $level->name }}

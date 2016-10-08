@@ -33,12 +33,16 @@ class SportController extends Controller
 		foreach ($user->registration->sports as $sport) {
 			$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
 			$sport->players = $request->get($sportKey . '_players');
-			$sport->level_id = $request->get($sportKey . '_level');
+			$levelId = intval($request->get($sportKey . '_level'));
+			$sport->level_id = $levelId === 0 ? null : $levelId;
+			$altLevelId = intval($request->get($sportKey . '_alt_level'));
+			$sport->alt_level_id = $altLevelId === 0 ? null : $altLevelId;
 			$sport->club = $request->get($sportKey . '_club');
 			$sport->team = $request->get($sportKey . '_team');
 			$sport->captain = $request->get($sportKey . '_captain');
+			$sport->find_partner = $request->get($sportKey . '_find_partner');
 			$sport->save();
-			if ($sport->sport->id === Sport::BADMINTON) {
+			/*if ($sport->sport->id === Sport::BADMINTON) {
 				$oldDisciplineIds = array_column($sport->disciplines->toArray(), 'discipline_id');
 				$newDisciplineIds = $request->get($sportKey . '_discipline', []);
 				$deleteIds = array_diff($oldDisciplineIds, $newDisciplineIds);
@@ -53,7 +57,7 @@ class SportController extends Controller
 					];
 					RegistrationSportDisciplines::insert($item);
 				}
-			}
+			}*/
 			if ($sport->sport->id === Sport::SWIMMING) {
 				$oldDisciplineIds = array_column($sport->disciplines->toArray(), 'discipline_id');
 				$newDisciplineIds = $request->get($sportKey . '_discipline', []);
