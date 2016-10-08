@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class OverviewController extends Controller
+class SummaryController extends Controller
 {
 	public function __construct()
 	{
@@ -18,7 +18,7 @@ class OverviewController extends Controller
 		$data = [
 			'user' => $user,
 		];
-		return view('overview', $data);
+		return view('summary', $data);
 	}
 
 }

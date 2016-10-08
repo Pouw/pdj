@@ -26,4 +26,4 @@ Route::post('/sport', 'SportController@save');
 Route::get('/service', 'ServiceController@index');
 Route::post('/service', 'ServiceController@save');
 
-Route::get('/overview', 'OverviewController@index');
+Route::get('/summary', 'SummaryController@index');

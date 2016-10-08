@@ -10,7 +10,24 @@
                 <div class="panel-body">
 
 					<div class="row">
-						<p>DOTO: Overview, Price, Payment link</p>
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+								<tr>
+									<th></th>
+									<th>Price</th>
+								</tr>
+								</thead>
+								<tbody>
+								@foreach($user->registration->sports as $regSport)
+								<tr>
+									<td>{{ $regSport->sport->name }}</td>
+									<td>{{ $regSport->sport->price->eur }}</td>
+								</tr>
+								@endforeach
+								</tbody>
+							</table>
+						</div>
 					</div>
 
                     <div class="form-group">

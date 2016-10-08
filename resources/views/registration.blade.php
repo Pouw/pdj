@@ -38,7 +38,9 @@
 							</div>
 						</div>
 
-						@include('form/footer')
+
+						@include('form.personal')
+						@include('form.footer')
                     </form>
                 </div>
             </div>
