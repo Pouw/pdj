@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-9 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Select sport(s) you want to participate</div>
 
@@ -20,7 +20,7 @@
                     <form class="form-horizontal" role="form" method="POST">
 						{{ csrf_field() }}
 						<div class="form-group">
-							<div class="col-md-6 col-md-offset-3">
+							<div class="col-md-6 col-md-offset-4">
 								@foreach ($sports as $sport)
 									<div class="checkbox">
 										<label>

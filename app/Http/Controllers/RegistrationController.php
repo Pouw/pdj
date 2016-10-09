@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Sport;
@@ -26,6 +27,7 @@ class RegistrationController extends Controller
 			'sports' => Sport::orderBy('name')->get(),
 			'user' => $user,
 			'defaultSports' => $defaultSports,
+			'currencies' => Currency::all(),
 		];
 		return view('registration', $data);
 	}
@@ -36,9 +38,13 @@ class RegistrationController extends Controller
 
 		$validator = $this->getValidationFactory()->make($request->all(), []);
 		if ($request->get('sports') == null && $request->get('visitor') == null) {
-			$validator->errors()->add('checkbox', 'Please, select some option!');
+			$validator->errors()->add('checkbox', 'Please, select any sport on visitor!');
 			$this->throwValidationException($request, $validator);
 		}
+
+		$user->member = $request->get('member');
+		$user->currency_id = $request->get('currency_id');
+		$user->save();
 
 		if ($user->registration === null) {
 			$item = ['user_id' => $user->id];

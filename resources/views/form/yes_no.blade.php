@@ -2,8 +2,8 @@
 	<div class="col-md-4 control-label">{{ $title }}</div>
 
 	<div class="col-md-4">
-		<label><input type="radio" name="{{$name}}" value="1"> Yes</label> /
-		<label><input type="radio" name="{{$name}}" value="0"> No</label>
+		<label class="radio-inline"><input type="radio" name="{{$name}}" value="1" {{ intval(old($name, $default)) === 1 ? ' checked' : '' }}> Yes</label>
+		<label class="radio-inline"><input type="radio" name="{{$name}}" value="0" {{ intval(old($name, $default)) === 0 ? ' checked' : '' }}> No</label>
 
 
 		@if ($errors->has($name))

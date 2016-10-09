@@ -26,4 +26,10 @@ class Registration extends Model
 		return $this->hasMany(\App\RegistrationSport::class);
 	}
 
+	public function priceBunch() {
+
+		$prices = Price::whereId(6);
+		return $prices;
+	}
+
 }
