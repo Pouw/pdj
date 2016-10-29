@@ -1,6 +1,6 @@
 
-@include('sports/input/text', ['name' => 'swimming_club', 'title' => 'Name of your club', 'default' => $regSport->club])
-@include('sports/input/text', ['name' => 'swimming_captain', 'title' => 'Name of your captain', 'default' => $regSport->captain])
+@include('form.text', ['name' => 'swimming_club', 'title' => 'Name of your club', 'default' => $regSport->club])
+@include('form.text', ['name' => 'swimming_captain', 'title' => 'Name of your captain', 'default' => $regSport->captain])
 
 
 @foreach($regSport->sport->disciplines as $discipline)

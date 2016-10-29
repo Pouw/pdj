@@ -17,6 +17,9 @@ Route::get('/', function () {
 
 Route::auth();
 
+Route::get('/personal', 'PersonalController@index');
+Route::post('/personal', 'PersonalController@save');
+
 Route::get('/registration', 'RegistrationController@index');
 Route::post('/registration', 'RegistrationController@save');
 

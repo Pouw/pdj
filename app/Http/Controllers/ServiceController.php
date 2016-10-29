@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Currency;
+use App\Price;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -19,6 +21,7 @@ class ServiceController extends Controller
 		$user = Auth::user();
 		$data = [
 			'user' => $user,
+			'outreachPrice' => Price::getOutreachSupportPrice(),
 		];
 		return view('service', $data);
 	}
