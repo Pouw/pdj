@@ -24,25 +24,40 @@
 
         body {
             font-family: 'Lato';
-            margin-bottom: 196px;
+            margin-bottom: 100px;
             background-image: url('/img/top.png');
             background-repeat: no-repeat;
-            background-position: center 46px;
+            background-position: left 51px;
+        }
+
+        body > div.container {
+            padding-top: 30px;
         }
 
         footer.footer {
+            z-index: -1;
             position: absolute;
             bottom: 0;
             width: 100%;
             height: 196px;
             background-image: url('/img/bottom.png');
             background-repeat: no-repeat;
-            background-position: center right;
+            background-position: bottom right;
         }
 
         .fa-btn {
             margin-right: 6px;
         }
+
+        .navbar-default {
+            background-color: transparent;
+            border: none;
+        }
+
+        .panel {
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+
     </style>
 </head>
 <body id="app-layout">
@@ -67,7 +82,7 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/registration') }}">Registration</a></li>
+                    <li><a href="{{ url('/personal') }}">Registration</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -91,7 +106,6 @@
             </div>
         </div>
     </nav>
-
 
     @yield('content')
 
