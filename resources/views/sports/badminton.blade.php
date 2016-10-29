@@ -7,7 +7,7 @@
 			<span class="input-group-addon">
 				<input id="badminton_singles" type="checkbox" {{ old('badminton_level', $regSport->level_id) ? 'checked' : ''}}>
 			</span>
-			<select class="form-control" name="badminton_level" title="Level for singles">
+			<select class="form-control selectpicker" name="badminton_level" title="Level for singles">
 				<option></option>
 				@foreach ($regSport->sport->levels as $level)
 					<option value="{{ $level->id }}" {{ old('badminton_level', $regSport->level_id) == $level->id ? ' selected' : ''}}>
@@ -26,7 +26,7 @@
 			<span class="input-group-addon">
 				<input id="badminton_doubles" type="checkbox" {{ old('badminton_alt_level', $regSport->alt_level_id) ? 'checked' : ''}}>
 			</span>
-			<select class="form-control" name="badminton_alt_level" title="Level for doubles">
+			<select class="form-control selectpicker" name="badminton_alt_level" title="Level for doubles">
 				<option></option>
 				@foreach ($regSport->sport->levels as $level)
 					<option value="{{ $level->id }}" {{ old('badminton_alt_level', $regSport->alt_level_id) == $level->id ? ' selected' : ''}}>

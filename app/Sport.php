@@ -39,6 +39,10 @@ class Sport extends Model
 		return $this->hasMany(\App\Discipline::class);
 	}
 
+	public function teams() {
+		return $this->hasMany(\App\Team::class);
+	}
+
 	public function price() {
 		return $this->belongsTo(\App\Price::class);
 	}

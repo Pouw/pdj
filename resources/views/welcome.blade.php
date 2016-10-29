@@ -8,7 +8,7 @@
 <div class="panel-body">
 	@if(Auth::user())
 		<div class="col-xs-6 col-md-4 col-md-offset-2">
-			<a class="btn btn-primary" href="{{ url('/registration') }}">
+			<a class="btn btn-primary" href="{{ url('/personal') }}">
 				<i class="fa fa-btn fa-arrow-circle-right"></i> Continue in Registration
 			</a>
 		</div>
