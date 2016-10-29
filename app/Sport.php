@@ -28,6 +28,8 @@ class Sport extends Model
 	const SWIMMING = 4;
 	const RUNNING = 5;
 	const BADMINTON = 6;
+	const SINGING = 7;
+	const VISITOR = 8;
 
 	public function levels() {
 		return $this->hasMany(\App\Level::class);

@@ -17,10 +17,11 @@ class SummaryController extends Controller
 	public function index(Request $request)
 	{
 		$user = Auth::user();
+        $priceSummarize = new PriceSummarize();
 		$data = [
 			'user' => $user,
 			'price' => new Price(),
-			'priceSummarize' => new PriceSummarize()
+			'totalPrice' => $priceSummarize->getTotalPrice(),
 		];
 		return view('summary', $data);
 	}

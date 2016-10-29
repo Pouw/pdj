@@ -12,34 +12,50 @@
 					<div class="row">
 						<div class="table-responsive">
 							<div class="col-md-10 col-md-offset-1">
-							<table class="table">
+							<table class="table table-striped">
 								<thead>
 								<tr>
-									<th></th>
+									<th>Item</th>
 									<th>Price</th>
 								</tr>
 								</thead>
 								<tbody>
 								@foreach($user->registration->sports as $regSport)
 								<tr>
-									<td>{{ $regSport->sport->name }}</td>
+									<td>{{ $regSport->sport->id == \App\Sport::VISITOR ? 'Visitor' : $regSport->sport->name }}</td>
 									<td>@include('helper.price', ['price' => $regSport->sport->price])</td>
 								</tr>
 								@endforeach
+								@if ($user->registration->brunch)
 								<tr>
 									<td>Brunch</td>
-									{{--<th>{{ $price->where('id', $price::BRUNCH)->first() }}</th>--}}
-									{{--<th>{{ $priceBrunch }}</th>--}}
-									<td>@include('helper.price', ['price' => $price->where('id', $price::BRUNCH)->first()])</td>
+									<td>@include('helper.price', ['price' => $price->getBrunchPrice()])</td>
 								</tr>
+								@endif
+								@if ($user->registration->hosted_housing)
 								<tr>
 									<td>Hosted Housing</td>
-									<td>@include('helper.price', ['price' => $price->where('id', $price::HOSTED_HOUSING)->first()])</td>
+									<td>@include('helper.price', ['price' => $price->getHostedHousingPrice()])</td>
 								</tr>
+								@endif
+								@if ($user->registration->outreach_support)
+								<tr>
+									<td>Outreach Support</td>
+									<td>
+									@if ($user->currency_id === \App\Currency::CZK)
+										{{ $price->getOutreachSupportPrice()->czk * $user->registration->outreach_support }} Kč
+									@else
+										{{ $price->getOutreachSupportPrice()->eur * $user->registration->outreach_support }} €
+									@endif
+									</td>
+								</tr>
+								@endif
 								</tbody>
 								<tfoot>
-									<th>Total Price</th>
-									<th>{{ $priceSummarize->getTotalPrice()['price'] }} € / Kč</th>
+									<tr class="success">
+										<th>Total Price</th>
+										<th>{{ $totalPrice['price'] }} {{ $totalPrice['currency']->short }}</th>
+									</tr>
 								</tfoot>
 							</table>
 							</div>

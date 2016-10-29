@@ -23,7 +23,7 @@ class PersonalController extends Controller
 		$data = [
 			'user' => $user,
             'currencies' => Currency::all(),
-            'countries' => Country::orderBy('sport')->get(),
+            'countries' => Country::orderBy('name')->get(),
 		];
 		return view('personal', $data);
 	}

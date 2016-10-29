@@ -16,8 +16,28 @@
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
     <style>
+
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
         body {
             font-family: 'Lato';
+            margin-bottom: 196px;
+            background-image: url('/img/top.png');
+            background-repeat: no-repeat;
+            background-position: center 46px;
+        }
+
+        footer.footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 196px;
+            background-image: url('/img/bottom.png');
+            background-repeat: no-repeat;
+            background-position: center right;
         }
 
         .fa-btn {
@@ -72,13 +92,18 @@
         </div>
     </nav>
 
+
     @yield('content')
+
 
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     {{--<script src="{{ elixir('js/app.js') }}"></script>--}}
     <script src="{{ url('js/app.js') }}"></script>
+
+    <footer class="footer">
+    </footer>
 
 </body>
 </html>
