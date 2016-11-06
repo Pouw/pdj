@@ -27,6 +27,38 @@ class SportController extends Controller
 
 	public function save(Request $request) {
 		$user = Auth::user();
+
+		$validator = $this->getValidationFactory()->make($request->all(), []);
+		if ($request->get('badminton_singles') === '1' && empty($request->get('badminton_level'))) {
+			$validator->errors()->add('badminton_level', "Select level for badminton singles.");
+		}
+		if ($request->get('badminton_doubles') === '1' && empty($request->get('badminton_alt_level'))) {
+			$validator->errors()->add('badminton_alt_level', "Select level for badminton doubles.");
+		}
+		foreach (['volleyball', 'soccer'] as $sportName) {
+			if ($request->get($sportName . '_team') === 'create') {
+				if (empty($request->get($sportName . '_team_name'))) {
+					$validator->errors()->add($sportName . '_team', "Write name for your new team.");
+				}
+				if (empty($request->get($sportName . '_level_id'))) {
+					$validator->errors()->add($sportName . '_team', "Select level for your new team.");
+				}
+			}
+			if ($request->get($sportName . '_team') === 'find' && empty($request->get($sportName . '_team_id'))) {
+				$validator->errors()->add($sportName . '_team', "Select your team.");
+			}
+		}
+		foreach ($user->registration->sports as $sport) {
+			$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
+			if ($sport->sport->id === Sport::BEACH_VOLLEYBALL && empty($request->get($sportKey . '_team'))) {
+				$validator->errors()->add($sportKey . '_team', "Write your team name for Beach Volleyball.");
+			}
+		}
+
+		if (count($validator->errors()) > 0) {
+			$this->throwValidationException($request, $validator);
+		}
+
 		try {
 //			DB::beginTransaction();
 			foreach ($user->registration->sports as $sport) {
@@ -96,6 +128,7 @@ class SportController extends Controller
 //			DB::rollback();
 			throw $ex;
 		}
+		\App\RegistrationLog::log();
 
 //		return back()->withInput();
 		return redirect('/service');

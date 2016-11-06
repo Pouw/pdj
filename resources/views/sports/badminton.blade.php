@@ -5,7 +5,7 @@
 	<div class="col-md-4 ">
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input id="badminton_singles" type="checkbox" {{ old('badminton_level', $regSport->level_id) ? 'checked' : ''}}>
+				<input id="badminton_singles" name="badminton_singles" type="checkbox" value="1" {{ old('badminton_singles', $regSport->level_id) ? 'checked' : ''}}>
 			</span>
 			<select class="form-control selectpicker" name="badminton_level" title="Level for singles">
 				<option></option>
@@ -24,7 +24,7 @@
 	<div class="col-md-4 ">
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input id="badminton_doubles" type="checkbox" {{ old('badminton_alt_level', $regSport->alt_level_id) ? 'checked' : ''}}>
+				<input id="badminton_doubles" name="badminton_doubles" type="checkbox" value="1" {{ old('badminton_doubles', $regSport->alt_level_id) ? 'checked' : ''}}>
 			</span>
 			<select class="form-control selectpicker" name="badminton_alt_level" title="Level for doubles">
 				<option></option>

@@ -32,13 +32,26 @@ class RegistrationController extends Controller
 
 	public function save(Request $request) {
 		$user = Auth::user();
-
+		$sportIds = $request->get('sports');
 
 		$validator = $this->getValidationFactory()->make($request->all(), []);
-		if (empty($request->get('sports'))) {
+		if (empty($sportIds)) {
 			$validator->errors()->add('checkbox', 'Please, select at least one option!');
+		} else {
+			if (in_array(Sport::VISITOR, $sportIds) && count($sportIds) > 1) {
+				$validator->errors()->add('checkbox', 'You are not visitor if you want to participate');
+			}
+			if (count(array_intersect($sportIds, [Sport::BADMINTON, Sport::SWIMMING, Sport::SOCCER, Sport::VOLLEYBALL])) >= 2) {
+				$validator->errors()->add('checkbox', 'Badminton, Swimming, Soccer and Volleyball are played in same time. You can participate only one of them.');
+			}
+			if (count(array_intersect($sportIds, [Sport::BEACH_VOLLEYBALL, Sport::RUNNING])) >= 2) {
+				$validator->errors()->add('checkbox', 'Beach Volleyball and Running will be held in same time. You can participate only one of them.');
+			}
+		}
+		if (count($validator->errors()) > 0) {
 			$this->throwValidationException($request, $validator);
 		}
+
 
 		if ($user->registration === null) {
 			$item = ['user_id' => $user->id];
@@ -47,7 +60,7 @@ class RegistrationController extends Controller
 			$regId = $user->registration->id;
 		}
 
-		$sportIds = $request->get('sports');
+		$nextUrl = '/sport';
 		if ($sportIds) {
 			foreach ($sportIds as $sportId) {
 				$item = [
@@ -64,9 +77,10 @@ class RegistrationController extends Controller
 				->delete();
 		} else {
 			RegistrationSport::where('registration_id', $regId)->delete();
-			return redirect('/service');
+			$nextUrl = '/service';
 		}
-		return redirect('/sport');
+		\App\RegistrationLog::log();
+		return redirect($nextUrl);
 	}
 
 }

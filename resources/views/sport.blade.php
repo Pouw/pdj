@@ -6,6 +6,7 @@
 <div class="panel-heading">Please fill detail about sport{{ $user->registration->sports->count() > 1 ? 's': ''}}</div>
 
 <div class="panel-body">
+	@include('form.errors')
 	<form class="form-horizontal" role="form" method="POST">
 		{{ csrf_field() }}
 

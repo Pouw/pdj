@@ -35,7 +35,7 @@ class ServiceController extends Controller
 		$user->registration->visitor = $request->get('visitor');
 		$user->registration->note = $request->get('note');
 		$user->registration->save();
-
+		\App\RegistrationLog::log();
 		return redirect('/summary');
 	}
 

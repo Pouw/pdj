@@ -6,7 +6,7 @@
 
 		<div class="input-group">
 			<span class="input-group-addon">
-				<input id="{{ $id }}" type="checkbox" name="{{ $name }}[]" {{ in_array($discipline->id, old($name, $default)) ? ' checked' : '' }}>
+				<input id="{{ $id }}" type="checkbox" name="{{ $name }}[]" value="{{ $discipline->id }}" {{ in_array($discipline->id, old($name, $default)) ? ' checked' : '' }}>
 			</span>
 			<input type="text" class="form-control" name="{{ $timeName }}" value="{{ old($timeName, $defaultTime) }}" title="Time" placeholder="mm:ss:hh (time)">
 		</div>
