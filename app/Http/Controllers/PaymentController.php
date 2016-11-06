@@ -7,7 +7,7 @@ use App\Price;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class SummaryController extends Controller
+class PaymentController extends Controller
 {
 	public function __construct()
 	{
@@ -17,17 +17,16 @@ class SummaryController extends Controller
 	public function index(Request $request)
 	{
 		$user = Auth::user();
-        $priceSummarize = new PriceSummarize();
+		$priceSummarize = new PriceSummarize();
 		$data = [
 			'user' => $user,
 			'price' => new Price(),
 			'totalPrice' => $priceSummarize->getTotalPrice(),
 		];
-		return view('summary', $data);
+		return view('payment', $data);
 	}
 
 	public function save(Request $request) {
-		return redirect('/payment');
 	}
 
 }

@@ -30,3 +30,8 @@ Route::get('/service', 'ServiceController@index');
 Route::post('/service', 'ServiceController@save');
 
 Route::get('/summary', 'SummaryController@index');
+Route::post('/summary', 'SummaryController@save');
+
+Route::get('/payment', 'PaymentController@index');
+Route::post('/payment', 'PaymentController@save');
+
