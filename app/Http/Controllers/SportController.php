@@ -50,7 +50,7 @@ class SportController extends Controller
 		}
 		foreach ($user->registration->sports as $sport) {
 			$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
-			if ($sport->sport->id === Sport::BEACH_VOLLEYBALL && empty($request->get($sportKey . '_team'))) {
+			if (intval($sport->sport->id) === Sport::BEACH_VOLLEYBALL && empty($request->get($sportKey . '_team'))) {
 				$validator->errors()->add($sportKey . '_team', "Write your team name for Beach Volleyball.");
 			}
 		}
@@ -63,7 +63,7 @@ class SportController extends Controller
 //			DB::beginTransaction();
 			foreach ($user->registration->sports as $sport) {
 				$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
-				if ($sport->sport->id === Sport::VOLLEYBALL || $sport->sport->id === Sport::SOCCER) {
+				if (in_array($sport->sport->id, [Sport::VOLLEYBALL, Sport::SOCCER])) {
 					$switch = $request->get($sportKey . '_team');
 					if ($switch === 'find') {
 						$sport->team_id = $request->get($sportKey . '_team_id');
@@ -104,7 +104,7 @@ class SportController extends Controller
 						RegistrationSportDisciplines::insert($item);
 					}
 				}*/
-				if ($sport->sport->id === Sport::SWIMMING) {
+				if (intval($sport->sport->id) === Sport::SWIMMING) {
 					$oldDisciplineIds = array_column($sport->disciplines->toArray(), 'discipline_id');
 					$newDisciplineIds = $request->get($sportKey . '_discipline', []);
 					$deleteIds = array_diff($oldDisciplineIds, $newDisciplineIds);

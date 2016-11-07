@@ -18,7 +18,6 @@ class PriceSummarize {
 				'quantity' => 1,
 			];
 		}
-
 		if ($user->registration->brunch) {
 			$items[] = [
 				'price' => Price::getBrunchPrice(),
@@ -34,14 +33,14 @@ class PriceSummarize {
 		if ($user->registration->outreach_support) {
 			$items[] = [
 				'price' => Price::getOutreachSupportPrice(),
-				'quantity' => $user->registration->outreach_support,
+				'quantity' => intval($user->registration->outreach_support),
 			];
 		}
 
 
 
 		$sum = 0;
-        $currencyId = $user->currency_id;
+		$currencyId = intval($user->currency_id);
 		foreach ($items as $item) {
 			$price = $item['price'];
 			if ($user->member && $currencyId === Currency::CZK) {
@@ -55,7 +54,6 @@ class PriceSummarize {
 			} elseif ($currencyId === Currency::CZK) {
 				$price = $price->czk;
 			}
-
 			$sum += $price * $item['quantity'];
 		}
 

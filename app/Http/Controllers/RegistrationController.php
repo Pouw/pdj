@@ -53,7 +53,7 @@ class RegistrationController extends Controller
 		}
 
 
-		if ($user->registration === null) {
+		if (empty($user->registration)) {
 			$item = ['user_id' => $user->id];
 			$regId = Registration::insertGetId($item);
 		} else {
