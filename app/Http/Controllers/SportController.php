@@ -35,13 +35,21 @@ class SportController extends Controller
 		if ($request->get('badminton_doubles') === '1' && empty($request->get('badminton_alt_level'))) {
 			$validator->errors()->add('badminton_alt_level', "Select level for badminton doubles.");
 		}
-		foreach (['volleyball', 'soccer'] as $sportName) {
+		foreach ([Sport::VOLLEYBALL => 'volleyball', Sport::SOCCER =>'soccer'] as $sportId => $sportName) {
 			if ($request->get($sportName . '_team') === 'create') {
 				if (empty($request->get($sportName . '_team_name'))) {
 					$validator->errors()->add($sportName . '_team', "Write name for your new team.");
 				}
-				if (empty($request->get($sportName . '_level_id'))) {
+				if (empty($request->get($sportName . '_team_level_id'))) {
 					$validator->errors()->add($sportName . '_team', "Select level for your new team.");
+				}
+				if (!empty($request->get($sportName . '_team_name')) && !empty($request->get($sportName . '_team_level_id'))) {
+					$team = Team::where('sport_id', $sportId)
+						->where('name', $request->get($sportName . '_team_name'))
+						->where('level_id', $request->get($sportName . '_team_level_id'));
+					if ($team->count() > 0) {
+						$validator->errors()->add($sportName . '_team', "Team with this name and level already exist.");
+					}
 				}
 			}
 			if ($request->get($sportName . '_team') === 'find' && empty($request->get($sportName . '_team_id'))) {

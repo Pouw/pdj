@@ -19,7 +19,7 @@
 	<div class="col-md-4 col-md-offset-4">
 		<select class="form-control selectpicker" name="{{ $name }}_id" data-live-search="true" title="Teams">
 			@foreach ($teams->sortBy('name') as $team)
-				<option value="{{ $team->id }}" data-subtext="{{ $team->level->name }}" {{ old($name . '_id', $default) == $team->id ? ' selected' : ''}}>
+				<option value="{{ $team->id }}" data-subtext="level {{ $team->level->name }}" {{ old($name . '_id', $default) == $team->id ? ' selected' : ''}}>
 					{{ $team->name }}
 				</option>
 			@endforeach
