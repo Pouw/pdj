@@ -19,7 +19,14 @@
 				<tbody>
 				@foreach($user->registration->sports as $regSport)
 				<tr>
-					<td>{{ $regSport->sport->id == \App\Sport::VISITOR ? 'Visitor' : $regSport->sport->name }}</td>
+					@if ($regSport->sport->id == \App\Sport::VISITOR)
+						<td>
+							Visitor<br>
+							<small>Includes public transport and party tickets.</small>
+						</td>
+					@else
+						<td>{{ $regSport->sport->name }}</td>
+					@endif
 					<td>@include('helper.price', ['price' => $regSport->sport->price])</td>
 				</tr>
 				@endforeach

@@ -4,9 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "07fe18ef1e248ecb8421e83b7c4c8645",
-    "content-hash": "c2afb1080a15723300d101a4af706e8f",
+    "hash": "188079636fe19b0a3b45674b118329d0",
+    "content-hash": "2d77bd889631d986726fe28000e3609f",
     "packages": [
+        {
+            "name": "backbone/chaching",
+            "version": "0.16.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/backbonesk/chaching.git",
+                "reference": "490bba90d8a482f10fbdf5b6caa44dafb5aa5529"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/backbonesk/chaching/zipball/490bba90d8a482f10fbdf5b6caa44dafb5aa5529",
+                "reference": "490bba90d8a482f10fbdf5b6caa44dafb5aa5529",
+                "shasum": ""
+            },
+            "require": {
+                "ext-hash": "*",
+                "ext-mcrypt": "*",
+                "ext-openssl": "*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Chaching": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Palo Sopko",
+                    "email": "pavol.sopko@backbone.sk"
+                }
+            ],
+            "description": "Universal payment library for banking services in Slovakia",
+            "homepage": "http://www.backbone.sk/en/",
+            "keywords": [
+                "cardpay",
+                "chaching",
+                "comfortpay",
+                "czech republic",
+                "ecard",
+                "eplatby",
+                "gpwebpay",
+                "iterminal",
+                "latvia",
+                "money",
+                "payment",
+                "paypal",
+                "slovakia",
+                "sporopay",
+                "tatrapay",
+                "trustpay"
+            ],
+            "time": "2016-09-07 07:35:37"
+        },
         {
             "name": "barryvdh/laravel-ide-helper",
             "version": "v2.2.1",

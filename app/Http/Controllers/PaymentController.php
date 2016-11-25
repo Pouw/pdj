@@ -6,6 +6,7 @@ use App\Libraries\PriceSummarize;
 use App\Price;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Chaching\Chaching;
 
 class PaymentController extends Controller
 {
@@ -26,7 +27,30 @@ class PaymentController extends Controller
 		return view('payment', $data);
 	}
 
-	public function save(Request $request) {
+	public function pay(Request $request) {
+		$priceSummarize = new PriceSummarize();
+		$priceSummarize->getTotalPrice();
+
+		$driver = Chaching::GPWEBPAY;
+		$authorization = [
+			'merchant_id', [
+				'key'         => '...../gpwebpay.crt',
+				'passphrase'  => 'passphrase',
+				'certificate' => '...../gpwebpay.key'
+			]
+		];
+		$options = [];
+		$chaching = new Chaching($driver, $authorization, $options);
+		$payment = $chaching->request([
+			'currency'        => \Chaching\Currencies::EUR,
+
+			'variable_symbol' => 70000000,
+			'amount'          => 9.99,
+			'description'     => 'My wonderful product',
+			'constant_symbol' => '0308',
+			'return_email'    => '...',
+			'callback'        => 'http://...'
+		]);
 	}
 
 }

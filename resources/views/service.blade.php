@@ -32,7 +32,7 @@
 		</div>
 
 
-		@include('form.footer', ['back' => '/sport'])
+		@include('form.footer', ['back' => '/registration'])
 	</form>
 </div>
 

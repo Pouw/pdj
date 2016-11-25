@@ -60,7 +60,7 @@ class RegistrationController extends Controller
 			$regId = $user->registration->id;
 		}
 
-		$nextUrl = '/sport';
+		$nextUrl = '/service';
 		if ($sportIds) {
 			foreach ($sportIds as $sportId) {
 				$item = [
@@ -75,9 +75,18 @@ class RegistrationController extends Controller
 			RegistrationSport::where('registration_id', $regId)
 				->whereNotIn('sport_id', $sportIds)
 				->delete();
+			$needMoreInfo = [
+				Sport::BADMINTON,
+				Sport::BEACH_VOLLEYBALL,
+				Sport::SOCCER,
+				Sport::SWIMMING,
+				Sport::VOLLEYBALL
+			];
+			if (count(array_intersect($sportIds, $needMoreInfo)) > 0) {
+				$nextUrl = '/sport';
+			}
 		} else {
 			RegistrationSport::where('registration_id', $regId)->delete();
-			$nextUrl = '/service';
 		}
 		\App\RegistrationLog::log();
 		return redirect($nextUrl);
