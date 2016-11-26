@@ -32,4 +32,8 @@ class Registration extends Model
 		return $prices;
 	}
 
+	public function user() {
+		return $this->belongsTo(\App\User::class);
+	}
+
 }

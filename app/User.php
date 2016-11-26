@@ -40,11 +40,23 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'is_admin'
     ];
 
 	public function registration() {
 		return $this->hasOne(\App\Registration::class);
+	}
+
+	public function isAdmin(): bool {
+		return $this->is_admin;
+	}
+
+	public function currency() {
+		return $this->belongsTo(\App\Currency::class);
+	}
+
+	public function country() {
+		return $this->belongsTo(\App\Country::class);
 	}
 
 }

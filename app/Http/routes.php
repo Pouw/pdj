@@ -35,3 +35,6 @@ Route::post('/summary', 'SummaryController@save');
 Route::get('/payment', 'PaymentController@index');
 Route::post('/payment', 'PaymentController@save');
 
+Route::get('/admin', 'AdminController@index');
+Route::get('/admin/registrations', 'AdminController@registrations');
+Route::get('/admin/registration', 'AdminController@registration');
