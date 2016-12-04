@@ -78,6 +78,7 @@ class RegistrationController extends Controller
 			$needMoreInfo = [
 				Sport::BADMINTON,
 				Sport::BEACH_VOLLEYBALL,
+				Sport::RUNNING,
 				Sport::SOCCER,
 				Sport::SWIMMING,
 				Sport::VOLLEYBALL

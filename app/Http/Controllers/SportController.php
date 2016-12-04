@@ -57,9 +57,16 @@ class SportController extends Controller
 			}
 		}
 		foreach ($user->registration->sports as $sport) {
+			$sportId = intval($sport->sport->id);
 			$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
-			if (intval($sport->sport->id) === Sport::BEACH_VOLLEYBALL && empty($request->get($sportKey . '_team'))) {
-				$validator->errors()->add($sportKey . '_team', "Write your team name for Beach Volleyball.");
+			if ($sportId === Sport::BEACH_VOLLEYBALL) {
+				if (empty($request->get($sportKey . '_team'))) {
+					$validator->errors()->add($sportKey . '_team', "Write your team name for Beach Volleyball.");
+				}
+			} elseif ($sportId === Sport::RUNNING || $sportId === Sport::SWIMMING) {
+				if (empty($request->get($sportKey . '_discipline'))) {
+					$validator->errors()->add($sportKey . '_discipline', "Select at least one discipline for $sportKey.");
+				}
 			}
 		}
 
@@ -96,23 +103,12 @@ class SportController extends Controller
 				$sport->captain = $request->get($sportKey . '_captain');
 				$sport->find_partner = $request->get($sportKey . '_find_partner');
 				$sport->save();
-				/*if ($sport->sport->id === Sport::BADMINTON) {
-					$oldDisciplineIds = array_column($sport->disciplines->toArray(), 'discipline_id');
-					$newDisciplineIds = $request->get($sportKey . '_discipline', []);
-					$deleteIds = array_diff($oldDisciplineIds, $newDisciplineIds);
-					$insertIds = array_diff($newDisciplineIds, $oldDisciplineIds);
-					foreach ($deleteIds as $deleteId) {
-						RegistrationSportDisciplines::where('registration_sport_id', $sport->id)->where('discipline_id', $deleteId)->delete();
-					}
-					foreach ($insertIds as $disciplineId) {
-						$item = [
-							'registration_sport_id' => $sport->id,
-							'discipline_id' => $disciplineId,
-						];
-						RegistrationSportDisciplines::insert($item);
-					}
-				}*/
+
 				if (intval($sport->sport->id) === Sport::SWIMMING) {
+					foreach ($sport->disciplines as $discipline) {
+						$discipline->time = $request->get($sportKey . '_discipline_time_' . $discipline->discipline->id);
+						$discipline->save();
+					}
 					$oldDisciplineIds = array_column($sport->disciplines->toArray(), 'discipline_id');
 					$newDisciplineIds = $request->get($sportKey . '_discipline', []);
 					$deleteIds = array_diff($oldDisciplineIds, $newDisciplineIds);
@@ -128,7 +124,14 @@ class SportController extends Controller
 						];
 						RegistrationSportDisciplines::insert($item);
 					}
-					// TODO UPDATE
+				}
+				if (intval($sport->sport->id) === Sport::RUNNING) {
+					RegistrationSportDisciplines::where('registration_sport_id', $sport->id)->delete();
+					$item = [
+						'registration_sport_id' => $sport->id,
+						'discipline_id' => $request->get($sportKey . '_discipline'),
+					];
+					RegistrationSportDisciplines::insert($item);
 				}
 			}
 //			DB::commit();
