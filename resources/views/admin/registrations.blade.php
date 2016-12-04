@@ -31,7 +31,7 @@
 					<td><a href="{{ url('/admin/registration?id=' . $reg->id) }}">#{{ $reg->id }}</a></td>
 					<td>{{ $reg->user->name }}</td>
 					<td>{{ $reg->user->email }}</td>
-					<td>{{ $reg->user->member ? 'Yes' : 'No' }}</td>
+					<td>{{ $reg->user->is_member ? 'Yes' : 'No' }}</td>
 					<td>{{ $reg->user->currency->iso }}</td>
 					<td>{{ $reg->user->country->name }}</td>
 

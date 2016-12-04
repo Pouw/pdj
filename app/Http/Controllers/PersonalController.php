@@ -30,13 +30,13 @@ class PersonalController extends Controller
 
 	public function save(Request $request) {
         $validator = $this->getValidationFactory()->make($request->all(), []);
-        if ($request->get('member') === '1' && intval($request->get('currency_id')) === Currency::EUR) {
+        if ($request->get('is_member') === '1' && intval($request->get('currency_id')) === Currency::EUR) {
             $validator->errors()->add('checkbox', "You can't be Alceco member and pay in €.");
             $this->throwValidationException($request, $validator);
         }
 
 		$user = Auth::user();
-        $user->member = $request->get('member');
+        $user->is_member = $request->get('is_member');
         $user->currency_id = $request->get('currency_id');
         $user->country_id = $request->get('country_id');
         $user->city = $request->get('city');

@@ -1,8 +1,8 @@
 
 @include('form.yes_no', [
-	'name' => 'member',
+	'name' => 'is_member',
 	'title' => 'Are you member of Alcedo Prague?',
-	'default' => $user->member
+	'default' => $user->is_member
 ])
 @include('form.currency', [
 	'name' => 'currency_id',

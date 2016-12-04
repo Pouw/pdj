@@ -48,7 +48,7 @@ class User extends Authenticatable
 	}
 
 	public function isAdmin(): bool {
-		return $this->is_admin;
+		return intval($this->is_admin) === 1;
 	}
 
 	public function currency() {

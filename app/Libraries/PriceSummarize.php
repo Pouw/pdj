@@ -43,7 +43,7 @@ class PriceSummarize {
 		$currencyId = intval($user->currency_id);
 		foreach ($items as $item) {
 			$price = $item['price'];
-			if ($user->member && $currencyId === Currency::CZK) {
+			if ($user->is_member && $currencyId === Currency::CZK) {
 				if (empty($price->czk_member)) {
 					$price = $price->czk;
 				} else {
