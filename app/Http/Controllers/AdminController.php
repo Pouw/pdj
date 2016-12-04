@@ -44,8 +44,6 @@ class AdminController extends Controller
 	public function mailTest() {
 		$user = Auth::user();
 		Mail::send('emails.test', ['user' => $user], function ($m) use ($user) {
-			$m->from('test@alcedopraha.cz', 'Prague Rainbow Spring - Alcedo Praha');
-
 			$m->to($user->email, $user->name)->subject('Your Reminder!');
 		});
 	}

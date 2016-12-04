@@ -32,8 +32,8 @@
 					<td>{{ $reg->user->name }}</td>
 					<td>{{ $reg->user->email }}</td>
 					<td>{{ $reg->user->is_member ? 'Yes' : 'No' }}</td>
-					<td>{{ $reg->user->currency->iso }}</td>
-					<td>{{ $reg->user->country->name }}</td>
+					<td>{{ $reg->user->currency ? $reg->user->currency->iso  : '' }}</td>
+					<td>{{ $reg->user->country ? $reg->user->country->name : '' }}</td>
 
 					<td>{{ $reg->brunch ? 'Yes' : 'No' }}</td>
 					<td>{{ $reg->hosted_housing ? 'Yes' : 'No' }}</td>
