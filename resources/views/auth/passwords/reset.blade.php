@@ -1,10 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
+	@include('helper.panel_top')
                 <div class="panel-heading">Reset Password</div>
 
                 <div class="panel-body">
@@ -63,8 +60,5 @@
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+	@include('helper.panel_bottom')
 @endsection

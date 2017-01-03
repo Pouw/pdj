@@ -13,15 +13,22 @@
 			</a>
 		</div>
 	@else
-		<div class="col-xs-6 col-md-4 col-md-offset-2">
+		<div class="row">
+			<div class="col-md-12 text-center">
 			<a class="btn btn-primary" href="{{ url('/register') }}">
 				<i class="fa fa-btn fa-user-plus"></i> Create New Registration
 			</a>
+			</div>
 		</div>
-		<div class="col-xs-6 col-xs-offset-0 col-md-4 col-md-offset-0 text-right">
+		<div class="row">
+			<div class="col-md-12 text-center"><p>&nbsp;</p></div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 text-center">
 			<a class="btn btn-primary" href="{{ url('/login') }}">
 				<i class="fa fa-btn fa-sign-in"></i> Login
 			</a>
+			</div>
 		</div>
 	@endif
 </div>

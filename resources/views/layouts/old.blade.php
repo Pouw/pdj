@@ -29,7 +29,9 @@
         body {
 			font-family: 'Lato', serif;
             margin-bottom: 100px;
-			background-color: #F2F2F2;
+            background-image: url('/img/top.png');
+            background-repeat: no-repeat;
+            background-position: left 51px;
         }
 
         body > div.container {
@@ -41,24 +43,11 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 120px;
-			background-color: #1A1A1A;
+            height: 196px;
+            background-image: url('/img/bottom.png');
+            background-repeat: no-repeat;
+            background-position: right bottom;
         }
-
-		footer.footer .live-it-up {
-			height: 60px;
-			background-image: url('/img/live-it-up.png');
-			background-repeat: no-repeat;
-			background-position: 60% top;
-			background-color: #F2F2F2;
-		}
-		footer.footer .icons {
-			background-image: url('/img/color-link-bottom.png');
-			background-repeat: repeat-x;
-			background-position: center top;
-			background-color: #1A1A1A;
-		}
-
 
         .fa-btn {
             margin-right: 6px;
@@ -69,7 +58,7 @@
             border: none;
         }
 
-        .panel-default > .panel-heading {
+        .panel-default>.panel-heading {
             background-image: url('/img/bottom.png');
             background-repeat: no-repeat;
             background-position: -1186px bottom;
@@ -85,60 +74,9 @@
             background-color: rgba(255, 255, 255, 0.85);
         }
 
-		#top-color-link {
-			height: 21px;
-			background-image: url('/img/color-link-top.png');
-			background-position: center;
-		}
-
-		.footer .icons a.alcedo {
-			background-image: url(/img/icon/alcedo.png);
-			background-size: 40px auto;
-		}
-		.footer .icons a.aquamen {
-			background-image: url(/img/icon/aquamen.png);
-			background-size: 40px auto;
-		}
-		.footer .icons a.fb {
-			background-image: url(/img/icon/fb.png);
-			background-size: 40px auto;
-		}
-		.footer .icons a:hover {
-			opacity: 1;
-		}
-		.footer .icons a {
-			display: inline-block;
-			width: 47px;
-			height: 47px;
-			background-color: transparent;
-			background-repeat: no-repeat;
-			background-size: auto;
-			background-position: center center;
-			position: relative;
-			top: 9px;
-			margin: 0 3px;
-			opacity: .6;
-			transition: all .25s linear;
-		}
-
-		.navbar-brand img {
-			width: 75px;
-			position: relative;
-			top: -41px;
-		}
-		@media (min-width: 768px) {
-			.navbar-brand img {
-				width: inherit;
-				position: relative;
-				top: -60px;
-			}
-		}
-
     </style>
 </head>
 <body id="app-layout">
-	<div class="container-fluid" id="top-color-link"></div>
-
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -153,12 +91,11 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{--Prague Rainbow Spring--}}
-					<img src="img/logo.png">
+                    Prague Rainbow Spring
                 </a>
             </div>
 
-            <div class="collapse navbar-collapse col-md-offset-3" id="app-navbar-collapse">
+            <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/personal') }}">Registration</a></li>
@@ -210,15 +147,6 @@
     <script src="{{ url('js/app.js') }}"></script>
 
     <footer class="footer">
-		<div class="container-fluid live-it-up">
-		</div>
-		<div class="container-fluid icons text-right">
-			<div class="container">
-				<a href="http://www.alcedopraha.cz/" target="_blank" class="alcedo" title="Alcedo Praha"></a>
-				<a href="http://aquamen.cz" target="_blank" class="aquamen" title="Aquamen"></a>
-				<a href="https://www.facebook.com/Prague-Rainbow-Spring-404635169567940/" target="_blank" class="fb" title="Facebook"></a>
-			</div>
-		</div>
     </footer>
 
 </body>
