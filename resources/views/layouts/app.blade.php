@@ -212,7 +212,7 @@
 	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     {{--<script src="{{ elixir('js/app.js') }}"></script>--}}
-    <script src="{{ url('js/app.js') }}"></script>
+    <script src="{{ url('js/app.js') }}?hash={{ time() }}"></script>
 
     <footer class="footer">
 		<div class="container-fluid live-it-up">
