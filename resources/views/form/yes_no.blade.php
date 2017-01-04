@@ -12,4 +12,22 @@
 			</span>
 		@endif
 	</div>
+
+	@if ($name === 'hosted_housing')
+	<div id="hosted_housing_date_range" style="{{ intval(old($name, $default)) === 0 ? 'display: none;' : '' }}">
+		<div>
+			<div class="col-md-8 col-md-offset-4 from-note">
+				Check your arrival / departure date for Hosted Housing:
+			</div>
+		</div>
+		<div>
+			<div class="col-md-4 col-md-offset-4">
+				<input type="text" name="hosted_housing_date_range" class="form-control" title="Arrival - Departure Range"
+					   value="{{ old('hosted_housing_date_range', ($user->registration->hh_from ?? '2017-04-28') . ' - ' . ($user->registration->hh_to ?? '2017-05-01')) }}">
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	@endif
+	<div class="clearfix"></div>
 </div>

@@ -13,6 +13,24 @@ $(document).ready(function(){
         }
     });
 
+	$('input[name="hosted_housing"]').change(function () {
+		var value = $(this).attr('value');
+		if (value === '1') {
+		    $('#hosted_housing_date_range').show();
+		} else {
+			$('#hosted_housing_date_range').hide();
+		}
+	});
+
+	$('#hosted_housing_date_range input').daterangepicker({
+		"minDate": "2017-04-25",
+		"maxDate": "2017-05-04",
+		locale: {
+			format: 'YYYY-MM-DD',
+			"firstDay": 1
+		}
+	});
+
     $(function () {
         $('[data-toggle="popover"]').popover()
     })

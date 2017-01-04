@@ -18,6 +18,7 @@
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css">
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css">
 
     <style>
 
@@ -41,15 +42,15 @@
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 120px;
+            height: 125px;
 			background-color: #1A1A1A;
         }
 
 		footer.footer .live-it-up {
-			height: 60px;
+			height: 65px;
 			background-image: url('/img/live-it-up.png');
 			background-repeat: no-repeat;
-			background-position: 60% top;
+			background-position: 60% 10px;
 			background-color: #F2F2F2;
 		}
 		footer.footer .icons {
@@ -58,7 +59,6 @@
 			background-position: center top;
 			background-color: #1A1A1A;
 		}
-
 
         .fa-btn {
             margin-right: 6px;
@@ -133,6 +133,9 @@
 				top: -60px;
 			}
 		}
+		.from-note {
+			color: #7f7f7f;
+		}
 
     </style>
 </head>
@@ -206,6 +209,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     {{--<script src="{{ elixir('js/app.js') }}"></script>--}}
     <script src="{{ url('js/app.js') }}"></script>
 

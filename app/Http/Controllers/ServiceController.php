@@ -30,6 +30,12 @@ class ServiceController extends Controller
 		$user = Auth::user();
 		$user->registration->brunch = $request->get('brunch');
 		$user->registration->hosted_housing = $request->get('hosted_housing');
+		if ($request->get('hosted_housing') === '1') {
+			$range = $request->get('hosted_housing_date_range');
+			preg_match_all('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $range, $matches);
+			$user->registration->hh_from = $matches[0][0];
+			$user->registration->hh_to = $matches[0][1];
+		}
 		$user->registration->outreach_support = $request->get('outreach_support');
 		$user->registration->outreach_request = $request->get('outreach_request');
 		$user->registration->visitor = $request->get('visitor');
