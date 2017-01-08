@@ -10,6 +10,7 @@ class Price extends Model
 	const BRUNCH = 7;
 	const HOSTED_HOUSING = 8;
 	const OUTREACH_SUPPORT = 11;
+	const CONCERT_TICKET = 12;
 
 	static public function getBrunchPrice() {
 		return self::whereId(self::BRUNCH)->first();
@@ -22,4 +23,9 @@ class Price extends Model
 	static public function getOutreachSupportPrice() {
 		return self::whereId(self::OUTREACH_SUPPORT)->first();
 	}
+
+	static public function getConcertTicketPrice() {
+		return self::whereId(self::CONCERT_TICKET)->first();
+	}
+
 }

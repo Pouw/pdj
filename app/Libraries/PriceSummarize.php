@@ -24,6 +24,12 @@ class PriceSummarize {
 				'quantity' => 1,
 			];
 		}
+		if ($user->registration->concert) {
+			$items[] = [
+				'price' => Price::getConcertTicketPrice(),
+				'quantity' => 1,
+			];
+		}
 		if ($user->registration->hosted_housing) {
 			$items[] = [
 				'price' => Price::getHostedHousingPrice(),

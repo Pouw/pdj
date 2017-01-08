@@ -30,18 +30,28 @@
 					<td>@include('helper.price', ['price' => $regSport->sport->price])</td>
 				</tr>
 				@endforeach
+
 				@if ($user->registration->brunch)
 				<tr>
 					<td>Brunch</td>
 					<td>@include('helper.price', ['price' => $price->getBrunchPrice()])</td>
 				</tr>
 				@endif
+
+				@if ($user->registration->concert)
+					<tr>
+						<td>Concert Doodles and Podium Paris ticket</td>
+						<td>@include('helper.price', ['price' => $price->getConcertTicketPrice()])</td>
+					</tr>
+				@endif
+
 				@if ($user->registration->hosted_housing)
 				<tr>
 					<td>Hosted Housing</td>
 					<td>@include('helper.price', ['price' => $price->getHostedHousingPrice()])</td>
 				</tr>
 				@endif
+
 				@if ($user->registration->outreach_support)
 				<tr>
 					<td>Outreach Support</td>
