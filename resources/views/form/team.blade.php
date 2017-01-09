@@ -19,7 +19,11 @@
 	<div class="col-md-4 col-md-offset-4">
 		<select class="form-control selectpicker" name="{{ $name }}_id" data-live-search="true" title="Teams">
 			@foreach ($teams->sortBy('name') as $team)
-				<option value="{{ $team->id }}" data-subtext="level {{ $team->level->name }}" {{ old($name . '_id', $default) == $team->id ? ' selected' : ''}}>
+				<option value="{{ $team->id }}"
+						@if (!empty($team->level))
+							data-subtext="level {{ $team->level->name }}"
+						@endif
+						{{ old($name . '_id', $default) == $team->id ? ' selected' : ''}}>
 					{{ $team->name }}
 				</option>
 			@endforeach
@@ -31,13 +35,15 @@
 	<div class="col-md-4 col-md-offset-4">
 		<input name="{{ $name }}_name" type="text" class="form-control" placeholder="Team name">
 	</div>
-	<div class="col-md-4">
-		<select name="{{ $name }}_level_id" class="form-control selectpicker" title="Level">
-			@foreach ($levels as $level)
-				<option value="{{ $level->id }}">
-					Level {{ $level->name }}
-				</option>
-			@endforeach
-		</select>
-	</div>
+	@if (isset($levels))
+		<div class="col-md-4">
+			<select name="{{ $name }}_level_id" class="form-control selectpicker" title="Level">
+				@foreach ($levels as $level)
+					<option value="{{ $level->id }}">
+						Level {{ $level->name }}
+					</option>
+				@endforeach
+			</select>
+		</div>
+	@endif
 </div>
