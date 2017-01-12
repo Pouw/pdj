@@ -29,5 +29,16 @@
 		<div class="clearfix"></div>
 	</div>
 	@endif
+
+	@if ($name === 'outreach_request')
+		<div>
+			<div>
+				<div class="col-md-8 col-md-offset-4 from-note">
+					<p>Please, read this info <a href="http://www.praguerainbow.eu/outreach-program.html" target="_blank">http://www.praguerainbow.eu/outreach-program.html</a></p>
+				</div>
+			</div>
+		</div>
+	@endif
+
 	<div class="clearfix"></div>
 </div>

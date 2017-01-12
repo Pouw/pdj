@@ -9,17 +9,15 @@
 	<form class="form-horizontal" role="form" method="POST">
 		{{ csrf_field() }}
 
-		@include('form.yes_no', ['name' => 'brunch', 'title' => 'Brunch', 'start' => 0, 'default' => $user->registration->brunch])
-		@include('form.yes_no', ['name' => 'concert', 'title' => 'Concert Doodles and Podium Paris', 'start' => 0, 'default' => $user->registration->concert])
-		@include('form.yes_no', ['name' => 'hosted_housing', 'title' => 'Hosted Housing', 'start' => 0, 'default' => $user->registration->hosted_housing])
-		@include('form.outreach', ['name' => 'outreach_support', 'title' => 'Outreach Support', 'start' => 0, 'default' => $user->registration->outreach_support])
-
-		@include('form.yes_no', ['name' => 'outreach_request', 'title' => 'Outreach Request', 'start' => 0, 'default' => $user->registration->outreach_request])
-		<div class="row">
-			<div class="col-md-8 col-md-offset-4 from-note">
-				<p>Please, read this info <a href="http://www.praguerainbow.eu/outreach-program.html" target="_blank">http://www.praguerainbow.eu/outreach-program.html</a></p>
-			</div>
-		</div>
+		@if ($user->registration->isOnlySinger())
+			@include('form.outreach', ['name' => 'outreach_support', 'title' => 'Outreach Support', 'start' => 0, 'default' => $user->registration->outreach_support])
+		@else
+			@include('form.yes_no', ['name' => 'brunch', 'title' => 'Brunch', 'start' => 0, 'default' => $user->registration->brunch])
+			@include('form.yes_no', ['name' => 'concert', 'title' => 'Concert Doodles and Podium Paris', 'start' => 0, 'default' => $user->registration->concert])
+			@include('form.yes_no', ['name' => 'hosted_housing', 'title' => 'Hosted Housing', 'start' => 0, 'default' => $user->registration->hosted_housing])
+			@include('form.outreach', ['name' => 'outreach_support', 'title' => 'Outreach Support', 'start' => 0, 'default' => $user->registration->outreach_support])
+			@include('form.yes_no', ['name' => 'outreach_request', 'title' => 'Outreach Request', 'start' => 0, 'default' => $user->registration->outreach_request])
+		@endif
 
 		<div class="form-group">
 			<label for="note" class="col-md-4 control-label">Your Note</label>

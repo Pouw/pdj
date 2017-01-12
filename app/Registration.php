@@ -27,13 +27,20 @@ class Registration extends Model
 	}
 
 	public function priceBunch() {
-
 		$prices = Price::whereId(6);
 		return $prices;
 	}
 
 	public function user() {
 		return $this->belongsTo(\App\User::class);
+	}
+
+	public function isOnlySinger() {
+		$sports = $this->sports();
+		if ($sports->count() === 1 && intval($sports->first()->sport_id) === Sport::SINGING) {
+			return true;
+		}
+		return false;
 	}
 
 }
