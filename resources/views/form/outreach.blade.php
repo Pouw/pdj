@@ -7,7 +7,7 @@
 		<select id="{{ $name }}" class="form-control selectpicker" name="{{ $name }}">
 			@for ($i = isset($start) ? $start : 1; $i <= 16; $i++)
 				<option value="{{ $i }}" {{ old($name, $default) == $i ? ' selected' : '' }}>
-					@if ($user->currency_id === \App\Currency::CZK)
+					@if (intval($user->currency_id) === \App\Currency::CZK)
 						{{ $outreachPrice->czk * $i }} Kč
 					@else
 						{{ $outreachPrice->eur * $i }} €

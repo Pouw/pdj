@@ -56,7 +56,7 @@
 				<tr>
 					<td>Outreach Support</td>
 					<td>
-					@if ($user->currency_id === \App\Currency::CZK)
+					@if (intval($user->currency_id) === \App\Currency::CZK)
 						{{ $price->getOutreachSupportPrice()->czk * $user->registration->outreach_support }} Kč
 					@else
 						{{ $price->getOutreachSupportPrice()->eur * $user->registration->outreach_support }} €
