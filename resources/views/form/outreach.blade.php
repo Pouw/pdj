@@ -24,7 +24,7 @@
 	</div>
 	<div>
 		<div class="col-md-8 col-md-offset-4 from-note">
-			<p>Voluntary contribution towards our outreach program. Outreach program will help some students to come and play with us.</p>
+			Voluntary contribution towards our outreach program. Outreach program will help some students to come and play with us.
 		</div>
 	</div>
 </div>

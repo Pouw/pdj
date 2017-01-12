@@ -47,5 +47,7 @@
 	</div>
 </div>
 
+@include('form.text', ['name' => 'badminton_team', 'title' => 'Name of your partner for doubles', 'default' => $regSport->team])
+
 
 
