@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
 class Registration extends Model
 {
 
+	private $year = 17;
+
 	public function sports() {
 		return $this->hasMany(\App\RegistrationSport::class);
 	}
@@ -41,6 +43,14 @@ class Registration extends Model
 			return true;
 		}
 		return false;
+	}
+
+	public function variableSymbol() {
+		return '77' . $this->year . sprintf('%06s', $this->id);
+	}
+
+	public function paymentPurpose() {
+		return 'PRS-' . $this->year  . '-' . sprintf('%06s', $this->id);
 	}
 
 }
