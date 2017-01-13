@@ -17,6 +17,9 @@
                         <label @if($sport->title) data-toggle="tooltip" title="{{ $sport->title }}" @endif>
                             <input name="sports[]" type="checkbox" value="{{ $sport->id }}" {{ in_array($sport->id, old('sports', $defaultSports)) ? ' checked' : '' }}>
                             {{ $sport->name }}
+							@if (!empty($sport->day))
+								<small style="color: #979797">({{ $sport->day }})</small>
+							@endif
                         </label>
                     </div>
                 @endforeach
