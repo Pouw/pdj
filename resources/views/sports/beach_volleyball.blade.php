@@ -1,3 +1,6 @@
+<p>
+	REMINDER: Each team member must register individually, filling in the same name of the team.
+</p>
 
 @include('form.text', ['name' => 'beach_volleyball_team', 'title' => 'Name of your team', 'default' => $regSport->team])
 @include('sports/input/level', [
@@ -13,3 +16,5 @@
 	'default' => $regSport->alt_level_id,
 	'enableEmpty' => true,
 ])
+
+
