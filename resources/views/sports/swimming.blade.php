@@ -3,7 +3,7 @@
 @include('form.text', ['name' => 'swimming_captain', 'title' => 'Name of your captain', 'default' => $regSport->captain])
 
 
-@foreach($regSport->sport->disciplines as $discipline)
+@foreach($regSport->sport->disciplines->sortBy('sort_key') as $discipline)
 	@include('sports/input/discipline_swimming', [
 		'discipline' => $discipline,
 		'id' => 'swimming_discipline_' . $discipline->id,
