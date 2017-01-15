@@ -33,10 +33,6 @@
 			background-color: #F2F2F2;
         }
 
-        body > div.container {
-            padding-top: 30px;
-        }
-
         footer.footer {
             z-index: -1;
             position: absolute;
