@@ -140,6 +140,11 @@
 		table.table.summary ul {
 			margin-bottom: 0;
 		}
+		table.table.summary tr td:nth-child(2),
+		table.table.summary tr th:nth-child(2) {
+			text-align: right;
+			text-wrap: none;
+		}
 
 		.form-group.days > div {
 			padding-bottom: .7em;
