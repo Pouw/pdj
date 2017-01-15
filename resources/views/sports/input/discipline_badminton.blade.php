@@ -2,18 +2,14 @@
 <div class="form-group{{ $errors->has($name) ? ' has-error' : '' }}">
 	<div class="col-md-4 control-label">{{ $title }}</div>
 
-	<div class="col-md-4">
-		@foreach ($disciplines as $discipline)
+	<div class="col-md-2">
+		<div class="radio">
+			@foreach($disciplines as $discipline)
 			<label>
-				<input type="checkbox" name="{{ $name }}[]" value="{{ $discipline->id }}" {{ in_array($discipline->id, old($name, $default)) ? ' checked' : '' }}>
+				<input type="radio" name="{{ $name }}" value="{{ $discipline->id }}" {{ $discipline->id == old($name, $default) ? ' checked' : '' }}>
 				{{ $discipline->name }}
 			</label>
-		@endforeach
-
-		@if ($errors->has($name))
-			<span class="help-block">
-                <strong>{{ $errors->first($name) }}</strong>
-            </span>
-		@endif
+			@endforeach
+		</div>
 	</div>
 </div>

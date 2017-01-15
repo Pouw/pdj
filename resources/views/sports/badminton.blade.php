@@ -1,4 +1,10 @@
 
+@include('sports/input/discipline_badminton', [
+	'title' => 'Category',
+	'name' => 'badminton_discipline',
+	'disciplines' => $regSport->sport->disciplines,
+    'default' => $regSport->disciplines->count() > 0 ? $regSport->disciplines->first()->discipline_id : null,
+])
 
 <div class="form-group">
 	<label for="badminton_singles" class="col-md-4 control-label">Singles</label>

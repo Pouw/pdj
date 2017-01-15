@@ -3,7 +3,7 @@
 		<div class="col-md-4 col-lg-offset-4">
 			<div class="radio">
 				<label>
-					<input type="radio" name="{{ $name }}" value="{{ $discipline->id }}" {{ in_array($discipline->id, old($name, $default)) ? ' checked' : '' }}>
+					<input type="radio" name="{{ $name }}" value="{{ $discipline->id }}" {{ $discipline->id == old($name, $default) ? ' checked' : '' }}>
 					{{ $discipline->name }}
 				</label>
 			</div>

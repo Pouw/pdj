@@ -21,14 +21,19 @@
 			@else
 				<td>
 					{{ $regSport->sport->name }}
-					@if ($regSport->sport->title || in_array($regSport->sport->id, [App\Sport::RUNNING, App\Sport::SOCCER, App\Sport::VOLLEYBALL, App\Sport::BEACH_VOLLEYBALL, App\Sport::SWIMMING]))
+					@if ($regSport->sport->title || in_array($regSport->sport->id, [
+					App\Sport::RUNNING,
+					App\Sport::SOCCER,
+					App\Sport::VOLLEYBALL,
+					App\Sport::BEACH_VOLLEYBALL,
+					App\Sport::BADMINTON,
+					App\Sport::SWIMMING]))
 						<ul style="font-size: 0.9em; margin-bottom: 0; margin-top: 0">
 							@if ($regSport->sport->title)
 								<li>{{ $regSport->sport->title }}</li>
 							@endif
 							@if ($regSport->sport->id == App\Sport::RUNNING)
-								<li>
-									Distance: {{ $regSport->disciplines->first()->discipline->name }}</li>
+								<li>Distance: {{ $regSport->disciplines->first()->discipline->name }}</li>
 							@endif
 							@if ($regSport->sport->id == App\Sport::SOCCER)
 								<li>Team name: {{ $regSport->team->name }}</li>
@@ -61,6 +66,18 @@
 										@endforeach
 									</ul>
 								</li>
+							@endif
+							@if ($regSport->sport->id == App\Sport::BADMINTON)
+								<li>Category: {{ $regSport->disciplines->first()->discipline->name }}</li>
+								@if ($regSport->level_id)
+									<li>Singles in level {{ $regSport->level->name }}</li>
+								@endif
+								@if ($regSport->altLevel)
+									<li>Doubles in level {{ $regSport->altLevel->name }}</li>
+								@endif
+								@if ($regSport->team_name)
+									<li>Your partner: {{ $regSport->team_name }}</li>
+								@endif
 							@endif
 						</ul>
 					@endif

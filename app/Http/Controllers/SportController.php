@@ -65,7 +65,7 @@ class SportController extends Controller
 				if (empty($request->get($sportKey . '_team_name'))) {
 					$validator->errors()->add($sportKey . '_team_name', "Write your team name for Beach Volleyball.");
 				}
-			} elseif ($sportId === Sport::RUNNING || $sportId === Sport::SWIMMING) {
+			} elseif (in_array($sportId, [Sport::RUNNING, Sport::SWIMMING, Sport::BADMINTON])) {
 				if (empty($request->get($sportKey . '_discipline'))) {
 					$validator->errors()->add($sportKey . '_discipline', "Select at least one discipline for $sportKey.");
 				}
@@ -127,7 +127,7 @@ class SportController extends Controller
 						RegistrationSportDisciplines::insert($item);
 					}
 				}
-				if (intval($sport->sport->id) === Sport::RUNNING) {
+				if (in_array($sport->sport->id, [Sport::RUNNING, Sport::BADMINTON])) {
 					RegistrationSportDisciplines::where('registration_sport_id', $sport->id)->delete();
 					$item = [
 						'registration_sport_id' => $sport->id,
