@@ -30,32 +30,31 @@
 		<p></p>
 		<h2>Bank transfer information:</h2>
 		<dl class="dl-horizontal">
-		@if (intval($user->currency_id) === \App\Currency::CZK)
 			<dt>Bank account:</dt>
 			<dd>2001064718/2010</dd>
-			<dt>Variable symbol:</dt>
-			<dd>{{ $user->registration->variableSymbol() }}</dd>
-		@else
-			<dt>Payee's name:</dt>
-			<dd>Alcedo Praha, z.s.</dd>
-			<dt>Payee's country:</dt>
-			<dd>Czech Republic or Czechia</dd>
-			<dt>Bank name:</dt>
-			<dd>Fio banka, a.s.</dd>
-			<dt>Bank address:</dt>
-			<dd>V Celnici 1028/10, 117 21 Praha 1</dd>
-
-			<dt>IBAN:</dt>
-			<dd>CZ04 2010 0000 0020 0106 4718</dd>
-			<dt>BIC (SWIFT):</dt>
-			<dd>FIOBCZPPXXX</dd>
-			<dt>Purpose:</dt>
-			<dd>{{ $user->registration->paymentPurpose() }}</dd>
-		@endif
+			@if (intval($user->currency_id) === \App\Currency::CZK)
+				<dt>Variable symbol:</dt>
+				<dd>{{ $user->registration->variableSymbol() }}</dd>
+			@else
+				<dt>IBAN:</dt>
+				<dd>CZ04 2010 0000 0020 0106 4718</dd>
+				<dt>BIC (SWIFT):</dt>
+				<dd>FIOBCZPPXXX</dd>
+				<dt>Bank name:</dt>
+				<dd>Fio banka</dd>
+				<dt>Bank address:</dt>
+				<dd>V Celnici 1028/10, 117 21 Praha 1</dd>
+				<dt>Account holder name:</dt>
+				<dd>Alcedo Praha</dd>
+				<dt>Account holder address:</dt>
+				<dd>Krymská 238/18, 10100 Praha 10</dd>
+				<dt>Purpose:</dt>
+				<dd>{{ $user->registration->paymentPurpose() }}</dd>
+			@endif
 		</dl>
 
 		<div class="alert alert-warning" role="alert">
-			We are now working on online payment, so you can come back later and pay online by card.
+			In these days it is not possible to provide payment online by card. Sorry for that. You can try it later or send money on our bank account.
 		</div>
 
 		@include('form.footer', ['back' => '/summary', 'next' => false])
