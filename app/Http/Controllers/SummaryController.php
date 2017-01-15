@@ -22,6 +22,7 @@ class SummaryController extends Controller
 			'user' => $user,
 			'price' => new Price(),
 			'totalPrice' => $priceSummarize->getTotalPrice(),
+			'sale' => $priceSummarize->getSale(),
 		];
 		return view('summary', $data);
 	}

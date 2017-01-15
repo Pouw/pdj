@@ -62,8 +62,8 @@ class SportController extends Controller
 			$sportId = intval($sport->sport->id);
 			$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
 			if ($sportId === Sport::BEACH_VOLLEYBALL) {
-				if (empty($request->get($sportKey . '_team'))) {
-					$validator->errors()->add($sportKey . '_team', "Write your team name for Beach Volleyball.");
+				if (empty($request->get($sportKey . '_team_name'))) {
+					$validator->errors()->add($sportKey . '_team_name', "Write your team name for Beach Volleyball.");
 				}
 			} elseif ($sportId === Sport::RUNNING || $sportId === Sport::SWIMMING) {
 				if (empty($request->get($sportKey . '_discipline'))) {
@@ -101,7 +101,7 @@ class SportController extends Controller
 				$altLevelId = intval($request->get($sportKey . '_alt_level'));
 				$sport->alt_level_id = $altLevelId === 0 ? null : $altLevelId;
 				$sport->club = $request->get($sportKey . '_club');
-				$sport->team = $request->get($sportKey . '_team');
+				$sport->team_name = $request->get($sportKey . '_team_name');
 				$sport->captain = $request->get($sportKey . '_captain');
 				$sport->find_partner = $request->get($sportKey . '_find_partner');
 				$sport->save();

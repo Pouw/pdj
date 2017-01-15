@@ -10,21 +10,23 @@
 
     <form class="form-horizontal" role="form" method="POST">
         {{ csrf_field() }}
-        <div class="form-group">
-            <div class="col-md-6 col-md-offset-4">
-                @foreach ($sports as $sport)
-                    <div class="checkbox">
-                        <label @if($sport->title) data-toggle="tooltip" title="{{ $sport->title }}" @endif>
-                            <input name="sports[]" type="checkbox" value="{{ $sport->id }}" {{ in_array($sport->id, old('sports', $defaultSports)) ? ' checked' : '' }}>
-                            {{ $sport->name }}
-							@if (!empty($sport->day))
-								<small style="color: #979797">({{ $sport->day }})</small>
-							@endif
-                        </label>
-                    </div>
-                @endforeach
-            </div>
-        </div>
+        <div class="form-group days">
+			@foreach(['saturday' => 'Saturday', 'sunday' => 'Sunday', 'all' => ''] as $day => $dayTitle)
+				<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 {{ $day }}">
+					<div class="col-md-4">{{ $dayTitle }}</div>
+					<div class="col-md-8">
+						@foreach ($sports->where('day', $day) as $sport)
+							<div class="checkbox">
+								<label @if($sport->title) data-toggle="tooltip" title="{{ $sport->title }}" @endif>
+									<input name="sports[]" type="checkbox" value="{{ $sport->id }}" {{ in_array($sport->id, old('sports', $defaultSports)) ? ' checked' : '' }}>
+									{{ $sport->name }}
+								</label>
+							</div>
+						@endforeach
+					</div>
+				</div>
+			@endforeach
+		</div>
 
         @include('form.footer', ['back' => '/personal'])
     </form>

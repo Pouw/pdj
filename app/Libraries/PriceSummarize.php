@@ -4,17 +4,29 @@ namespace App\Libraries;
 
 use App\Currency;
 use App\Price;
+use App\Sport;
 use Illuminate\Support\Facades\Auth;
 
 class PriceSummarize {
 
+	public function getUser() {
+		return Auth::user();
+	}
+
 	public function getTotalPrice() {
-		$user = Auth::user();
+		$user = $this->getUser();
 		$items = [];
 		foreach ($user->registration->sports as $regSport) {
 			$price = $regSport->sport->price;
 			$items[] = [
 				'price' => $price,
+				'quantity' => 1,
+			];
+		}
+		$sale = $this->getSale();
+		if ($sale) {
+			$items[] = [
+				'price' => $sale,
 				'quantity' => 1,
 			];
 		}
@@ -67,6 +79,23 @@ class PriceSummarize {
 			'price' => $sum,
 			'currency' => Currency::whereId($currencyId)->first(),
 		];
+	}
+
+	public function getSale() {
+		$user = $this->getUser();
+		$sportIds = [];
+		$sale = false;
+		foreach ($user->registration->sports as $regSport) {
+			$sportIds[] = $regSport->sport->id;
+		}
+		if (count(array_intersect($sportIds, Sport::getMainSportIds()))) {
+			if (in_array(Sport::BEACH_VOLLEYBALL, $sportIds)) {
+				$sale = Price::getBeachVolleyballSale();
+			} elseif (in_array(Sport::RUNNING, $sportIds)) {
+				$sale = Price::getRunningSale();
+			}
+		}
+		return $sale;
 	}
 
 }

@@ -137,6 +137,31 @@
 			color: #7f7f7f;
 		}
 
+		table.table.summary ul {
+			margin-bottom: 0;
+		}
+
+		.form-group.days > div {
+			padding-bottom: .7em;
+		}
+		.form-group.days .saturday {
+			background: #e5f7e1;
+		}
+		.form-group.days .saturday > :first-child {
+			font-size: 1.5em;
+			color: #00420c;
+		}
+		.form-group.days .sunday {
+			background: #ffe2f8;
+		}
+		.form-group.days .sunday > :first-child {
+			font-size: 1.5em;
+			color: #9b3464;
+		}
+		.form-group.days .all {
+			background: #e2eaff;
+		}
+
     </style>
 </head>
 <body id="app-layout">

@@ -36,4 +36,16 @@ class RegistrationSport extends Model
 		return $this->hasMany(\App\RegistrationSportDisciplines::class);
 	}
 
+	public function team() {
+		return $this->belongsTo(\App\Team::class);
+	}
+
+	public function level() {
+		return $this->belongsTo(\App\Level::class);
+	}
+
+	public function altLevel() {
+		return $this->belongsTo(\App\Level::class);
+	}
+
 }

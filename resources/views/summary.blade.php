@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="table-responsive">
 			<div class="col-md-10 col-md-offset-1">
-			<table class="table">
+			<table class="table summary">
 				<thead>
 				<tr>
 					<th>Item</th>
@@ -25,7 +25,48 @@
 							<small>Includes public transport and party tickets.</small>
 						</td>
 					@else
-						<td>{{ $regSport->sport->name }}</td>
+						<td>
+							{{ $regSport->sport->name }}
+							@if ($regSport->sport->title || in_array($regSport->sport->id, [App\Sport::RUNNING, App\Sport::SOCCER, App\Sport::VOLLEYBALL, App\Sport::BEACH_VOLLEYBALL, App\Sport::SWIMMING]))
+								<ul style="font-size: 0.9em">
+									@if ($regSport->sport->title)
+										<li>{{ $regSport->sport->title }}</li>
+									@endif
+									@if ($regSport->sport->id == App\Sport::RUNNING)
+										<li>Distance: {{ $regSport->disciplines->first()->discipline->name }}
+									@endif
+									@if ($regSport->sport->id == App\Sport::SOCCER)
+										<li>Team name: {{ $regSport->team->name }}
+									@endif
+									@if ($regSport->sport->id == App\Sport::VOLLEYBALL)
+										<li>Team: {{ $regSport->team->name }} <small>( {{$regSport->team->level->name}}) </small>
+									@endif
+									@if ($regSport->sport->id == App\Sport::BEACH_VOLLEYBALL)
+											<li>Team name: {{ $regSport->team_name }}
+											<li>Level: {{ $regSport->level->name }}
+											<li>Alternative level: {{ $regSport->altLevel->name }}
+									@endif
+									@if ($regSport->sport->id == App\Sport::SWIMMING)
+											<li>Club: {{ $regSport->club }}</li>
+											<li>Captain: {{ $regSport->captain }}</li>
+											<li>
+												Disciplines:
+												<ul>
+													@foreach($regSport->disciplines as $discipline)
+														<li>
+															{{ $discipline->discipline->name }}
+															@if ($discipline->time)
+																({{ $discipline->time }})
+															@endif
+														</li>
+													@endforeach
+												</ul>
+											</li>
+									@endif
+									</li>
+								</ul>
+							@endif
+						</td>
 					@endif
 					<td>@include('helper.price', ['price' => $regSport->sport->price])</td>
 				</tr>
@@ -47,7 +88,13 @@
 
 				@if ($user->registration->hosted_housing)
 				<tr>
-					<td>Hosted Housing</td>
+					<td>
+						Hosted Housing
+						<ul style="font-size: 0.9em">
+							<li>From: {{ $user->registration->hh_from }}</li>
+							<li>To: {{ $user->registration->hh_to }}</li>
+						</ul>
+					</td>
 					<td>@include('helper.price', ['price' => $price->getHostedHousingPrice()])</td>
 				</tr>
 				@endif
@@ -57,18 +104,31 @@
 					<td>Outreach Support</td>
 					<td>
 					@if (intval($user->currency_id) === \App\Currency::CZK)
-						{{ $price->getOutreachSupportPrice()->czk * $user->registration->outreach_support }} Kč
+						{{ $price->getOutreachSupportPrice()->czk * $user->registration->outreach_support }}&nbsp;Kč
 					@else
-						{{ $price->getOutreachSupportPrice()->eur * $user->registration->outreach_support }} €
+						{{ $price->getOutreachSupportPrice()->eur * $user->registration->outreach_support }}&nbsp;€
 					@endif
 					</td>
 				</tr>
 				@endif
+
+				@if ($sale)
+					<tr>
+						<td>
+							{{ $sale->name }}
+							<ul style="font-size: 0.9em">
+								<li>Sale for second sport.</li>
+							</ul>
+						</td>
+						<td>@include('helper.price', ['price' => $sale])</td>
+					</tr>
+				@endif
+
 				</tbody>
 				<tfoot>
 					<tr class="success">
 						<th>Total Price</th>
-						<th>{{ $totalPrice['price'] }} {{ $totalPrice['currency']->short }}</th>
+						<th>{{ $totalPrice['price'] }}&nbsp;{{ $totalPrice['currency']->short }}</th>
 					</tr>
 				</tfoot>
 			</table>

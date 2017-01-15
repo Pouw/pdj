@@ -47,4 +47,8 @@ class Sport extends Model
 		return $this->belongsTo(\App\Price::class);
 	}
 
+	public static function getMainSportIds() {
+		return [self::BADMINTON, self::SOCCER, self::SWIMMING, self::VOLLEYBALL];
+	}
+
 }
