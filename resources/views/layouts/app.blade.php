@@ -49,11 +49,22 @@
 			background-position: 60% 10px;
 			background-color: #F2F2F2;
 		}
-		footer.footer .icons {
+		footer.footer .bottom-link {
 			background-image: url('/img/color-link-bottom.png');
 			background-repeat: repeat-x;
 			background-position: center top;
 			background-color: #1A1A1A;
+			color: #666666;
+		}
+		footer.footer .bottom-link .contact p {
+			margin-top: 20px;
+		}
+		footer.footer .bottom-link .contact p a {
+			color: #666666;
+		}
+		footer.footer .bottom-link .contact p a:hover {
+			color: #e7e7e7;
+			transition: all .25s linear;
 		}
 
         .fa-btn {
@@ -191,6 +202,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/personal') }}">Registration</a></li>
+					<li><a href="http://www.praguerainbow.eu/">Back to Prague Rainbow Spring</a></li>
                     @if (!Auth::guest() && Auth::user()->isAdmin())
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -241,13 +253,19 @@
     <script src="{{ url('js/app.js') }}?hash={{ time() }}"></script>
 
     <footer class="footer">
-		<div class="container-fluid live-it-up">
-		</div>
-		<div class="container-fluid icons text-right">
+		<div class="container-fluid live-it-up"></div>
+		<div class="container-fluid bottom-link">
 			<div class="container">
-				<a href="http://www.alcedopraha.cz/" target="_blank" class="alcedo" title="Alcedo Praha"></a>
-				<a href="http://aquamen.cz" target="_blank" class="aquamen" title="Aquamen"></a>
-				<a href="https://www.facebook.com/Prague-Rainbow-Spring-404635169567940/" target="_blank" class="fb" title="Facebook"></a>
+				<div class="row">
+					<div class="col-md-6 contact">
+						<p>Have you problem with registration form? Contact us <a href="mailto: form@praguerainbow.eu">form@praguerainbow.eu</a></p>
+					</div>
+					<div class="col-md-6 icons text-right">
+						<a href="http://www.alcedopraha.cz/" target="_blank" class="alcedo" title="Alcedo Praha"></a>
+						<a href="http://aquamen.cz" target="_blank" class="aquamen" title="Aquamen"></a>
+						<a href="https://www.facebook.com/Prague-Rainbow-Spring-404635169567940/" target="_blank" class="fb" title="Facebook"></a>
+					</div>
+				</div>
 			</div>
 		</div>
     </footer>
