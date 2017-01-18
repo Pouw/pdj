@@ -68,7 +68,9 @@
 								</li>
 							@endif
 							@if ($regSport->sport->id == App\Sport::BADMINTON)
-								<li>Category: {{ $regSport->disciplines->first()->discipline->name }}</li>
+								@if ($regSport->disciplines->count())
+									<li>Category: {{ $regSport->disciplines->first()->discipline->name }}</li>
+								@endif
 								@if ($regSport->level_id)
 									<li>Singles in level {{ $regSport->level->name }}</li>
 								@endif

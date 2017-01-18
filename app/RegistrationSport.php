@@ -28,6 +28,10 @@ use Illuminate\Database\Eloquent\Model;
 class RegistrationSport extends Model
 {
 
+	public function registration() {
+		return $this->belongsTo(\App\Registration::class);
+	}
+
 	public function sport() {
 		return $this->belongsTo(\App\Sport::class);
 	}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Libraries\PriceSummarize;
 use App\Price;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -25,14 +26,25 @@ class AdminController extends Controller
 		return view('admin', $data);
 	}
 
-	public function registrations() {
-		return view('admin.registrations');
+	public function registrations(Request $request) {
+		$data = [
+			'sportId' => intval($request->get('sport_id')),
+		];
+		return view('admin.registrations', $data);
 	}
 
 	public function registration(Request $request) {
 		$id = $request->get('id');
+		$registration = \App\Registration::findOrFail($id);
+		$user = User::findOrFail($registration->user_id);
+		$priceSummarize = new PriceSummarize();
+		$priceSummarize->setUser($user);
 		$data = [
-			'registration' => \App\Registration::findOrFail($id),
+			'registration' => $registration,
+			'user' => $user,
+			'price' => new Price(),
+			'totalPrice' => $priceSummarize->getTotalPrice(),
+			'sale' => $priceSummarize->getSale(),
 		];
 		return view('admin.registration', $data);
 	}

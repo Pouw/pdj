@@ -5,12 +5,23 @@ namespace App\Libraries;
 use App\Currency;
 use App\Price;
 use App\Sport;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class PriceSummarize {
 
-	public function getUser() {
+	private $user = null;
+
+	public function getUser(): User {
+		if ($this->user !== null) {
+			return $this->user;
+		}
 		return Auth::user();
+	}
+
+	public function setUser(User $user) {
+		$this->user = $user;
+		return $this;
 	}
 
 	public function getTotalPrice() {
