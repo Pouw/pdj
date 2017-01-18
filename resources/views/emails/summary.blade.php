@@ -2,8 +2,8 @@
 
 @section('content')
 	<p>Hi {{$user->name}},</p>
-
-	<p>thank you for registration</p>
+	<p>Your registration was successful.</p>
+	<p>You have made registration for:</p>
 
 	@include('summary.table', ['isMail' => true])
 

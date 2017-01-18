@@ -210,7 +210,6 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="/admin/registrations">Registrations</a></li>
-                                <li><a>Badminton</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a>Payments</a></li>
                             </ul>

@@ -31,7 +31,17 @@ class SummaryController extends Controller
 
 		if ($user->registration->registration_status_id == RegistrationStatus::UNFINISHED) {
 			Mail::send('emails.summary', $data, function ($m) use ($user) {
-				$m->to($user->email, $user->name)->subject('Prague Rainbow Spring 2017 - registration summary');
+				$bcc = [];
+				$bcc[] = 'form@praguerainbow.eu';
+				foreach ($user->registration->sports as $regSport) {
+					if (!empty($regSport->sport->email)) {
+						$bcc[] = $regSport->sport->email;
+					}
+				}
+
+				$m->to($user->email, $user->name)
+					->bcc($bcc)
+					->subject('Prague Rainbow Spring 2017 - registration summary');
 			});
 			$user->registration->registration_status_id = RegistrationStatus::NEW;
 			$user->registration->save();
