@@ -170,6 +170,13 @@
 			font-size: 1.5em;
 			color: #9b3464;
 		}
+		.form-group.days .monday {
+			background: #FFFCE1;
+		}
+		.form-group.days .monday > :first-child {
+			font-size: 1.5em;
+			color: #887e00;
+		}
 		.form-group.days .all {
 			background: #e2eaff;
 		}
