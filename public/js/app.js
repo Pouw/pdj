@@ -22,6 +22,15 @@ $(document).ready(function(){
 		}
 	});
 
+	$('input[name="badminton_find_partner"]').change(function () {
+		var checked = $(this).is(':checked');
+		if (checked) {
+			$('#badminton_team_name').hide();
+		} else {
+			$('#badminton_team_name').show();
+		}
+	});
+
 	$('#hosted_housing_date_range input').daterangepicker({
 		"minDate": "2017-04-25",
 		"maxDate": "2017-05-04",

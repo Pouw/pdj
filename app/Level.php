@@ -17,5 +17,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Level extends Model
 {
-    //
+    const NO_PLAY = 14;
 }

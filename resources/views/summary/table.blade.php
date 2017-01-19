@@ -68,18 +68,10 @@
 								</li>
 							@endif
 							@if ($regSport->sport->id == App\Sport::BADMINTON)
-								@if ($regSport->disciplines->count())
-									<li>Category: {{ $regSport->disciplines->first()->discipline->name }}</li>
-								@endif
-								@if ($regSport->level_id)
-									<li>Singles in level {{ $regSport->level->name }}</li>
-								@endif
-								@if ($regSport->altLevel)
-									<li>Doubles in level {{ $regSport->altLevel->name }}</li>
-								@endif
-								@if ($regSport->team_name)
-									<li>Your partner: {{ $regSport->team_name }}</li>
-								@endif
+								<li>Category: {{ $regSport->disciplines->count() ? $regSport->disciplines->first()->discipline->name : ''}}</li>
+								<li>Singles: {{ $regSport->level_id ? $regSport->level->name : ''}}</li>
+								<li>Doubles: {{ $regSport->altLevel ? $regSport->altLevel->name : '' }}</li>
+								<li>Your partner: {{ $regSport->find_partner ? 'Need to find' : $regSport->team_name }}</li>
 							@endif
 						</ul>
 					@endif

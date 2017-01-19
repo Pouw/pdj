@@ -29,12 +29,7 @@ class SportController extends Controller
 		$user = Auth::user();
 
 		$validator = $this->getValidationFactory()->make($request->all(), []);
-		if ($request->get('badminton_singles') === '1' && empty($request->get('badminton_level'))) {
-			$validator->errors()->add('badminton_level', "Select level for badminton singles.");
-		}
-		if ($request->get('badminton_doubles') === '1' && empty($request->get('badminton_alt_level'))) {
-			$validator->errors()->add('badminton_alt_level', "Select level for badminton doubles.");
-		}
+
 		foreach ([Sport::VOLLEYBALL => 'volleyball', Sport::SOCCER => 'soccer'] as $sportId => $sportName) {
 			if ($request->get($sportName . '_team') === 'create') {
 				if (empty($request->get($sportName . '_team_name'))) {
@@ -68,6 +63,14 @@ class SportController extends Controller
 			} elseif (in_array($sportId, [Sport::RUNNING, Sport::SWIMMING, Sport::BADMINTON])) {
 				if (empty($request->get($sportKey . '_discipline'))) {
 					$validator->errors()->add($sportKey . '_discipline', "Select at least one discipline for $sportKey.");
+				}
+			}
+			if ($sportId === Sport::BADMINTON) {
+				if (empty($request->get('badminton_level'))) {
+					$validator->errors()->add('badminton_level', "Select level for badminton singles or set you don't want to play.");
+				}
+				if (empty($request->get('badminton_alt_level'))) {
+					$validator->errors()->add('badminton_alt_level', "Select level for badminton doubles or set you don't want to play.");
 				}
 			}
 		}

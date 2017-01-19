@@ -23,8 +23,8 @@
 						<thead>
 						<tr>
 							<th>ID</th>
+							<th>Status</th>
 							<th>User</th>
-							<th>Email</th>
 							<th title="Alcedo Member">A. M.</th>
 							<th>Currency</th>
 							<th>Country</th>
@@ -43,8 +43,8 @@
 								<td>
 									<a href="{{ url('/admin/registration?id=' . $sportReg->registration->id) }}">#{{ $sportReg->registration->id }}</a>
 								</td>
+								<td>{{ $sportReg->registration->registrationStatus->name }}</td>
 								<td>{{ $sportReg->registration->user->name }}</td>
-								<td>{{ $sportReg->registration->user->email }}</td>
 								<td>{{ $sportReg->registration->user->is_member ? 'Yes' : 'No' }}</td>
 								<td>{{ $sportReg->registration->user->currency ? $sportReg->registration->user->currency->iso  : '' }}</td>
 								<td>{{ $sportReg->registration->user->country ? $sportReg->registration->user->country->name : '' }}</td>

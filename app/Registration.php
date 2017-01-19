@@ -53,4 +53,7 @@ class Registration extends Model
 		return 'PRS-' . $this->year  . '-' . sprintf('%06s', $this->id);
 	}
 
+	public function registrationStatus() {
+		return $this->belongsTo(\App\RegistrationStatus::class);
+	}
 }
