@@ -27,8 +27,19 @@ class AdminController extends Controller
 	}
 
 	public function registrations(Request $request) {
+		$sportId = intval($request->get('sport_id'));
+		$states = (array) $request->get('states');
+
+		$sportRegistrations = \App\RegistrationSport::where('sport_id', $sportId);
+		if (!empty($states)) {
+			$sportRegistrations->join('registrations', 'registrations.id', '=', 'registration_sports.registration_id');
+			$sportRegistrations->whereIn('registrations.state', $states);
+		}
+
 		$data = [
-			'sportId' => intval($request->get('sport_id')),
+			'sportId' => $sportId,
+			'states' => $states,
+			'sportRegistrations' => $sportRegistrations->get(),
 		];
 		return view('admin.registrations', $data);
 	}
