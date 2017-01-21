@@ -50,4 +50,8 @@ class Sport extends Model
 		return [self::BADMINTON, self::SOCCER, self::SWIMMING, self::VOLLEYBALL];
 	}
 
+	public function registrations() {
+		return $this->hasMany(\App\RegistrationSport::class);
+	}
+
 }

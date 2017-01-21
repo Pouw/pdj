@@ -39,7 +39,6 @@ class ServiceController extends Controller
 		}
 		$user->registration->outreach_support = $request->get('outreach_support');
 		$user->registration->outreach_request = $request->get('outreach_request');
-		$user->registration->visitor = $request->get('visitor');
 		$user->registration->note = $request->get('note');
 		$user->registration->save();
 		\App\RegistrationLog::log();

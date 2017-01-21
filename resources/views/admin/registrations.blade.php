@@ -23,7 +23,7 @@
 						<thead>
 						<tr>
 							<th>ID</th>
-							<th>Status</th>
+							<th>State</th>
 							<th>User</th>
 							<th title="Alcedo Member">A. M.</th>
 							<th>Currency</th>
@@ -43,7 +43,7 @@
 								<td>
 									<a href="{{ url('/admin/registration?id=' . $sportReg->registration->id) }}">#{{ $sportReg->registration->id }}</a>
 								</td>
-								<td>{{ $sportReg->registration->registrationStatus->name }}</td>
+								<td>{{ $sportReg->registration->state }}</td>
 								<td>{{ $sportReg->registration->user->name }}</td>
 								<td>{{ $sportReg->registration->user->is_member ? 'Yes' : 'No' }}</td>
 								<td>{{ $sportReg->registration->user->currency ? $sportReg->registration->user->currency->iso  : '' }}</td>
@@ -65,6 +65,62 @@
 								<td>{{ $sportReg->registration->updated_at }}</td>
 							</tr>
 						@endforeach
+						</tbody>
+					</table>
+				@else
+					<table class="table">
+						<thead>
+						<tr>
+							<th></th>
+							@foreach(\App\Registration::$states as $state)
+								<th>{{ $state }}</th>
+							@endforeach
+						</tr>
+						</thead>
+						<tbody>
+						@foreach (\App\Sport::all() as $sport)
+							<tr>
+								<td>{{ $sport->name }}</td>
+								@foreach(\App\Registration::$states as $state)
+									<td>{{ \App\RegistrationSport::join('registrations', 'registrations.id', '=', 'registration_sports.registration_id')
+									->where('registrations.state', $state)
+									->where('sport_id', $sport->id)
+									->count() }}</td>
+								@endforeach
+
+							</tr>
+						@endforeach
+						<tr>
+							<td>Concert ticket</td>
+							@foreach(\App\Registration::$states as $state)
+								<td>{{ \App\Registration::whereConcert(1)->whereState($state)->count() }}</td>
+							@endforeach
+						</tr>
+						<tr>
+							<td>Brunch</td>
+							@foreach(\App\Registration::$states as $state)
+								<td>{{ \App\Registration::whereBrunch(1)->whereState($state)->count() }}</td>
+							@endforeach
+						</tr>
+						<tr>
+							<td>Hosted Housing</td>
+							@foreach(\App\Registration::$states as $state)
+								<td>{{ \App\Registration::whereHostedHousing(1)->whereState($state)->count() }}</td>
+							@endforeach
+						</tr>
+						<tr>
+							<td>Outreach Support</td>
+							@foreach(\App\Registration::$states as $state)
+								<td>{{ \App\Registration::where('outreach_support', '>', 0)->whereState($state)->count() }}</td>
+							@endforeach
+						</tr>
+						<tr>
+							<td>Outreach Request</td>
+							@foreach(\App\Registration::$states as $state)
+								<td>{{ \App\Registration::whereOutreachRequest(1)->whereState($state)->count() }}</td>
+							@endforeach
+						</tr>
+
 						</tbody>
 					</table>
 				@endif

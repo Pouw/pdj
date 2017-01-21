@@ -24,6 +24,14 @@ class Registration extends Model
 
 	private $year = 17;
 
+	const UNFINISHED = 'unfinished';
+	const NEW = 'new';
+	const PAID = 'paid';
+	const CANCELED = 'canceled';
+	const TEST = 'test';
+
+	public static $states = ['unfinished', 'new', 'paid', 'canceled', 'test'];
+
 	public function sports() {
 		return $this->hasMany(\App\RegistrationSport::class);
 	}
@@ -53,7 +61,4 @@ class Registration extends Model
 		return 'PRS-' . $this->year  . '-' . sprintf('%06s', $this->id);
 	}
 
-	public function registrationStatus() {
-		return $this->belongsTo(\App\RegistrationStatus::class);
-	}
 }

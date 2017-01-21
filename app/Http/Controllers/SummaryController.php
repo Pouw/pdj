@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Libraries\PriceSummarize;
 use App\Price;
-use App\RegistrationStatus;
+use App\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -29,7 +29,7 @@ class SummaryController extends Controller
 			'newRegistration' => false,
 		];
 
-		if ($user->registration->registration_status_id == RegistrationStatus::UNFINISHED) {
+		if ($user->registration->state == Registration::UNFINISHED) {
 			Mail::send('emails.summary', $data, function ($m) use ($user) {
 				$bcc = [];
 				$bcc[] = 'form@praguerainbow.eu';
@@ -43,7 +43,7 @@ class SummaryController extends Controller
 					->bcc($bcc)
 					->subject('Prague Rainbow Spring 2017 - registration summary');
 			});
-			$user->registration->registration_status_id = RegistrationStatus::NEW;
+			$user->registration->state = Registration::NEW;
 			$user->registration->save();
 			$data['newRegistration'] = true;
 		}
