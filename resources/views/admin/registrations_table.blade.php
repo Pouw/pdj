@@ -1,0 +1,114 @@
+<table class="table">
+	<thead>
+	<tr>
+		<th>ID</th>
+		<th>State</th>
+		<th>User</th>
+		@if (in_array($sportId, [\App\Sport::VOLLEYBALL, \App\Sport::BEACH_VOLLEYBALL, \App\Sport::SOCCER]))
+			<th>Team Name</th>
+		@endif
+		@if (in_array($sportId, [\App\Sport::VOLLEYBALL, \App\Sport::BEACH_VOLLEYBALL]))
+			<th>Level</th>
+		@endif
+		@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL]))
+			<th>Alt. Level</th>
+		@endif
+		@if (in_array($sportId, [\App\Sport::RUNNING]))
+			<th>Distance</th>
+		@endif
+		@if (in_array($sportId, [\App\Sport::BADMINTON]))
+			<th>Singles</th>
+			<th>Doubles</th>
+			<th>Partner Name</th>
+			<th>Need Partner</th>
+		@endif
+		@if (in_array($sportId, [\App\Sport::SWIMMING]))
+			@foreach(\App\Discipline::swimming() as $i => $discipline)
+				<th title="{{ $discipline->name }}">{{ $i + 1 }}.</th>
+			@endforeach
+		@endif
+		<th>Note</th>
+		<th title="CZ Member"><i class="fa fa-lg fa-user"></i></th>
+		<th title="Brunch"><i class="fa fa-lg fa-coffee"></i></th>
+		<th title="Hosted Housing"><i class="fa fa-lg fa-bed"></i></th>
+		<th title="Outreach Support"><i class="fa fa-lg fa-eur support-color"></i></th>
+		<th title="Outreach Request"><i class="fa fa-lg fa-eur request-color"></i></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach ($sportRegistrations as $sportReg)
+		<tr>
+			<td>
+				<a href="{{ url('/admin/registration?id=' . $sportReg->registration->id) }}">#{{ $sportReg->registration->id }}</a>
+			</td>
+			<td>{{ $sportReg->registration->state }}</td>
+			<td>{{ $sportReg->registration->user->name }}</td>
+			@if (in_array($sportId, [\App\Sport::VOLLEYBALL]))
+				<td>
+					@if ($sportReg->team)
+						{{ $sportReg->team->name }}
+					@endif
+				</td>
+			@endif
+			@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL]))
+				<td>{{ $sportReg->team_name }}</td>
+			@endif
+			@if (in_array($sportId, [\App\Sport::VOLLEYBALL]))
+				<td>
+					@if ($sportReg->team && $sportReg->team->level)
+						{{ $sportReg->team->level->name }}
+					@endif
+				</td>
+			@endif
+			@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL, \App\Sport::SOCCER]))
+				<td>
+					@if ($sportReg->level)
+						{{ $sportReg->level->name }}
+					@endif
+				</td>
+			@endif
+			@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL]))
+				<td>
+					@if ($sportReg->altLevel)
+						{{ $sportReg->altLevel->name }}
+					@endif
+				</td>
+			@endif
+			@if (in_array($sportId, [\App\Sport::BADMINTON]))
+				<td>
+					@if ($sportReg->level)
+						{{ $sportReg->level->name }}
+					@endif
+				</td>
+				<td>
+					@if ($sportReg->altLevel)
+						{{ $sportReg->altLevel->name }}
+					@endif
+				</td>
+				<td>{{ $sportReg->team_name }}</td>
+				<td>@if($sportReg->find_partner) Yes @endif</td>
+			@endif
+			@if (in_array($sportId, [\App\Sport::RUNNING]))
+				<td>
+					@if ($sportReg->disciplines)
+						{{ $sportReg->disciplines->first()->discipline->name }}
+					@endif
+				</td>
+			@endif
+			@if (in_array($sportId, [\App\Sport::SWIMMING]))
+				@foreach(\App\Discipline::swimming() as $discipline)
+					<td>
+						@if($sportReg->disciplines->where('discipline_id', $discipline->id)->count()) Yes @endif
+					</td>
+				@endforeach
+			@endif
+			<td>{{ str_limit($sportReg->registration->note, 50) }}</td>
+			<td>@if($sportReg->registration->user->is_member) <i class="fa fa-lg fa-user"></i> @endif</td>
+			<td>@if($sportReg->registration->brunch) <i class="fa fa-lg fa-coffee"></i> @endif</td>
+			<td>@if($sportReg->registration->hosted_housing) <i class="fa fa-lg fa-bed"></i> @endif</td>
+			<td>@if($sportReg->registration->outreach_support) <i class="fa fa-lg fa-eur support-color"></i> @endif</td>
+			<td>@if($sportReg->registration->outreach_request) <i class="fa fa-lg fa-eur request-color"></i> @endif</td>
+		</tr>
+	@endforeach
+	</tbody>
+</table>

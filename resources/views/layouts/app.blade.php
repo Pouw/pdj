@@ -181,6 +181,13 @@
 			background: #e2eaff;
 		}
 
+		.support-color {
+			color: #00920e;
+		}
+		.request-color {
+			color: #8a0d21;
+		}
+
     </style>
 </head>
 <body id="app-layout">

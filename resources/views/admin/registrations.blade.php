@@ -25,11 +25,7 @@
 				</div>
 
 				@if ($sportId)
-					@if ($sportId === App\Sport::VOLLEYBALL)
-						@include('admin.registrations.volleyball')
-					@else
-						@include('admin.registrations.default')
-					@endif
+					@include('admin.registrations_table')
 				@else
 					<table class="table">
 						<thead>
@@ -43,7 +39,7 @@
 						<tbody>
 						@foreach (\App\Sport::all() as $sport)
 							<tr>
-								<td>{{ $sport->name }}</td>
+								<td><a href="{{ url("/admin/registrations?sport_id=$sport->id") }}">{{ $sport->name }}</a></td>
 								@foreach(\App\Registration::$states as $state)
 									<td><a href="{{ url("/admin/registrations?sport_id=$sport->id&states[]=$state") }}">
 										{{ \App\RegistrationSport::join('registrations', 'registrations.id', '=', 'registration_sports.registration_id')
