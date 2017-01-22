@@ -30,38 +30,39 @@ class AdminController extends Controller
 		$sportId = intval($request->get('sport_id'));
 		$states = (array) $request->get('states');
 		$service = $request->get('service');
-
-		$sportRegistrations = new \App\RegistrationSport();
-
-		$sportRegistrations = $sportRegistrations->whereRaw("1 = 1");
-		if (!empty($sportId)) {
-			$sportRegistrations = $sportRegistrations->where('sport_id', $sportId);
-		}
-		if (!empty($states) || !empty($service)) {
-			$sportRegistrations->join('registrations', 'registrations.id', '=', 'registration_sports.registration_id');
-			if (!empty($states)) {
-				$sportRegistrations->whereIn('registrations.state', $states);
-			}
-			if ($service === 'concert') {
-				$sportRegistrations->where('registrations.concert', '>', 0);
-			} elseif($service === 'brunch') {
-				$sportRegistrations->where('registrations.brunch', '>', 0);
-			} elseif($service === 'hosted_housing') {
-				$sportRegistrations->where('registrations.hosted_housing', '>', 0);
-			} elseif($service === 'outreach_support') {
-				$sportRegistrations->where('registrations.outreach_support', '>', 0);
-			} elseif($service === 'outreach_request') {
-				$sportRegistrations->where('registrations.outreach_request', '>', 0);
-			}
-			$sportRegistrations->groupBy('registrations.id');
-		}
-
 		$data = [
 			'sportId' => $sportId,
 			'states' => $states,
 			'service' => $service,
-			'sportRegistrations' => $sportRegistrations->get(),
 		];
+
+		if (!empty($states) || !empty($service) || !empty($sportId)) {
+			$sportRegistrations = new \App\RegistrationSport();
+			if (!empty($states) || !empty($service)) {
+				$sportRegistrations = $sportRegistrations->whereHas('registration', function ($query) use ($states, $service) {
+					if (!empty($states)) {
+						$query->whereIn('registrations.state', $states);
+					}
+					if ($service === 'concert') {
+						$query->where('registrations.concert', '>', 0);
+					} elseif ($service === 'brunch') {
+						$query->where('registrations.brunch', '>', 0);
+					} elseif ($service === 'hosted_housing') {
+						$query->where('registrations.hosted_housing', '>', 0);
+					} elseif ($service === 'outreach_support') {
+						$query->where('registrations.outreach_support', '>', 0);
+					} elseif ($service === 'outreach_request') {
+						$query->where('registrations.outreach_request', '>', 0);
+					}
+					$query->groupBy('registrations.id');
+				});
+			}
+			if (!empty($sportId)) {
+				$sportRegistrations = $sportRegistrations->whereSportId($sportId);
+			};
+			$data['sportRegistrations'] = $sportRegistrations->get();
+		}
+
 		return view('admin.registrations', $data);
 	}
 

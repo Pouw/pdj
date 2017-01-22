@@ -94,7 +94,7 @@
 			@endif
 			@if (in_array($sportId, [\App\Sport::RUNNING]))
 				<td>
-					@if ($sportReg->disciplines)
+					@if ($sportReg->disciplines->count())
 						{{ $sportReg->disciplines->first()->discipline->name }}
 					@endif
 				</td>
