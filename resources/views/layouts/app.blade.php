@@ -225,8 +225,8 @@
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="/admin/registrations">Registrations</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a>Payments</a></li>
+								<li><a href="/admin/users">Users</a></li>
+								<li><a href="/admin/payments">Payments</a></li>
                             </ul>
                         </li>
                     @endif

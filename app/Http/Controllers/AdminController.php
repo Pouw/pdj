@@ -82,8 +82,30 @@ class AdminController extends Controller
 		return view('admin.registration', $data);
 	}
 
+	public function users(Request $request) {
+		$countryId = $request->get('country_id');
+		$name = $request->get('name');
+		$users = new \App\User();
+		if ($countryId) {
+			$users = $users->whereCountryId($countryId);
+		}
+		if ($name) {
+			$users = $users->where('name', 'LIKE', "%$name%");
+		}
+
+		$data = [
+			'name' => $name,
+			'countryId' => $countryId,
+			'users' => $users->get(),
+		];
+		return view('admin.users', $data);
+	}
+
 	public function payments(Request $request) {
-		return redirect('/payments');
+		$data = [
+
+		];
+		return view('admin.payments', $data);
 	}
 
 	public function mailTest() {

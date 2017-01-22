@@ -41,4 +41,7 @@ Route::post('/payment', 'PaymentController@save');
 Route::get('/admin', 'AdminController@index');
 Route::get('/admin/registrations', 'AdminController@registrations');
 Route::get('/admin/registration', 'AdminController@registration');
+Route::get('/admin/users', 'AdminController@users');
+Route::get('/admin/user', 'AdminController@user');
+Route::get('/admin/payments', 'AdminController@payments');
 Route::get('/admin/mail-test', 'AdminController@mailTest');
