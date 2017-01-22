@@ -27,6 +27,10 @@
 				<th title="{{ $discipline->name }}">{{ $i + 1 }}.</th>
 			@endforeach
 		@endif
+		@if ($service === 'hosted_housing')
+			<th title="Hosted Housing From">HH From</th>
+			<th title="Hosted Housing To">HH To</th>
+		@endif
 		<th>Note</th>
 		<th title="CZ Member"><i class="fa fa-lg fa-user"></i></th>
 		<th title="Brunch"><i class="fa fa-lg fa-coffee"></i></th>
@@ -101,6 +105,10 @@
 						@if($sportReg->disciplines->where('discipline_id', $discipline->id)->count()) Yes @endif
 					</td>
 				@endforeach
+			@endif
+			@if ($service === 'hosted_housing')
+				<th>{{ $sportReg->registration->hh_from }}</th>
+				<th>{{ $sportReg->registration->hh_to }}</th>
 			@endif
 			<td>{{ str_limit($sportReg->registration->note, 50) }}</td>
 			<td>@if($sportReg->registration->user->is_member) <i class="fa fa-lg fa-user"></i> @endif</td>

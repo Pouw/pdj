@@ -15,6 +15,14 @@
 								</option>
 							@endforeach
 						</select>
+						<select class="selectpicker" name="service" title="Service" _onchange="this.form.submit();">
+							<option></option>
+							<option value="concert" {{ $service == 'concert' ? ' selected' : ''}}>Concert Ticket</option>
+							<option value="brunch" {{ $service == 'brunch' ? ' selected' : ''}}>Brunch</option>
+							<option value="hosted_housing" {{ $service == 'hosted_housing' ? ' selected' : ''}}>Hosted Housing</option>
+							<option value="outreach_support" {{ $service == 'outreach_support' ? ' selected' : ''}}>Outreach Support</option>
+							<option value="outreach_request" {{ $service == 'outreach_request' ? ' selected' : ''}}>Outreach Request</option>
+						</select>
 						<select class="selectpicker" name="states[]" title="State" _onchange="this.form.submit();" multiple>
 							@foreach(\App\Registration::$states as $state)
 								<option {{ in_array($state, $states) ? ' selected' : ''}}>{{ $state }}</option>
@@ -24,7 +32,7 @@
 					</form>
 				</div>
 
-				@if ($sportId)
+				@if ($sportId || $service)
 					@include('admin.registrations_table')
 				@else
 					<table class="table">
@@ -51,33 +59,53 @@
 							</tr>
 						@endforeach
 						<tr>
-							<td>Concert ticket</td>
+							<td><a href="{{ url("/admin/registrations?service=concert") }}">Concert Ticket</a></td>
 							@foreach(\App\Registration::$states as $state)
-								<td>{{ \App\Registration::whereConcert(1)->whereState($state)->count() }}</td>
+								<td>
+									<a href="{{ url("/admin/registrations?service=concert&states[]=$state") }}">
+										{{ \App\Registration::whereConcert(1)->whereState($state)->count() }}
+									</a>
+								</td>
 							@endforeach
 						</tr>
 						<tr>
-							<td>Brunch</td>
+							<td><a href="{{ url("/admin/registrations?service=brunch") }}">Brunch</a></td>
 							@foreach(\App\Registration::$states as $state)
-								<td>{{ \App\Registration::whereBrunch(1)->whereState($state)->count() }}</td>
+								<td>
+									<a href="{{ url("/admin/registrations?service=brunch&states[]=$state") }}">
+										{{ \App\Registration::whereBrunch(1)->whereState($state)->count() }}
+									</a>
+								</td>
 							@endforeach
 						</tr>
 						<tr>
-							<td>Hosted Housing</td>
+							<td><a href="{{ url("/admin/registrations?service=hosted_housing") }}">Hosted Housing</a></td>
 							@foreach(\App\Registration::$states as $state)
-								<td>{{ \App\Registration::whereHostedHousing(1)->whereState($state)->count() }}</td>
+								<td>
+									<a href="{{ url("/admin/registrations?service=hosted_housing&states[]=$state") }}">
+										{{ \App\Registration::whereHostedHousing(1)->whereState($state)->count() }}
+									</a>
+								</td>
 							@endforeach
 						</tr>
 						<tr>
-							<td>Outreach Support</td>
+							<td><a href="{{ url("/admin/registrations?service=outreach_support") }}">Outreach Support</a></td>
 							@foreach(\App\Registration::$states as $state)
-								<td>{{ \App\Registration::where('outreach_support', '>', 0)->whereState($state)->count() }}</td>
+								<td>
+									<a href="{{ url("/admin/registrations?service=outreach_support&states[]=$state") }}">
+										{{ \App\Registration::where('outreach_support', '>', 0)->whereState($state)->count() }}
+									</a>
+								</td>
 							@endforeach
 						</tr>
 						<tr>
-							<td>Outreach Request</td>
+							<td><a href="{{ url("/admin/registrations?service=outreach_request") }}">Outreach Request</a></td>
 							@foreach(\App\Registration::$states as $state)
-								<td>{{ \App\Registration::whereOutreachRequest(1)->whereState($state)->count() }}</td>
+								<td>
+									<a href="{{ url("/admin/registrations?service=outreach_request&states[]=$state") }}">
+										{{ \App\Registration::whereOutreachRequest(1)->whereState($state)->count() }}
+									</a>
+								</td>
 							@endforeach
 						</tr>
 

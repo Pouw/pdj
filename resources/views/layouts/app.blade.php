@@ -206,10 +206,11 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{--Prague Rainbow Spring--}}
-					<img src="img/logo.png">
-                </a>
+				@if (!preg_match('~^\/admin\/.*~', $_SERVER['REQUEST_URI']))
+					<a class="navbar-brand" href="{{ url('/') }}">
+						<img src="/img/logo.png" title="Prague Rainbow Spring">
+					</a>
+				@endif
             </div>
 
             <div class="collapse navbar-collapse col-md-offset-3" id="app-navbar-collapse">
