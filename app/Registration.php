@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Libraries\PriceSummarize;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -53,12 +54,39 @@ class Registration extends Model
 		return false;
 	}
 
+	public function payments() {
+		return $this->hasMany(\App\Payments::class);
+	}
+
+	public function changes() {
+		return $this->hasMany(\App\RegistrationChange::class);
+	}
+
 	public function variableSymbol() {
 		return '77' . $this->year . sprintf('%06s', $this->id);
 	}
 
 	public function paymentPurpose() {
 		return 'PRS-' . $this->year  . '-' . sprintf('%06s', $this->id);
+	}
+
+	public function getPriceSummarize(): PriceSummarize {
+		$sum = new PriceSummarize();
+		$sum->setUser($this->user()->first());
+		return $sum;
+	}
+
+	public function save(array $options = []) {
+		if ($this->state !== $this->original['state']) {
+			$this->changes()->insert([
+				'registration_id' => $this->id,
+				'what' => 'state',
+				'user_id' => \Auth::user()->id,
+				'from' => $this->original['state'],
+				'to' => $this->state,
+			]);
+		}
+		parent::save($options);
 	}
 
 }

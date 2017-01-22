@@ -30,8 +30,10 @@
 						{{--<button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>--}}
 					{{--</form>--}}
 				</div>
-
 			</div>
+		</div>
+		<div class="row">
+			@include('admin.payments_table')
 		</div>
 	</div>
 @endsection

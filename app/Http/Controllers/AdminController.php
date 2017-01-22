@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\PriceSummarize;
+use App\Payments;
 use App\Price;
+use App\Registration;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +70,7 @@ class AdminController extends Controller
 
 	public function registration(Request $request) {
 		$id = $request->get('id');
-		$registration = \App\Registration::findOrFail($id);
+		$registration = Registration::findOrFail($id);
 		$user = User::findOrFail($registration->user_id);
 		$priceSummarize = new PriceSummarize();
 		$priceSummarize->setUser($user);
@@ -82,10 +84,20 @@ class AdminController extends Controller
 		return view('admin.registration', $data);
 	}
 
+	public function registrationSave(Request $request) {
+		$id = $request->get('id');
+		$registration = Registration::findOrFail($id);
+		$registration->state = $request->get('state');
+		$registration->save();
+
+		$request->session()->flash('alert-success', 'Data has been saved.');
+		return back();
+	}
+
 	public function users(Request $request) {
 		$countryId = $request->get('country_id');
 		$name = $request->get('name');
-		$users = new \App\User();
+		$users = new User();
 		if ($countryId) {
 			$users = $users->whereCountryId($countryId);
 		}
@@ -103,9 +115,44 @@ class AdminController extends Controller
 
 	public function payments(Request $request) {
 		$data = [
-
+			'payments' => Payments::get(),
 		];
 		return view('admin.payments', $data);
+	}
+
+	public function paymentAdd(Request $request) {
+		$id = $request->get('id');
+		$registration = Registration::findOrFail($id);
+
+		$amount = $request->get('amount');
+		$amount = (int) str_replace(' ', '', $amount);
+		$currencyId = (int) $request->get('currency_id');
+
+		Payments::insert([
+			'registration_id' => $id,
+			'amount' => $amount,
+			'currency_id' => $currencyId,
+			'user_id' => Auth::user()->id,
+		]);
+
+		if ($request->get('set_paid') === '1') {
+			$registration->state = Registration::PAID;
+			$registration->save();
+		}
+		if ($request->get('send_mail') === '1') {
+			$data = [
+				'registration' => $registration,
+				'amount' => $amount,
+				'currencyId' => $currencyId,
+			];
+			Mail::send('emails.payment', $data, function ($m) use ($registration) {
+				$m->to($registration->user->email, $registration->user->name)
+					->bcc('form@praguerainbow.eu')
+					->subject('Prague Rainbow Spring - payment confirmation');
+			});
+		}
+		$request->session()->flash('alert-success', 'Data has been saved.');
+		return back();
 	}
 
 	public function mailTest() {

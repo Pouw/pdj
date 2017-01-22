@@ -141,3 +141,9 @@
 	</tr>
 	</tfoot>
 </table>
+@if ($user->registration->note)
+	<p>
+		<strong>Your Note:</strong><br>
+		{{ $user->registration->note }}
+	</p>
+@endif
