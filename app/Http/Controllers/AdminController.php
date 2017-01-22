@@ -56,13 +56,12 @@ class AdminController extends Controller
 					} elseif ($service === 'outreach_request') {
 						$query->where('registrations.outreach_request', '>', 0);
 					}
-					$query->groupBy('registrations.id');
 				});
 			}
 			if (!empty($sportId)) {
 				$sportRegistrations = $sportRegistrations->whereSportId($sportId);
 			};
-			$data['sportRegistrations'] = $sportRegistrations->get();
+			$data['sportRegistrations'] = $sportRegistrations->groupBy('registration_id')->get();
 		}
 
 		return view('admin.registrations', $data);
