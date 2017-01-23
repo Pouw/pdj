@@ -39,9 +39,11 @@
 								<li>Team name: {{ $regSport->team->name }}</li>
 							@endif
 							@if ($regSport->sport->id == App\Sport::VOLLEYBALL)
-								<li>Team: {{ $regSport->team->name }}
-									<small>( {{$regSport->team->level->name}})</small>
-								</li>
+								<li>Team: {{ $regSport->team->name }}</li>
+								<li>Level: {{$regSport->team->level->name}}</li>
+								@if($regSport->club)
+									<li>Club: {{ $regSport->club }}</li>
+								@endif
 							@endif
 							@if ($regSport->sport->id == App\Sport::BEACH_VOLLEYBALL)
 								<li>Team name: {{ $regSport->team_name }}</li>
@@ -68,10 +70,12 @@
 								</li>
 							@endif
 							@if ($regSport->sport->id == App\Sport::BADMINTON)
-								<li>Category: {{ $regSport->disciplines->count() ? $regSport->disciplines->first()->discipline->name : ''}}</li>
+								<li>
+									Category: {{ $regSport->disciplines->count() ? $regSport->disciplines->first()->discipline->name : ''}}</li>
 								<li>Singles: {{ $regSport->level_id ? $regSport->level->name : ''}}</li>
 								<li>Doubles: {{ $regSport->altLevel ? $regSport->altLevel->name : '' }}</li>
-								<li>Your partner: {{ $regSport->find_partner ? 'Need to find' : $regSport->team_name }}</li>
+								<li>Your
+									partner: {{ $regSport->find_partner ? 'Need to find' : $regSport->team_name }}</li>
 							@endif
 						</ul>
 					@endif

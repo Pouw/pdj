@@ -102,7 +102,7 @@
 			@if (in_array($sportId, [\App\Sport::SWIMMING]))
 				@foreach(\App\Discipline::swimming() as $discipline)
 					<td>
-						@if($sportReg->disciplines->where('discipline_id', $discipline->id)->count()) Yes @endif
+						@if($sportReg->disciplines()->whereDisciplineId($discipline->id)->count()) Yes @endif
 					</td>
 				@endforeach
 			@endif

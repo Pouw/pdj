@@ -73,7 +73,7 @@
 								<div class="col-sm-6">
 									<select name="currency_id" id="currency" class="form-control">
 										@foreach(\App\Currency::get() as $currency)
-											<option value="{{ $currency->id }}" {{ $registration->user->currency_id === $currency->id ? 'selected' : '' }}>{{ $currency->iso }}</option>
+											<option value="{{ $currency->id }}" {{ $registration->user->currency_id == $currency->id ? 'selected' : '' }}>{{ $currency->iso }}</option>
 										@endforeach
 									</select>
 								</div>

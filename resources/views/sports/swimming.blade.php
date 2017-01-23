@@ -10,6 +10,6 @@
 		'name' => 'swimming_discipline',
 		'timeName' => 'swimming_discipline_time_' . $discipline->id,
 		'default' => array_column($regSport->disciplines->toArray(), 'discipline_id'),
-		'defaultTime' => $regSport->disciplines->where('discipline_id', $discipline->id)->count() ? $regSport->disciplines->where('discipline_id', $discipline->id)->first()->time : null,
+		'defaultTime' => $regSport->disciplines()->whereDisciplineId($discipline->id)->count() ? $regSport->disciplines()->whereDisciplineId($discipline->id)->first()->time : null,
 	])
 @endforeach

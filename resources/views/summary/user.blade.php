@@ -22,7 +22,7 @@
 	</tr>
 	<tr>
 		<th>Currency</th>
-		<td>{{ $user->currency ? $user->currency->short : '' }}</td>
+		<td>{{ $user->currency ? $user->currency->iso : '' }}</td>
 	</tr>
 	<tr>
 		<th>Country</th>
