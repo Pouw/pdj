@@ -272,7 +272,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6 contact">
-						<p>Have you problem with registration form? Contact us <a href="mailto: form@praguerainbow.eu">form@praguerainbow.eu</a></p>
+						<p>Do you have problems with registration form? Contact us <a href="mailto: form@praguerainbow.eu">form@praguerainbow.eu</a></p>
 					</div>
 					<div class="col-md-6 icons text-right">
 						<a href="http://www.alcedopraha.cz/" target="_blank" class="alcedo" title="Alcedo Praha"></a>
