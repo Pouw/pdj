@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover">
 	<thead>
 	<tr>
 		<th>ID</th>
@@ -31,7 +31,7 @@
 			<th title="Hosted Housing From">HH From</th>
 			<th title="Hosted Housing To">HH To</th>
 		@endif
-		<th>Note</th>
+		<th title="User Note"><i class="fa fa-sticky-note"></i></th>
 		<th title="CZ Member"><i class="fa fa-lg fa-user"></i></th>
 		<th title="Brunch"><i class="fa fa-lg fa-coffee"></i></th>
 		<th title="Hosted Housing"><i class="fa fa-lg fa-bed"></i></th>
@@ -45,7 +45,7 @@
 			<td>
 				<a href="{{ url('/admin/registration?id=' . $sportReg->registration->id) }}">#{{ $sportReg->registration->id }}</a>
 			</td>
-			<td>{{ $sportReg->registration->state }}</td>
+			<td class="{{ $sportReg->registration->state === \App\Registration::PAID ? 'success' : '' }}">{{ $sportReg->registration->state }}</td>
 			<td>{{ $sportReg->registration->user->name }}</td>
 			@if (in_array($sportId, [\App\Sport::VOLLEYBALL]))
 				<td>
@@ -110,7 +110,13 @@
 				<th>{{ $sportReg->registration->hh_from }}</th>
 				<th>{{ $sportReg->registration->hh_to }}</th>
 			@endif
-			<td>{{ str_limit($sportReg->registration->note, 50) }}</td>
+			<td>
+				@if($sportReg->registration->note)
+					<span data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{$sportReg->registration->note}}">
+						<i class="fa fa-sticky-note"></i>
+					</span>
+				@endif
+			</td>
 			<td>@if($sportReg->registration->user->is_member) <i class="fa fa-lg fa-user"></i> @endif</td>
 			<td>@if($sportReg->registration->brunch) <i class="fa fa-lg fa-coffee"></i> @endif</td>
 			<td>@if($sportReg->registration->hosted_housing) <i class="fa fa-lg fa-bed"></i> @endif</td>

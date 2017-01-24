@@ -37,7 +37,7 @@
 		@if ($sportId || $service)
 			@include('admin.registrations_table')
 		@else
-			<table class="table">
+			<table class="table table-hover">
 				<thead>
 				<tr>
 					<th></th>

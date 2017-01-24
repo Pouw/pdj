@@ -192,6 +192,10 @@
 			background-color: #F2DEDE;
 		}
 
+		table.table.table-hover tbody tr:hover {
+			background-color: #ffffff;
+		}
+
     </style>
 </head>
 <body id="app-layout">
