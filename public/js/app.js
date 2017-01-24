@@ -31,6 +31,13 @@ $(document).ready(function(){
 		}
 	});
 
+	$('.swimming_discipline_time').change(function () {
+		var disciplineId = $(this).attr('disciplineid');
+		if ($(this).val() !== '') {
+			$('#swimming_discipline_' + disciplineId).prop('checked', true);
+		}
+	});
+
 	$('#hosted_housing_date_range input').daterangepicker({
 		"minDate": "2017-04-25",
 		"maxDate": "2017-05-04",
