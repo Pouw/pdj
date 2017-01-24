@@ -148,7 +148,7 @@
 @if ($registration->note)
 	<p class="player-note">
 		<strong>Your Note:</strong><br>
-		{{ $registration->note }}
+		{!! nl2br(e($registration->note)) !!}
 	</p>
 	@if ($isMail)
 		<hr>
