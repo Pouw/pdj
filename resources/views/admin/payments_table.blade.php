@@ -4,8 +4,8 @@
 		<th>#</th>
 		<th>Amount</th>
 		<th>Currency</th>
-		<th>Add By</th>
-		<th>Add At</th>
+		<th>By</th>
+		<th>At</th>
 	</tr>
 	</thead>
 	<tbody>

@@ -89,4 +89,8 @@ class Registration extends Model
 		parent::save($options);
 	}
 
+	public function notes() {
+		return $this->hasMany(\App\Note::class);
+	}
+
 }

@@ -188,6 +188,10 @@
 			color: #8a0d21;
 		}
 
+		.admin-registration-view .player-note {
+			background-color: #F2DEDE;
+		}
+
     </style>
 </head>
 <body id="app-layout">

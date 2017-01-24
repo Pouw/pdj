@@ -146,7 +146,7 @@
 	</tfoot>
 </table>
 @if ($user->registration->note)
-	<p>
+	<p class="player-note">
 		<strong>Your Note:</strong><br>
 		{{ $user->registration->note }}
 	</p>

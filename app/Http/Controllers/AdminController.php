@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\PriceSummarize;
+use App\Note;
 use App\Payments;
 use App\Price;
 use App\Registration;
@@ -150,6 +151,17 @@ class AdminController extends Controller
 					->subject('Prague Rainbow Spring - payment confirmation');
 			});
 		}
+		$request->session()->flash('alert-success', 'Data has been saved.');
+		return back();
+	}
+
+	public function noteAdd(Request $request) {
+		Note::insert([
+			'registration_id' => $request->get('registration_id'),
+			'content' => $request->get('content'),
+			'user_id' => Auth::user()->id,
+		]);
+
 		$request->session()->flash('alert-success', 'Data has been saved.');
 		return back();
 	}
