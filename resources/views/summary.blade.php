@@ -2,19 +2,6 @@
 
 @section('content')
 
-	@if ($newRegistration)
-	<div class="container">
-		<div class="row">
-			<div class="col-md-9 col-md-offset-3">
-				<div class="alert alert-success" role="alert">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					Your registration has been successfully created.
-				</div>
-			</div>
-		</div>
-	</div>
-	@endif
-
 	@include('helper.panel_top')
 	<div class="panel-heading">Registration summary</div>
 
@@ -22,7 +9,7 @@
 		<div class="row">
 			<div class="table-responsive">
 				<div class="col-md-10 col-md-offset-1">
-					@include('summary.table', ['isMail' => false])
+					@include('summary.table', ['registration' => Auth::user()->registration, 'isMail' => false])
 				</div>
 			</div>
 		</div>

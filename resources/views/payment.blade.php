@@ -2,6 +2,7 @@
 
 @section('content')
 	@include('helper.panel_top')
+
 	<div class="panel-heading">Payment</div>
 
 	<div class="panel-body">
@@ -11,7 +12,7 @@
 				<div class="alert alert-info text-center" role="alert">
 					<span style="font-size: 2em">
 						Total Price:
-						<span style="font-weight: bold;">{{ $totalPrice['price'] }} {{ $totalPrice['currency']->short }}</span>
+						<span style="font-weight: bold;">{{ Auth::user()->registration->getPriceSummarize()->getTotalPrice() }} {{ Auth::user()->currency->short }}</span>
 					</span>
 				</div>
 			</div>
@@ -32,9 +33,9 @@
 		<dl class="dl-horizontal">
 			<dt>Bank account:</dt>
 			<dd>2001064718/2010</dd>
-			@if (intval($user->currency_id) === \App\Currency::CZK)
+			@if (intval(Auth::user()->currency_id) === \App\Currency::CZK)
 				<dt>Variable symbol:</dt>
-				<dd>{{ $user->registration->variableSymbol() }}</dd>
+				<dd>{{ Auth::user()->registration->variableSymbol() }}</dd>
 			@else
 				<dt>IBAN:</dt>
 				<dd>CZ04 2010 0000 0020 0106 4718</dd>
@@ -49,7 +50,7 @@
 				<dt>Account holder address:</dt>
 				<dd>Krymská 238/18, 10100 Praha 10</dd>
 				<dt>Purpose:</dt>
-				<dd>{{ $user->registration->paymentPurpose() }}</dd>
+				<dd>{{ Auth::user()->registration->paymentPurpose() }}</dd>
 			@endif
 		</dl>
 

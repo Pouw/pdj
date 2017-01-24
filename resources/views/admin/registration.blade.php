@@ -36,9 +36,9 @@
 								<tbody>
 								@foreach($registration->changes as $change)
 									<tr>
-										<td>{{ $change->user->name }}</td>
 										<td>{{ $change->from }}</td>
 										<td>{{ $change->to }}</td>
+										<td>{{ $change->user->name }}</td>
 										<td>{{ $change->created_at }}</td>
 									</tr>
 								@endforeach
@@ -93,7 +93,7 @@
 							<div class="form-group">
 								<label for="amount" class="control-label col-sm-6">Amount:</label>
 								<div class="col-sm-6">
-									<input type="text" id="amount" name="amount" class="form-control" value="{{ $registration->getPriceSummarize()->getTotalPrice()['price'] }}">
+									<input type="text" id="amount" name="amount" class="form-control" value="{{ $registration->getPriceSummarize()->getTotalPrice() }}">
 								</div>
 							</div>
 							<div class="form-group">

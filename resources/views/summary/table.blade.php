@@ -11,7 +11,7 @@
 	</tr>
 	</thead>
 	<tbody>
-	@foreach($user->registration->sports as $regSport)
+	@foreach($registration->sports as $regSport)
 		<tr>
 			@if ($regSport->sport->id == \App\Sport::VISITOR)
 				<td>
@@ -81,59 +81,59 @@
 					@endif
 				</td>
 			@endif
-			<td align="right">@include('helper.price', ['price' => $regSport->sport->price])</td>
+			<td align="right">@include('helper.price', ['price' => $regSport->sport->price, 'user' => $registration->user])</td>
 		</tr>
 	@endforeach
 
-	@if ($user->registration->brunch)
+	@if ($registration->brunch)
 		<tr>
 			<td>Brunch</td>
-			<td align="right">@include('helper.price', ['price' => $price->getBrunchPrice()])</td>
+			<td align="right">@include('helper.price', ['price' => $price->getBrunchPrice(), 'user' => $registration->user])</td>
 		</tr>
 	@endif
 
-	@if ($user->registration->concert)
+	@if ($registration->concert)
 		<tr>
 			<td>Concert Doodles and Podium Paris ticket</td>
-			<td align="right">@include('helper.price', ['price' => $price->getConcertTicketPrice()])</td>
+			<td align="right">@include('helper.price', ['price' => $price->getConcertTicketPrice(), 'user' => $registration->user])</td>
 		</tr>
 	@endif
 
-	@if ($user->registration->hosted_housing)
+	@if ($registration->hosted_housing)
 		<tr>
 			<td>
 				Hosted Housing
 				<ul style="font-size: 0.9em; margin-bottom: 0; margin-top: 0">
-					<li>From: {{ $user->registration->hh_from }}</li>
-					<li>To: {{ $user->registration->hh_to }}</li>
+					<li>From: {{ $registration->hh_from }}</li>
+					<li>To: {{ $registration->hh_to }}</li>
 				</ul>
 			</td>
-			<td align="right">@include('helper.price', ['price' => $price->getHostedHousingPrice()])</td>
+			<td align="right">@include('helper.price', ['price' => $price->getHostedHousingPrice(), 'user' => $registration->user])</td>
 		</tr>
 	@endif
 
-	@if ($user->registration->outreach_support)
+	@if ($registration->outreach_support)
 		<tr>
 			<td>Outreach Support</td>
 			<td align="right">
-				@if (intval($user->currency_id) === \App\Currency::CZK)
-					{{ $price->getOutreachSupportPrice()->czk * $user->registration->outreach_support }}&nbsp;Kč
+				@if (intval($registration->user->currency_id) === \App\Currency::CZK)
+					{{ $price->getOutreachSupportPrice()->czk * $registration->outreach_support }}&nbsp;Kč
 				@else
-					{{ $price->getOutreachSupportPrice()->eur * $user->registration->outreach_support }}&nbsp;€
+					{{ $price->getOutreachSupportPrice()->eur * $registration->outreach_support }}&nbsp;€
 				@endif
 			</td>
 		</tr>
 	@endif
 
-	@if ($sale)
+	@if ($registration->getPriceSummarize()->getSale())
 		<tr>
 			<td>
-				{{ $sale->name }}
+				{{ $registration->getPriceSummarize()->getSale()->name }}
 				<ul style="font-size: 0.9em; margin-bottom: 0; margin-top: 0">
 					<li>Discount for second sport.</li>
 				</ul>
 			</td>
-			<td align="right">@include('helper.price', ['price' => $sale])</td>
+			<td align="right">@include('helper.price', ['price' => $registration->getPriceSummarize()->getSale(), 'user' => $registration->user])</td>
 		</tr>
 	@endif
 
@@ -141,13 +141,16 @@
 	<tfoot>
 	<tr class="success">
 		<th align="left">Total Price</th>
-		<th align="right">{{ $totalPrice['price'] }}&nbsp;{{ $totalPrice['currency']->short }}</th>
+		<th align="right">{{ $registration->getPriceSummarize()->getTotalPrice() }}&nbsp;{{ $registration->user->currency->short }}</th>
 	</tr>
 	</tfoot>
 </table>
-@if ($user->registration->note)
+@if ($registration->note)
 	<p class="player-note">
 		<strong>Your Note:</strong><br>
-		{{ $user->registration->note }}
+		{{ $registration->note }}
 	</p>
+	@if ($isMail)
+		<hr>
+	@endif
 @endif

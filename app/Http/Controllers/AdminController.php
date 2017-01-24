@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Libraries\PriceSummarize;
 use App\Note;
 use App\Payments;
 use App\Price;
@@ -72,14 +71,10 @@ class AdminController extends Controller
 		$id = $request->get('id');
 		$registration = Registration::findOrFail($id);
 		$user = User::findOrFail($registration->user_id);
-		$priceSummarize = new PriceSummarize();
-		$priceSummarize->setUser($user);
 		$data = [
 			'registration' => $registration,
 			'user' => $user,
 			'price' => new Price(),
-			'totalPrice' => $priceSummarize->getTotalPrice(),
-			'sale' => $priceSummarize->getSale(),
 		];
 		return view('admin.registration', $data);
 	}
@@ -148,7 +143,7 @@ class AdminController extends Controller
 			Mail::send('emails.payment', $data, function ($m) use ($registration) {
 				$m->to($registration->user->email, $registration->user->name)
 					->bcc('form@praguerainbow.eu')
-					->subject('Prague Rainbow Spring - payment confirmation');
+					->subject('Prague Rainbow Spring - Payment Confirmation');
 			});
 		}
 		$request->session()->flash('alert-success', 'Data has been saved.');

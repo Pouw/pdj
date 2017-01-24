@@ -71,9 +71,7 @@ class Registration extends Model
 	}
 
 	public function getPriceSummarize(): PriceSummarize {
-		$sum = new PriceSummarize();
-		$sum->setUser($this->user()->first());
-		return $sum;
+		return  new PriceSummarize($this);
 	}
 
 	public function save(array $options = []) {

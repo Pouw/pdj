@@ -17,20 +17,12 @@ class PaymentController extends Controller
 
 	public function index(Request $request)
 	{
-		$user = Auth::user();
-		$priceSummarize = new PriceSummarize();
-		$data = [
-			'user' => $user,
-			'price' => new Price(),
-			'totalPrice' => $priceSummarize->getTotalPrice(),
-		];
-		return view('payment', $data);
+		return view('payment');
 	}
 
-	public function pay(Request $request) {
-		$priceSummarize = new PriceSummarize();
-		$priceSummarize->getTotalPrice();
 
+
+	public function pay(Request $request) {
 		$driver = Chaching::GPWEBPAY;
 		$authorization = [
 			'merchant_id', [

@@ -18,18 +18,20 @@ class SummaryController extends Controller
 
 	public function index(Request $request)
 	{
+		$data = [
+			'price' => new Price(),
+		];
+		return view('summary', $data);
+	}
+
+	public function save(Request $request) {
 		$user = Auth::user();
 
-		$priceSummarize = new PriceSummarize();
-		$data = [
-			'user' => $user,
-			'price' => new Price(),
-			'totalPrice' => $priceSummarize->getTotalPrice(),
-			'sale' => $priceSummarize->getSale(),
-			'newRegistration' => false,
-		];
-
 		if ($user->registration->state == Registration::UNFINISHED) {
+			$data = [
+				'registration' => $user->registration,
+				'price' => new Price(),
+			];
 			Mail::send('emails.summary', $data, function ($m) use ($user) {
 				$bcc = [];
 				$bcc[] = 'form@praguerainbow.eu';
@@ -41,16 +43,13 @@ class SummaryController extends Controller
 
 				$m->to($user->email, $user->name)
 					->bcc($bcc)
-					->subject('Prague Rainbow Spring 2017 - registration summary');
+					->subject('Prague Rainbow Spring - Registration Summary');
 			});
 			$user->registration->state = Registration::NEW;
 			$user->registration->save();
-			$data['newRegistration'] = true;
+			$request->session()->flash('alert-success', 'Your registration has been successfully created.');
 		}
-		return view('summary', $data);
-	}
 
-	public function save(Request $request) {
 		return redirect('/payment');
 	}
 

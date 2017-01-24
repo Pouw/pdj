@@ -27,7 +27,6 @@
 									<td>
 										@yield('content')
 
-										<hr>
 										<p>
 											For information, news and updates follow us via
 											<a href="http://www.praguerainbow.eu/" target="_blank">web</a>
