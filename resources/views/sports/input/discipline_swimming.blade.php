@@ -1,5 +1,5 @@
 
-<div class="form-group{{ $errors->has($name) ? ' has-error' : '' }}">
+<div class="form-group{{ $errors->has($name) || $errors->has($timeName) ? ' has-error' : '' }}">
 	<label for="{{ $id }}" class="col-md-4 control-label">{{ $discipline->name }}</label>
 
 	<div class="col-md-4 form-inline">
@@ -14,6 +14,12 @@
 		@if ($errors->has($name))
 			<span class="help-block">
                	<strong>{{ $errors->first($name) }}</strong>
+			</span>
+		@endif
+
+		@if ($errors->has($timeName))
+			<span class="help-block">
+               	<strong>{{ $errors->first($timeName) }}</strong>
 			</span>
 		@endif
 	</div>

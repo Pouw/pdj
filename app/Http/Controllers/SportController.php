@@ -65,6 +65,17 @@ class SportController extends Controller
 					$validator->errors()->add($sportKey . '_discipline', "Select at least one discipline for $sportKey.");
 				}
 			}
+			if ($sportId === Sport::SWIMMING) {
+				$disciplinesIds = $request->get($sportKey . '_discipline');
+				if (!empty($disciplinesIds)) {
+					foreach ($disciplinesIds as $disciplineId) {
+						$key = $sportKey . '_discipline_time_' . $disciplineId;
+						if (empty($request->get($key))) {
+							$validator->errors()->add($key, "Set your time for discipline.");
+						}
+					}
+				}
+			}
 			if ($sportId === Sport::BADMINTON) {
 				if (empty($request->get('badminton_level'))) {
 					$validator->errors()->add('badminton_level', "Select level for badminton singles or set you don't want to play.");
@@ -76,6 +87,10 @@ class SportController extends Controller
 		}
 
 		if (count($validator->errors()) > 0) {
+			// TODO save messages
+//			foreach ($validator->errors()->getMessages() as $message) {
+//				dump($message);
+//			}
 			$this->throwValidationException($request, $validator);
 		}
 
