@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Libraries\PriceSummarize;
-use App\Price;
+use App\Libraries\Signature;
+use App\Payments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Chaching\Chaching;
 
 class PaymentController extends Controller
 {
+
+	private $myPublicKey = 'test-public.pem';
+	private $bankPublicKey = 'muzo.signing_test.pem';
+
+
 	public function __construct()
 	{
 		$this->middleware('auth');
@@ -20,29 +24,57 @@ class PaymentController extends Controller
 		return view('payment');
 	}
 
+	public function paymentRedirect() {
+		$user = Auth::user();
+		$signature = new Signature($this->myPublicKey);
 
+		$payment = new Payments();
+		$payment->registration_id = $user->registration->id;
+		$payment->amount = intval($user->registration->getPriceSummarize()->getTotalPrice() * 100);
+		$payment->currency_id = $user->currency_id;
+		$payment->user_id = $user->id;
+		$payment->save();
 
-	public function pay(Request $request) {
-		$driver = Chaching::GPWEBPAY;
-		$authorization = [
-			'merchant_id', [
-				'key'         => '...../gpwebpay.crt',
-				'passphrase'  => 'passphrase',
-				'certificate' => '...../gpwebpay.key'
-			]
+		$data = [
+			'MERCHANTNUMBER' => $_SERVER['WEBPAY_MERCHANT_NUMBER'],
+			'OPERATION' => 'CREATE_ORDER',
+			'ORDERNUMBER' => $payment->id,
+			'AMOUNT' => $payment->amount,
+//			'CURRENCY' => intval($user->currency_id) === Currency::CZK ? 203 : 978,
+			'CURRENCY' => 203,
+			'DEPOSITFLAG' => 0,
+			'MERORDERNUM' => $payment->registration_id,
+			'URL' => $_SERVER['APP_URL'] . ':80/payment-return',
+
 		];
-		$options = [];
-		$chaching = new Chaching($driver, $authorization, $options);
-		$payment = $chaching->request([
-			'currency'        => \Chaching\Currencies::EUR,
+		$data['DIGEST'] = $signature->sign(implode('|', $data));
 
-			'variable_symbol' => 70000000,
-			'amount'          => 9.99,
-			'description'     => 'My wonderful product',
-			'constant_symbol' => '0308',
-			'return_email'    => '...',
-			'callback'        => 'http://...'
-		]);
+
+		$params = [];
+		foreach ($data as $key => $value) {
+			$params[] = $key . '=' . urlencode(trim($value));
+		}
+
+		return redirect('https://test.3dsecure.gpwebpay.com/pgw/order.do?' . implode('&', $params));
+	}
+
+	public function paymentReturn(Request $request) {
+		$signature = new Signature($this->bankPublicKey);
+
+		$data = [
+			$request->get('OPERATION'),
+			$request->get('ORDERNUMBER'),
+			$request->get('MERORDERNUM'),
+			$request->get('PRCODE'),
+			$request->get('SRCODE'),
+			$request->get('RESULTTEXT'),
+		];
+		dump($signature->verify(implode('|', $data), $request->get('DIGEST')));
+
+		$data[] = $_SERVER['WEBPAY_MERCHANT_NUMBER'];
+		dump($signature->verify(implode('|', $data), $request->get('DIGEST1')));
+		dump($request->all());
+
 	}
 
 }
