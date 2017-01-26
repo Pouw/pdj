@@ -36,11 +36,15 @@
 								<li>Distance: {{ $regSport->disciplines->first()->discipline->name }}</li>
 							@endif
 							@if ($regSport->sport->id == App\Sport::SOCCER)
-								<li>Team name: {{ $regSport->team->name }}</li>
+								@if($regSport->team)
+									<li>Team name: {{ $regSport->team->name }}</li>
+								@endif
 							@endif
 							@if ($regSport->sport->id == App\Sport::VOLLEYBALL)
-								<li>Team: {{ $regSport->team->name }}</li>
-								<li>Level: {{$regSport->team->level->name}}</li>
+								@if($regSport->team)
+									<li>Team: {{ $regSport->team->name }}</li>
+									<li>Level: {{$regSport->team->level->name}}</li>
+								@endif
 								@if($regSport->club)
 									<li>Club: {{ $regSport->club }}</li>
 								@endif
