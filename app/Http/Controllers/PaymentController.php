@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Libraries\Signature;
+use App\Libraries\WebPay;
 use App\Payments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class PaymentController extends Controller
 {
 
-	private $myPublicKey = 'test-public.pem';
-	private $bankPublicKey = 'muzo.signing_test.pem';
 
 
 	public function __construct()
@@ -26,7 +24,7 @@ class PaymentController extends Controller
 
 	public function paymentRedirect() {
 		$user = Auth::user();
-		$signature = new Signature($this->myPublicKey);
+		$signature = WebPay::getMySignature();
 
 		$payment = new Payments();
 		$payment->registration_id = $user->registration->id;
@@ -55,11 +53,12 @@ class PaymentController extends Controller
 			$params[] = $key . '=' . urlencode(trim($value));
 		}
 
-		return redirect('https://test.3dsecure.gpwebpay.com/pgw/order.do?' . implode('&', $params));
+		return redirect(WebPay::getBankUrl() . '?' . implode('&', $params));
 	}
 
+
 	public function paymentReturn(Request $request) {
-		$signature = new Signature($this->bankPublicKey);
+		$signature = WebPay::getBankSignature();
 
 		$data = [
 			$request->get('OPERATION'),

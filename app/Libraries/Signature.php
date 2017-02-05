@@ -9,16 +9,16 @@ class Signature {
 	private $privateKeyPassword;
 	private $publicKey;
 
-	public function __construct($publicKey)
+	public function __construct($publicKey, $privateKeyPassword, $privateKey)
 	{
 		$path = base_path('cert') . DIRECTORY_SEPARATOR;
-		$privateKey = $path . 'test-private.pem';
+		$privateKey = $path . $privateKey;
 		$publicKey = $path . $publicKey;
 
 		$fp = fopen($privateKey, 'r');
 		$this->privateKey = fread($fp, filesize($privateKey));
 		fclose($fp);
-		$this->privateKeyPassword = $_SERVER['WEBPAY_PASS'];
+		$this->privateKeyPassword = $privateKeyPassword;
 
 		$fp = fopen($publicKey, 'r');
 		$this->publicKey = fread($fp, filesize($publicKey));
