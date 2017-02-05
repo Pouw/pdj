@@ -117,11 +117,11 @@
 					</span>
 				@endif
 			</td>
-			<td>@if($sportReg->registration->user->is_member) <i class="fa fa-lg fa-user"></i> @endif</td>
-			<td>@if($sportReg->registration->brunch) <i class="fa fa-lg fa-coffee"></i> @endif</td>
-			<td>@if($sportReg->registration->hosted_housing) <i class="fa fa-lg fa-bed"></i> @endif</td>
-			<td>@if($sportReg->registration->outreach_support) <i class="fa fa-lg fa-eur support-color"></i> @endif</td>
-			<td>@if($sportReg->registration->outreach_request) <i class="fa fa-lg fa-eur request-color"></i> @endif</td>
+			<td title="CZ Member">@if($sportReg->registration->user->is_member) <i class="fa fa-lg fa-user"></i> @endif</td>
+			<td title="Brunch">@if($sportReg->registration->brunch) <i class="fa fa-lg fa-coffee"></i> @endif</td>
+			<td title="Hosted Housing">@if($sportReg->registration->hosted_housing) <i class="fa fa-lg fa-bed"></i> @endif</td>
+			<td title="Outreach Support">@if($sportReg->registration->outreach_support) <i class="fa fa-lg fa-eur support-color"></i> @endif</td>
+			<td title="Outreach Request">@if($sportReg->registration->outreach_request) <i class="fa fa-lg fa-eur request-color"></i> @endif</td>
 		</tr>
 	@endforeach
 	</tbody>
