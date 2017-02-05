@@ -124,6 +124,7 @@ class AdminController extends Controller
 		$currencyId = (int) $request->get('currency_id');
 
 		Payments::insert([
+			'state' => Payments::PAID,
 			'registration_id' => $id,
 			'amount' => $amount,
 			'currency_id' => $currencyId,

@@ -3,11 +3,19 @@
 namespace App\Libraries;
 
 
+use App\Currency;
+
 class WebPay {
 
+	public static function isDebug() {
+		if (getenv('WEBPAY_DEBUG') === 'false') {
+			return false;
+		}
+		return true;
+	}
+
 	public static function getMySignature(): Signature {
-		$isDebug = getenv('WEBPAY_DEBUG');
-		if ($isDebug) {
+		if (self::isDebug()) {
 			$publicKey = 'test-public.pem';
 			$passPhrase = getenv('WEBPAY_PASS_DEBUG');
 			$privateKey = 'test-private.pem';
@@ -20,8 +28,7 @@ class WebPay {
 	}
 
 	public static function getBankSignature(): Signature {
-		$isDebug = getenv('WEBPAY_DEBUG');
-		if ($isDebug) {
+		if (self::isDebug()) {
 			$publicKey = 'muzo.signing_test.pem';
 			$passPhrase = getenv('WEBPAY_PASS_DEBUG');
 			$privateKey = 'test-private.pem';
@@ -34,11 +41,16 @@ class WebPay {
 	}
 
 	public static function getBankUrl(): string {
-		$isDebug = getenv('WEBPAY_DEBUG');
-		if ($isDebug) {
-			return getenv('WEBPAY_URL_DEBUG');
+		if (self::isDebug()) {
+			return 'https://test.3dsecure.gpwebpay.com/pgw/order.do';
 		}
-		return getenv('WEBPAY_URL');
+		return 'https://3dsecure.gpwebpay.com/pgw/order.do';
+	}
+
+	public static function getCurrency(int $currencyId): int {
+		$czk = 203;
+		$eur = 978;
+		return $currencyId === Currency::CZK ? $czk : $eur;
 	}
 
 }

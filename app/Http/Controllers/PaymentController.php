@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class PaymentController extends Controller
 {
 
-
-
 	public function __construct()
 	{
 		$this->middleware('auth');
@@ -28,7 +26,7 @@ class PaymentController extends Controller
 
 		$payment = new Payments();
 		$payment->registration_id = $user->registration->id;
-		$payment->amount = intval($user->registration->getPriceSummarize()->getTotalPrice() * 100);
+		$payment->amount = $user->registration->getPriceSummarize()->getTotalPrice();
 		$payment->currency_id = $user->currency_id;
 		$payment->user_id = $user->id;
 		$payment->save();
@@ -37,16 +35,14 @@ class PaymentController extends Controller
 			'MERCHANTNUMBER' => $_SERVER['WEBPAY_MERCHANT_NUMBER'],
 			'OPERATION' => 'CREATE_ORDER',
 			'ORDERNUMBER' => $payment->id,
-			'AMOUNT' => $payment->amount,
-//			'CURRENCY' => intval($user->currency_id) === Currency::CZK ? 203 : 978,
-			'CURRENCY' => 203,
+			'AMOUNT' => intval($payment->amount) * 100,
+			'CURRENCY' => WebPay::getCurrency($user->currency_id),
+//			'CURRENCY' => 203,
 			'DEPOSITFLAG' => 0,
 			'MERORDERNUM' => $payment->registration_id,
-			'URL' => $_SERVER['APP_URL'] . ':80/payment-return',
-
+			'URL' => $_SERVER['APP_URL'] . '/payment-return',
 		];
 		$data['DIGEST'] = $signature->sign(implode('|', $data));
-
 
 		$params = [];
 		foreach ($data as $key => $value) {
@@ -56,8 +52,8 @@ class PaymentController extends Controller
 		return redirect(WebPay::getBankUrl() . '?' . implode('&', $params));
 	}
 
-
 	public function paymentReturn(Request $request) {
+		$payment = Payments::findOrFail($request->get('ORDERNUMBER'));
 		$signature = WebPay::getBankSignature();
 
 		$data = [
@@ -68,12 +64,24 @@ class PaymentController extends Controller
 			$request->get('SRCODE'),
 			$request->get('RESULTTEXT'),
 		];
-		dump($signature->verify(implode('|', $data), $request->get('DIGEST')));
-
+		$sig1 = $signature->verify(implode('|', $data), $request->get('DIGEST'));
 		$data[] = $_SERVER['WEBPAY_MERCHANT_NUMBER'];
-		dump($signature->verify(implode('|', $data), $request->get('DIGEST1')));
+		$sig2 = $signature->verify(implode('|', $data), $request->get('DIGEST1'));
 		dump($request->all());
 
+		$prc = strval($request->get('PRCODE'));
+		$src = strval($request->get('SRCODE'));
+
+		$payment->prcode = $prc;
+		$payment->srcode = $src;
+		$payment->result_text = $request->get('RESULTTEXT');
+
+		if ($sig1 && $sig2 && $prc === '0' && $src === '0') {
+			$payment->state = Payments::PAID;
+		} else {
+			$payment->state = Payments::CANCELED;
+		}
+		$payment->save();
 	}
 
 }
