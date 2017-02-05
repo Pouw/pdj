@@ -66,7 +66,6 @@ class PaymentController extends Controller
 		$sig1 = $signature->verify(implode('|', $data), $request->get('DIGEST'));
 		$data[] = $_SERVER['WEBPAY_MERCHANT_NUMBER'];
 		$sig2 = $signature->verify(implode('|', $data), $request->get('DIGEST1'));
-		dump($request->all());
 
 		$prc = strval($request->get('PRCODE'));
 		$src = strval($request->get('SRCODE'));
@@ -77,10 +76,13 @@ class PaymentController extends Controller
 
 		if ($sig1 && $sig2 && $prc === '0' && $src === '0') {
 			$payment->state = Payments::PAID;
+			$request->session()->flash('alert-success', 'Your payment has been successfully accepted.');
 		} else {
 			$payment->state = Payments::CANCELED;
+			$request->session()->flash('alert-danger', "Error during transaction:\n" . $request->get('RESULTTEXT'));
 		}
 		$payment->save();
+		return redirect('/payment');
 	}
 
 }

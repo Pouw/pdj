@@ -1,4 +1,4 @@
-<h2>Bank transfer information:</h2>
+<h3>Bank transfer information:</h3>
 <dl class="dl-horizontal">
 	<dt>Bank account:</dt>
 	<dd>2001064718/2010</dd>

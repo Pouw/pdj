@@ -4,33 +4,51 @@
 	@include('helper.panel_top')
 
 	<div class="panel-heading">Payment</div>
-
 	<div class="panel-body">
 
-		<div class="row">
-			<div class="col-md-5 col-md-offset-3">
-				<div class="alert alert-info text-center" role="alert">
-					<span style="font-size: 2em">
-						Total Price:
-						<span style="font-weight: bold;">{{ Auth::user()->registration->getPriceSummarize()->getTotalPrice() }} {{ Auth::user()->currency->short }}</span>
-					</span>
+		@if (Auth::user()->registration->payments()->whereState(\App\Payments::PAID)->count() > 0)
+			<p class="bg-success"></p>
+			<div class="row">
+				<div class="col-md-offset-2 col-md-8">
+					<div class="alert alert-success" role="alert">
+						We register payment{{ Auth::user()->registration->payments()->whereState(\App\Payments::PAID)->count() > 1 ? 's' : '' }} from you:
+						<ul>
+							@foreach(Auth::user()->registration->payments()->whereState(\App\Payments::PAID)->get() as $payment)
+								<li>
+									{{--At <strong>{{ date('n/j', strtotime($payment->created_at)) }}</strong>--}}
+									Amount: <strong>{{ $payment->amount }}</strong> {{ $payment->currency->iso }}
+								</li>
+							@endforeach
+						</ul>
+					</div>
 				</div>
 			</div>
-		</div>
+			<p></p>
+		@else
 
-			{{--
-			<p class="text-center">
-				<button type="button" class="btn btn-success btn-lg btn-block">
-					<strong>Pay by Card</strong>
-					<br>
-					via<br>
-					<img src="/img/gpwebpay.png">
-				</button>
-			</p>
-			--}}
-		<p></p>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3">
+					<div class="alert alert-info text-center" role="alert">
+						<span style="font-size: 2em">
+							Total Price:
+							<span style="font-weight: bold;">{{ Auth::user()->registration->getPriceSummarize()->getTotalPrice() }} {{ Auth::user()->currency->short }}</span>
+						</span>
+					</div>
+				</div>
+			</div>
 
-		@include('helper.bank_info')
+			{{--<p class="text-center">--}}
+				{{--<a href="{{ url('/payment-redirect') }}" class="btn btn-success btn-lg _btn-block">--}}
+					{{--<strong>Pay by Card</strong>--}}
+					{{--via--}}
+					{{--<img src="/img/gpwebpay.png">--}}
+				{{--</a>--}}
+			{{--</p>--}}
+
+			<p></p>
+
+			@include('helper.bank_info')
+		@endif
 
 		@include('form.footer', ['back' => '/summary', 'next' => false])
 	</div>
