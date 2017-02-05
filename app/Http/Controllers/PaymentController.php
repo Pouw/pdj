@@ -37,9 +37,8 @@ class PaymentController extends Controller
 			'ORDERNUMBER' => $payment->id,
 			'AMOUNT' => intval($payment->amount) * 100,
 			'CURRENCY' => WebPay::getCurrency($user->currency_id),
-//			'CURRENCY' => 203,
 			'DEPOSITFLAG' => 0,
-			'MERORDERNUM' => $payment->registration_id,
+			'MERORDERNUM' => $user->registration->variableSymbol(),
 			'URL' => $_SERVER['APP_URL'] . '/payment-return',
 		];
 		$data['DIGEST'] = $signature->sign(implode('|', $data));
