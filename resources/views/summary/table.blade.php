@@ -51,7 +51,9 @@
 							@endif
 							@if ($regSport->sport->id == App\Sport::BEACH_VOLLEYBALL)
 								<li>Team name: {{ $regSport->team_name }}</li>
-								<li>Level: {{ $regSport->level->name }}</li>
+								@if ($regSport->level)
+									<li>Level: {{ $regSport->level->name }}</li>
+								@endif
 								@if ($regSport->altLevel)
 									<li>Alternative level: {{ $regSport->altLevel->name }}</li>
 								@endif
