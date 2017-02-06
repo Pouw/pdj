@@ -153,7 +153,7 @@
 </table>
 @if ($registration->note)
 	<p class="player-note">
-		<strong>Your Note:</strong><br>
+		<strong>Your Comments:</strong><br>
 		{!! nl2br(e($registration->note)) !!}
 	</p>
 	@if ($isMail)

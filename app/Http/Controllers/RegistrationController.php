@@ -39,13 +39,13 @@ class RegistrationController extends Controller
 			$validator->errors()->add('checkbox', 'Please, select at least one option!');
 		} else {
 			if (in_array(Sport::VISITOR, $sportIds) && count($sportIds) > 1) {
-				$validator->errors()->add('checkbox', 'You are not visitor if you want to participate');
+				$validator->errors()->add('checkbox', 'You are not a visitor if you wish to participate');
 			}
 			if (count(array_intersect($sportIds, [Sport::BADMINTON, Sport::SWIMMING, Sport::SOCCER, Sport::VOLLEYBALL])) >= 2) {
-				$validator->errors()->add('checkbox', 'Badminton, Swimming, Soccer and Volleyball are played in same time. You can participate only one of them.');
+				$validator->errors()->add('checkbox', 'Badminton, Swimming, Soccer and Volleyball take place in parallel. You can only participate in one of them.');
 			}
 			if (count(array_intersect($sportIds, [Sport::BEACH_VOLLEYBALL, Sport::RUNNING])) >= 2) {
-				$validator->errors()->add('checkbox', 'Beach Volleyball and Running will be held in same time. You can participate only one of them.');
+				$validator->errors()->add('checkbox', 'Beach Volleyball and Running take place in parallel. You can only participate in one of them.');
 			}
 		}
 		if (count($validator->errors()) > 0) {

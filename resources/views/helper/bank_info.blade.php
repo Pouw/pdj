@@ -18,11 +18,11 @@
 		<dd>Alcedo Praha</dd>
 		<dt>Account holder address:</dt>
 		<dd>Krymská 238/18, 10100 Praha 10</dd>
-		<dt>Purpose:</dt>
+		<dt>Reference (Purpose):</dt>
 		<dd>{{ Auth::user()->registration->paymentPurpose() }}</dd>
 	@endif
 </dl>
 
 <p class="alert alert-warning" role="alert">
-	In these days it is not possible to provide payment online by card. Sorry for that. You can try it later or send money on our bank account.
+	A credit card payment is not available right now. Please try later or transfer the amount to the bank account shown above.
 </p>

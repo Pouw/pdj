@@ -3,7 +3,7 @@
 @section('content')
 	<p>Hi {{ Auth::user()->name }},</p>
 	<p>Your registration was successful.</p>
-	<p>You have made registration for:</p>
+	<p>The summary of your registration is as follows:</p>
 
 	@include('summary.table', ['registration' => Auth::user()->registration, 'isMail' => true])
 

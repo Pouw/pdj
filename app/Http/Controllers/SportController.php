@@ -33,7 +33,7 @@ class SportController extends Controller
 		foreach ([Sport::VOLLEYBALL => 'volleyball', Sport::SOCCER => 'soccer'] as $sportId => $sportName) {
 			if ($request->get($sportName . '_team') === 'create') {
 				if (empty($request->get($sportName . '_team_name'))) {
-					$validator->errors()->add($sportName . '_team', "Write name for your new team.");
+					$validator->errors()->add($sportName . '_team', "Fill in name for your new team.");
 				}
 				if ($sportId === Sport::VOLLEYBALL) {
 					if (empty($request->get($sportName . '_team_level_id'))) {
@@ -58,7 +58,7 @@ class SportController extends Controller
 			$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
 			if ($sportId === Sport::BEACH_VOLLEYBALL) {
 				if (empty($request->get($sportKey . '_team_name'))) {
-					$validator->errors()->add($sportKey . '_team_name', "Write your team name for Beach Volleyball.");
+					$validator->errors()->add($sportKey . '_team_name', "Fill in your team name for Beach Volleyball.");
 				}
 			} elseif (in_array($sportId, [Sport::RUNNING, Sport::SWIMMING, Sport::BADMINTON])) {
 				if (empty($request->get($sportKey . '_discipline'))) {
@@ -71,7 +71,7 @@ class SportController extends Controller
 					foreach ($disciplinesIds as $disciplineId) {
 						$key = $sportKey . '_discipline_time_' . $disciplineId;
 						if (empty($request->get($key))) {
-							$validator->errors()->add($key, "Set your time for discipline.");
+							$validator->errors()->add($key, "Fill in your time for discipline.");
 						}
 					}
 				}

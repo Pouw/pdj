@@ -21,7 +21,7 @@
 		@endif
 
 		<div class="form-group">
-			<label for="note" class="col-md-4 control-label">Your Note</label>
+			<label for="note" class="col-md-4 control-label">Your Comments</label>
 			<div class="col-md-8">
 				<textarea id="note" name="note" class="form-control">{{ old('note', $user->registration->note) }}</textarea>
 			</div>

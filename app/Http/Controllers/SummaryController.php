@@ -47,7 +47,7 @@ class SummaryController extends Controller
 			});
 			$user->registration->state = Registration::NEW;
 			$user->registration->save();
-			$request->session()->flash('alert-success', 'Your registration has been successfully created.');
+			$request->session()->flash('alert-success', 'Your registration has been successful.');
 		}
 
 		return redirect('/payment');

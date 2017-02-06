@@ -11,11 +11,10 @@
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
 					<div class="alert alert-success" role="alert">
-						We register payment{{ Auth::user()->registration->payments()->whereState(\App\Payments::PAID)->count() > 1 ? 's' : '' }} from you:
+						We register the following payments from you:
 						<ul>
 							@foreach(Auth::user()->registration->payments()->whereState(\App\Payments::PAID)->get() as $payment)
 								<li>
-									{{--At <strong>{{ date('n/j', strtotime($payment->created_at)) }}</strong>--}}
 									Amount: <strong>{{ $payment->amount }}</strong> {{ $payment->currency->iso }}
 								</li>
 							@endforeach
@@ -31,7 +30,7 @@
 					<div class="alert alert-info text-center" role="alert">
 						<span style="font-size: 2em">
 							Total Price:
-							<span style="font-weight: bold;">{{ Auth::user()->registration->getPriceSummarize()->getTotalPrice() }} {{ Auth::user()->currency->short }}</span>
+							<span style="font-weight: bold;">{{ Auth::user()->registration->getPriceSummarize()->getTotalPrice() }} {{ Auth::user()->currency->iso }}</span>
 						</span>
 					</div>
 				</div>

@@ -3,7 +3,7 @@
 @section('content')
 @include('helper.panel_top')
 
-<div class="panel-heading">Select event(s) you want to participate</div>
+<div class="panel-heading">Select events you want to participate in</div>
 
 <div class="panel-body">
     @include('form.errors')
@@ -25,7 +25,7 @@
 											{{ in_array($sport->id, old('sports', $defaultSports)) ? ' checked' : '' }}
 											{{ $sport->status_id == \App\Status::DISABLED ? 'disabled' : '' }}
 									>
-									{{ $sport->name }}
+									{{ $sport->id == \App\Sport::VISITOR ? "I'm a visitor only" : $sport->name }}
 								</label>
 							</div>
 						@endforeach

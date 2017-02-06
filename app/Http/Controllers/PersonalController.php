@@ -33,11 +33,11 @@ class PersonalController extends Controller
 		$currencyId = intval($request->get('currency_id'));
         $validator = $this->getValidationFactory()->make($request->all(), []);
 		if ($currencyId === Currency::CZK && $countryId !== Country::CZECHIA) {
-			$validator->errors()->add('currency_id', "You can pay only in EUR €.");
+			$validator->errors()->add('currency_id', "You can pay in EUR only.");
 			$this->throwValidationException($request, $validator);
 		}
 		if ($request->get('is_member') === '1' && $currencyId !== Currency::CZK) {
-			$validator->errors()->add('checkbox', "You can't be Alceco member and pay in €.");
+			$validator->errors()->add('checkbox', "You can't be an Alceco member and pay in EUR.");
 			$this->throwValidationException($request, $validator);
 		}
 

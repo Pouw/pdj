@@ -76,10 +76,10 @@ class PaymentController extends Controller
 
 		if ($sig1 && $sig2 && $prc === '0' && $src === '0') {
 			$payment->state = Payments::PAID;
-			$request->session()->flash('alert-success', 'Your payment has been successfully accepted.');
+			$request->session()->flash('alert-success', 'Your payment has been accepted.');
 		} else {
 			$payment->state = Payments::CANCELED;
-			$request->session()->flash('alert-danger', "Error during transaction:\n" . $request->get('RESULTTEXT'));
+			$request->session()->flash('alert-danger', "Transaction error:\n" . $request->get('RESULTTEXT'));
 		}
 		$payment->save();
 		return redirect('/payment');

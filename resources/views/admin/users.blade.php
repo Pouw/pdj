@@ -49,7 +49,7 @@
 						<td>{{ $user->email }}</td>
 						<td>{{ $user->is_admin }}</td>
 						<td>{{ $user->is_member }}</td>
-						<td>{{ $user->currency ? $user->currency->short : '' }}</td>
+						<td>{{ $user->currency ? $user->currency->iso : '' }}</td>
 						<td>{{ $user->country ? $user->country->name : '' }}</td>
 						<td>{{ $user->city }}</td>
 						<td>
