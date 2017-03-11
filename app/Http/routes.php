@@ -36,9 +36,10 @@ Route::get('/summary', 'SummaryController@index');
 Route::post('/summary', 'SummaryController@save');
 
 Route::get('/payment', 'PaymentController@index');
-Route::get('/payment-redirect', 'PaymentController@paymentRedirect');
-Route::get('/payment-return', 'PaymentController@paymentReturn');
 Route::post('/payment', 'PaymentController@save');
+Route::get('/payment/redirect', 'PaymentController@paymentRedirect');
+Route::post('/payment/return', 'PaymentController@paymentReturn');
+Route::get('/payment/test', 'PaymentController@test');
 
 Route::get('/admin', 'AdminController@index');
 Route::get('/admin/registrations', 'AdminController@registrations');

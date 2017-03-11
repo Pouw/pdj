@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "188079636fe19b0a3b45674b118329d0",
-    "content-hash": "2d77bd889631d986726fe28000e3609f",
+    "hash": "568719b65c6b79ffeabb15a71b419f08",
+    "content-hash": "2b2d7f174ac8bc99d8392e42ca7cc42c",
     "packages": [
         {
             "name": "backbone/chaching",
@@ -1313,6 +1313,96 @@
                 "php"
             ],
             "time": "2016-09-16 12:04:44"
+        },
+        {
+            "name": "ondrakoupil/csob-eapi-paygate",
+            "version": "v1.7.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ondrakoupil/csob.git",
+                "reference": "d6046ae897afe3818199e297a47ad1788d8f38ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ondrakoupil/csob/zipball/d6046ae897afe3818199e297a47ad1788d8f38ce",
+                "reference": "d6046ae897afe3818199e297a47ad1788d8f38ce",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-openssl": "*",
+                "ondrakoupil/tools": "~0.0.5",
+                "php": ">=5.3.1"
+            },
+            "require-dev": {
+                "nette/tester": "dev-master",
+                "ondrakoupil/testing-utils": "~0.0.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "OndraKoupil\\Csob\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ondrej Koupil",
+                    "email": "koupil@optimato.cz"
+                }
+            ],
+            "description": "PHP Client library for easy integration of ČSOB payment gateway",
+            "homepage": "https://github.com/ondrakoupil/csob",
+            "keywords": [
+                "Bank",
+                "cards",
+                "commerce",
+                "csob",
+                "merchant",
+                "pay",
+                "payment"
+            ],
+            "time": "2017-03-03 11:29:36"
+        },
+        {
+            "name": "ondrakoupil/tools",
+            "version": "v0.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ondrakoupil/tools.git",
+                "reference": "778c4931ba883d86a338ea9591d48eb9bb24eb13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ondrakoupil/tools/zipball/778c4931ba883d86a338ea9591d48eb9bb24eb13",
+                "reference": "778c4931ba883d86a338ea9591d48eb9bb24eb13",
+                "shasum": ""
+            },
+            "require-dev": {
+                "nette/tester": "^1.4@dev",
+                "ondrakoupil/testing-utils": "^0.0.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "OndraKoupil\\Tools\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ondrej Koupil",
+                    "email": "koupil@optimato.cz"
+                }
+            ],
+            "description": "Just a bunch of tools for myself",
+            "time": "2015-07-27 20:41:18"
         },
         {
             "name": "paragonie/random_compat",

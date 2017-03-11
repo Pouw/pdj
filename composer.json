@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "barryvdh/laravel-ide-helper": "^2.2",
         "doctrine/dbal": "^2.5",
-        "backbone/chaching": "^0.16.5"
+        "backbone/chaching": "^0.16.5",
+        "ondrakoupil/csob-eapi-paygate": "^1.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

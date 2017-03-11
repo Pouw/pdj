@@ -4,6 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property integer $id
+ * @property string $state
+ * @property integer $registration_id
+ * @property integer $amount
+ * @property integer $currency_id
+ * @property integer $user_id
+ * @property string $pay_id
+ * @property integer $bank_status
+ * @property integer $result_code
+ * @property string $result_text
+ *
+ */
 class Payments extends Model
 {
 

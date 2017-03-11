@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Libraries\WebPay;
 use App\Payments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OndraKoupil\Csob\Config;
+use OndraKoupil\Csob\Client;
+use OndraKoupil\Csob\GatewayUrl;
+use OndraKoupil\Csob\Payment;
 
 class PaymentController extends Controller
 {
@@ -20,9 +23,29 @@ class PaymentController extends Controller
 		return view('payment');
 	}
 
+	private function getBankClient() {
+		$config = new Config(
+			'A2350fcREW', // My Merchant ID
+			base_path('cert') . DIRECTORY_SEPARATOR . 'rsa_A2350fcREW.key', // path/to/my/private/key/file.key
+			base_path('cert') . DIRECTORY_SEPARATOR . 'mips_iplatebnibrana.csob.cz.pub', // path/to/bank/public/key.pub
+			'Rainbow Prague Spring', // My shop name
+
+			// Adresa, kam se mají zákazníci vracet poté, co zaplatí
+			$_SERVER['APP_URL'] . '/payment/return',
+
+			// URL adresa API - výchozí je adresa testovacího (integračního) prostředí,
+			// až budete připraveni přepnout se na ostré rozhraní, sem zadáte
+			// adresu ostrého API.
+			GatewayUrl::TEST_LATEST
+		);
+
+		$client = new Client($config);
+		return $client;
+	}
+
 	public function paymentRedirect() {
 		$user = Auth::user();
-		$signature = WebPay::getMySignature();
+		$bc = $this->getBankClient();
 
 		$payment = new Payments();
 		$payment->registration_id = $user->registration->id;
@@ -31,58 +54,56 @@ class PaymentController extends Controller
 		$payment->user_id = $user->id;
 		$payment->save();
 
-		$data = [
-			'MERCHANTNUMBER' => $_SERVER['WEBPAY_MERCHANT_NUMBER'],
-			'OPERATION' => 'CREATE_ORDER',
-			'ORDERNUMBER' => $payment->id,
-			'AMOUNT' => intval($payment->amount) * 100,
-			'CURRENCY' => WebPay::getCurrency($user->currency_id),
-			'DEPOSITFLAG' => 0,
-			'MERORDERNUM' => $user->registration->variableSymbol(),
-			'URL' => $_SERVER['APP_URL'] . '/payment-return',
-		];
-		$data['DIGEST'] = $signature->sign(implode('|', $data));
+		$bankPayment = new Payment($payment->id);
+		$bankPayment->currency = $user->currency->iso;
+		$bankPayment->language = 'EN';
+		$bankPayment->addCartItem('Registration for PRS', 1, intval($payment->amount) * 100);
+		$bc->paymentInit($bankPayment);
+		$payment->pay_id = $bankPayment->getPayId();
+		$url = $bc->getPaymentProcessUrl($bankPayment);
+		$payment->save();
 
-		$params = [];
-		foreach ($data as $key => $value) {
-			$params[] = $key . '=' . urlencode(trim($value));
-		}
-
-		return redirect(WebPay::getBankUrl() . '?' . implode('&', $params));
+		return redirect($url);
 	}
 
 	public function paymentReturn(Request $request) {
-		$payment = Payments::findOrFail($request->get('ORDERNUMBER'));
-		$signature = WebPay::getBankSignature();
+		$bc = $this->getBankClient();
+		$response = $bc->receiveReturningCustomer();
+		$status = intval($response['paymentStatus']);
+		$payment = Payments::where('pay_id', $response['payId'])->firstOrFail();
+		$payment->bank_status = $status;
+		$payment->result_code = $response['resultCode'];
+		$payment->result_text = $response['resultMessage'];
 
-		$data = [
-			$request->get('OPERATION'),
-			$request->get('ORDERNUMBER'),
-			$request->get('MERORDERNUM'),
-			$request->get('PRCODE'),
-			$request->get('SRCODE'),
-			$request->get('RESULTTEXT'),
-		];
-		$sig1 = $signature->verify(implode('|', $data), $request->get('DIGEST'));
-		$data[] = $_SERVER['WEBPAY_MERCHANT_NUMBER'];
-		$sig2 = $signature->verify(implode('|', $data), $request->get('DIGEST1'));
-
-		$prc = strval($request->get('PRCODE'));
-		$src = strval($request->get('SRCODE'));
-
-		$payment->prcode = $prc;
-		$payment->srcode = $src;
-		$payment->result_text = $request->get('RESULTTEXT');
-
-		if ($sig1 && $sig2 && $prc === '0' && $src === '0') {
+		// See https://github.com/csob/paymentgateway/wiki/eAPI-v1-CZ#user-content-%C5%BDivotn%C3%AD-cyklus-transakce-
+		if ($status === 4 || $status === 7) {
 			$payment->state = Payments::PAID;
 			$request->session()->flash('alert-success', 'Your payment has been accepted.');
 		} else {
 			$payment->state = Payments::CANCELED;
-			$request->session()->flash('alert-danger', "Transaction error:\n" . $request->get('RESULTTEXT'));
+			$msg = '';
+			if ($status === 3) {
+				$msg = 'Payment has been canceled by user.';
+			} elseif ($status === 3) {
+				$msg = 'Payment has been rejected.';
+			}
+			$request->session()->flash('alert-danger', "Transaction error:\n$msg");
 		}
 		$payment->save();
+
 		return redirect('/payment');
+	}
+
+	public function test() {
+		$client = $this->getBankClient();
+		try {
+			$client->testGetConnection();
+			dump($client->testPostConnection());
+			dump('xx');
+		} catch (Exception $e) {
+			echo "Something went wrong: " . $e->getMessage();
+		}
+
 	}
 
 }
