@@ -29,8 +29,9 @@ class SportController extends Controller
 		$user = Auth::user();
 
 		$validator = $this->getValidationFactory()->make($request->all(), []);
+		dump($request->all());
 
-		foreach ([Sport::VOLLEYBALL => 'volleyball', Sport::SOCCER => 'soccer'] as $sportId => $sportName) {
+		foreach ([Sport::VOLLEYBALL => 'volleyball', Sport::SOCCER => 'football'] as $sportId => $sportName) {
 			if ($request->get($sportName . '_team') === 'create') {
 				if (empty($request->get($sportName . '_team_name'))) {
 					$validator->errors()->add($sportName . '_team', "Fill in name for your new team.");
@@ -103,6 +104,7 @@ class SportController extends Controller
 					if ($switch === 'find') {
 						$sport->team_id = $request->get($sportKey . '_team_id');
 					} else {
+						dump($sportKey . '_team_name');
 						$newTeam = [
 							'name' => $request->get($sportKey . '_team_name'),
 							'sport_id' => $sport->sport->id,
