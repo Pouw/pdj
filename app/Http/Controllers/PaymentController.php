@@ -25,9 +25,9 @@ class PaymentController extends Controller
 
 	private function getBankClient() {
 		$config = new Config(
-			'A2350fcREW', // My Merchant ID
-			base_path('cert') . DIRECTORY_SEPARATOR . 'rsa_A2350fcREW.key', // path/to/my/private/key/file.key
-			base_path('cert') . DIRECTORY_SEPARATOR . 'mips_iplatebnibrana.csob.cz.pub', // path/to/bank/public/key.pub
+			'M1E3CB1201', // My Merchant ID
+			base_path('cert') . DIRECTORY_SEPARATOR . 'rsa_M1E3CB1201.key', // path/to/my/private/key/file.key
+			base_path('cert') . DIRECTORY_SEPARATOR . 'mips_platebnibrana.csob.cz.pub', // path/to/bank/public/key.pub
 			'Rainbow Prague Spring', // My shop name
 
 			// Adresa, kam se mají zákazníci vracet poté, co zaplatí
@@ -36,7 +36,7 @@ class PaymentController extends Controller
 			// URL adresa API - výchozí je adresa testovacího (integračního) prostředí,
 			// až budete připraveni přepnout se na ostré rozhraní, sem zadáte
 			// adresu ostrého API.
-			GatewayUrl::TEST_LATEST
+			GatewayUrl::PRODUCTION_LATEST
 		);
 
 		$client = new Client($config);
@@ -97,9 +97,8 @@ class PaymentController extends Controller
 	public function test() {
 		$client = $this->getBankClient();
 		try {
-			$client->testGetConnection();
 			dump($client->testPostConnection());
-			dump('xx');
+			dump('OK');
 		} catch (Exception $e) {
 			echo "Something went wrong: " . $e->getMessage();
 		}
