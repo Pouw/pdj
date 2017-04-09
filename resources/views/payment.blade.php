@@ -38,15 +38,13 @@
 				</div>
 			</div>
 
-			<p class="text-center">
-				<a href="{{ url('/payment/redirect') }}" class="btn btn-success btn-lg">
-					<i class="fa fa-lg fa-credit-card"></i>
-					Pay online
-					<b>{{ $registration->getAmountsForPay()[\App\Currency::CZK] }} CZK</b>
-					{{--<i class="fa fa-cc-visa"></i>--}}
-					{{--<i class="fa fa-cc-mastercard"></i>--}}
-				</a>
-			</p>
+			{{--<p class="text-center">--}}
+				{{--<a href="{{ url('/payment/redirect') }}" class="btn btn-success btn-lg">--}}
+					{{--<i class="fa fa-lg fa-credit-card"></i>--}}
+					{{--Pay online--}}
+					{{--<b>{{ $registration->getAmountsForPay()[\App\Currency::CZK] }} CZK</b>--}}
+				{{--</a>--}}
+			{{--</p>--}}
 
 			@include('helper.bank_info')
 		@endif
