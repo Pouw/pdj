@@ -20,7 +20,7 @@ class PaymentController extends Controller
 
 	public function index(Request $request)
 	{
-		return view('payment');
+		return view('payment', ['registration' => Auth::user()->registration]);
 	}
 
 	private function getBankClient() {

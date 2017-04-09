@@ -196,6 +196,10 @@
 			background-color: #ffffff;
 		}
 
+		div.row.space {
+			margin-bottom: 15px;
+		}
+
     </style>
 </head>
 <body id="app-layout">

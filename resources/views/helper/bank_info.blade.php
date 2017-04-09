@@ -23,6 +23,3 @@
 	@endif
 </dl>
 
-<p class="alert alert-warning" role="alert">
-	A credit card payment is not available right now. Please try later or transfer the amount to the bank account shown above.
-</p>

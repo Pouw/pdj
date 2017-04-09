@@ -60,4 +60,14 @@ class User extends Authenticatable
 		return $this->belongsTo(\App\Country::class);
 	}
 
+	public function hasFinishedRegistration() {
+		$registration = $this->registration();
+		if ($registration->count() > 0) {
+			if (in_array($registration->first()->state, [\App\Registration::NEW, \App\Registration::PAID])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

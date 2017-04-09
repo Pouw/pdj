@@ -71,7 +71,7 @@ class Registration extends Model
 	}
 
 	public function getPriceSummarize(): PriceSummarize {
-		return  new PriceSummarize($this);
+		return new PriceSummarize($this);
 	}
 
 	public function save(array $options = []) {
@@ -89,6 +89,34 @@ class Registration extends Model
 
 	public function notes() {
 		return $this->hasMany(\App\Note::class);
+	}
+
+	public function getAmountsForPay() {
+		$amount = $this->getPriceSummarize()->getTotalPrice();
+		$payments = $this->payments()->where('state', Payments::PAID);
+		$userCurrencyId = $this->user->currency_id;
+		if ($payments->count() > 0) {
+			foreach ($payments->get() as $payment) {
+				if ($payment->currency_id === $userCurrencyId) {
+					$amount -= $payment->amount;
+				} else {
+					// fail
+				}
+			}
+		}
+		if ($amount < 0) {
+			$amount = 0;
+		}
+
+		$amounts = [];
+		$amounts[Currency::EUR] = $amount;
+		if ($userCurrencyId == Currency::EUR) {
+			$exchangeRate = ExchangeRate::getLastRate();
+			$amount = round($amount * $exchangeRate);
+		}
+
+		$amounts[Currency::CZK] = $amount;
+		return $amounts;
 	}
 
 }
