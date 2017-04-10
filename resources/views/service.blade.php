@@ -14,7 +14,7 @@
 			@include('form.outreach', ['name' => 'outreach_support', 'title' => 'Outreach Support', 'start' => 0, 'default' => $user->registration->outreach_support])
 		@else
 			@include('form.yes_no', ['name' => 'brunch', 'title' => 'Brunch', 'start' => 0, 'default' => $user->registration->brunch])
-			@include('form.yes_no', ['name' => 'concert', 'title' => 'Concert Doodles and Podium Paris', 'start' => 0, 'default' => $user->registration->concert])
+			@include('form.yes_no', ['name' => 'concert', 'title' => 'Concert Doodles and Podium Paris', 'start' => 0, 'default' => $user->registration->concert, 'disabled' => 'disabled'])
 			@include('form.yes_no', ['name' => 'hosted_housing', 'title' => 'Hosted Housing', 'start' => 0, 'default' => $user->registration->hosted_housing])
 			@include('form.outreach', ['name' => 'outreach_support', 'title' => 'Outreach Support', 'start' => 0, 'default' => $user->registration->outreach_support])
 			@include('form.yes_no', ['name' => 'outreach_request', 'title' => 'Outreach Request', 'start' => 0, 'default' => $user->registration->outreach_request])

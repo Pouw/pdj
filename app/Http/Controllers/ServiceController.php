@@ -29,7 +29,7 @@ class ServiceController extends Controller
 	public function save(Request $request) {
 		$user = Auth::user();
 		$user->registration->brunch = $request->get('brunch');
-		$user->registration->concert = $request->get('concert');
+//		$user->registration->concert = $request->get('concert');
 		$user->registration->hosted_housing = $request->get('hosted_housing');
 		if ($request->get('hosted_housing') === '1') {
 			$range = $request->get('hosted_housing_date_range');

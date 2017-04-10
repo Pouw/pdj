@@ -1,10 +1,15 @@
-<div class="form-group{{ $errors->has($name) ? ' has-error' : '' }}">
+<div class="form-group {{ $errors->has($name) ? ' has-error' : '' }}">
 	<label for="{{ $name }}" class="col-md-4 control-label">{{ $title }}</label>
 
-	<div class="col-md-4">
-		<label class="radio-inline"><input type="radio" name="{{$name}}" value="1" {{ intval(old($name, $default)) === 1 ? ' checked' : '' }}> Yes</label>
-		<label class="radio-inline"><input type="radio" name="{{$name}}" value="0" {{ intval(old($name, $default)) === 0 ? ' checked' : '' }}> No</label>
-
+	<div class="col-md-2" {!! isset($disabled) ? 'data-toggle="tooltip" data-original-title="closed / sold out"' : '' !!}>
+		<label class="radio-inline {{ $disabled or '' }}">
+			<input type="radio" name="{{$name}}" value="1" {{ intval(old($name, $default)) === 1 ? ' checked' : '' }} {{ $disabled or '' }}>
+			Yes
+		</label>
+		<label class="radio-inline {{ $disabled or '' }}">
+			<input type="radio" name="{{$name}}" value="0" {{ intval(old($name, $default)) === 0 ? ' checked' : '' }} {{ $disabled or '' }}>
+			No
+		</label>
 
 		@if ($errors->has($name))
 			<span class="help-block">
