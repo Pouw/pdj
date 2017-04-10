@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Currency;
 use App\Payments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,8 +50,12 @@ class PaymentController extends Controller
 
 		$payment = new Payments();
 		$payment->registration_id = $user->registration->id;
-		$payment->amount = $user->registration->getPriceSummarize()->getTotalPrice();
-		$payment->currency_id = $user->currency_id;
+		$amounts = $user->registration->getAmountsForPay();
+        $payment->amount = $amounts[Currency::CZK];
+        $payment->currency_id = Currency::CZK;
+        if ($user->currency_id == Currency::EUR) {
+            $payment->amount_eur = $amounts[Currency::EUR];
+        }
 		$payment->user_id = $user->id;
 		$payment->save();
 
