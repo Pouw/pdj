@@ -60,7 +60,7 @@ class PaymentController extends Controller
 		$payment->save();
 
 		$bankPayment = new Payment($payment->id);
-		$bankPayment->currency = $user->currency->iso;
+		$bankPayment->currency = 'CZK';
 		$bankPayment->language = 'EN';
 		$bankPayment->addCartItem('Registration for PRS', 1, intval($payment->amount) * 100);
 		$bc->paymentInit($bankPayment);
