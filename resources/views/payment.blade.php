@@ -6,15 +6,18 @@
 	<div class="panel-heading">Payment</div>
 	<div class="panel-body">
 
-		@if ($registration->payments()->whereState(\App\Payments::PAID)->count() > 0)
+		@if ($payments->count() > 0)
 			<div class="row space">
 				<div class="col-md-offset-2 col-md-8">
 					<div class="alert alert-success" role="alert">
-						We register the following payments from you:
+						We register the following payment{{ $payments->count() > 1 ? 's' : '' }} from you:
 						<ul>
-							@foreach($registration->payments()->whereState(\App\Payments::PAID)->get() as $payment)
+							@foreach($payments->get() as $payment)
 								<li>
 									Amount: <strong>{{ $payment->amount }}</strong> {{ $payment->currency->iso }}
+									@if ($payment->amount_eur)
+										<i>({{ $payment->amount_eur }} EUR)</i>
+									@endif
 								</li>
 							@endforeach
 						</ul>

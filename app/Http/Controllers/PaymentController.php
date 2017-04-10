@@ -21,7 +21,11 @@ class PaymentController extends Controller
 
 	public function index(Request $request)
 	{
-		return view('payment', ['registration' => Auth::user()->registration]);
+		$registration = Auth::user()->registration;
+		return view('payment', [
+			'registration' => $registration,
+			'payments' => $registration->payments()->whereState(\App\Payments::PAID),
+		]);
 	}
 
 	private function getBankClient() {

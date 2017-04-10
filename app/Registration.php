@@ -97,8 +97,10 @@ class Registration extends Model
 		$userCurrencyId = $this->user->currency_id;
 		if ($payments->count() > 0) {
 			foreach ($payments->get() as $payment) {
-				if ($payment->currency_id === $userCurrencyId) {
+				if ($payment->currency_id == $userCurrencyId) {
 					$amount -= $payment->amount;
+				} elseif ($userCurrencyId == Currency::EUR && $payment->currency_id == Currency::CZK && $payment->amount_eur > 0) {
+					$amount -= $payment->amount_eur;
 				} else {
 					// fail
 				}
