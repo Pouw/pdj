@@ -42,6 +42,8 @@ class PersonalController extends Controller
 		}
 
 		$user = Auth::user();
+        $user->name = $request->get('name');
+        $user->birthdate = $request->get('birthdate');
         $user->is_member = $request->get('is_member');
         $user->currency_id = $request->get('currency_id');
         $user->country_id = $request->get('country_id');

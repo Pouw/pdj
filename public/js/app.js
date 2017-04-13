@@ -47,6 +47,15 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#birthdate').daterangepicker({
+		singleDatePicker: true,
+		showDropdowns: true,
+		locale: {
+			format: 'YYYY-MM-DD',
+			firstDay: 1
+		}
+	});
+
     $(function () {
         $('[data-toggle="popover"]').popover()
     })

@@ -1,4 +1,14 @@
 
+@include('form.text', [
+	'name' => 'name',
+	'title' => 'Full Name',
+	'default' => $user->name,
+])
+@include('form.date', [
+	'name' => 'birthdate',
+	'title' => 'Birthdate',
+	'default' => $user->birthdate,
+])
 @include('form.yes_no', [
 	'name' => 'is_member',
 	'title' => 'Are you a member of Alcedo Prague, Aquamen, Doodles or GFC Friends Prague?',
