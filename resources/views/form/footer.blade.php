@@ -9,9 +9,13 @@
 	</div>
 
 	<div class="col-xs-6 col-xs-offset-0 col-md-4 col-md-offset-0 text-right">
-		@if(!isset($next) || $next !== false)
+		@if (!isset($next) || $next !== false)
 			<button type="submit" class="btn btn-primary">
-				<i class="fa fa-btn fa-chevron-circle-right"></i> Next
+				@if (isset($isSinglePage) && $isSinglePage)
+					<i class="fa fa-btn fa-save"></i> Save
+				@else
+					<i class="fa fa-btn fa-chevron-circle-right"></i> Next
+				@endif
 			</button>
 		@endif
 	</div>

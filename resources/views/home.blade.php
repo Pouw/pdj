@@ -10,7 +10,7 @@
 			 @if ($user->hasFinishedRegistration())
 				<div class="row space">
 					<div class="col-md-10 col-md-offset-2">
-						<a class="btn btn-primary" href="{{ url('/personal') }}">
+						<a class="btn btn-primary" href="{{ url('/personal/single') }}">
 							<i class="fa fa-btn fa-user"></i> Edit Your Personal Info
 						</a>
 					</div>

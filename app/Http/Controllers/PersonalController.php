@@ -24,8 +24,20 @@ class PersonalController extends Controller
 			'user' => $user,
             'currencies' => Currency::all(),
             'countries' => Country::orderBy('name')->get(),
+			'isSinglePage' => $this->isSinglePage($request),
 		];
 		return view('personal', $data);
+	}
+
+	public function saveNext(Request $request) {
+		$this->save($request);
+		return redirect('/registration');
+	}
+
+	public function saveSingle(Request $request) {
+		$this->save($request);
+		$request->session()->flash('alert-success', 'Your personal has been save.');
+		return redirect('/');
 	}
 
 	public function save(Request $request) {

@@ -19,7 +19,9 @@ Route::get('/home', function () {
 Route::auth();
 
 Route::get('/personal', 'PersonalController@index');
-Route::post('/personal', 'PersonalController@save');
+Route::post('/personal', 'PersonalController@saveNext');
+Route::get('/personal/single', 'PersonalController@index');
+Route::post('/personal/single', 'PersonalController@saveSingle');
 
 Route::get('/registration', 'RegistrationController@index');
 Route::post('/registration', 'RegistrationController@save');
