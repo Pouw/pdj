@@ -6,9 +6,6 @@ use Illuminate\Http\Request;
 use App\Currency;
 use App\Country;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests;
-use App\Sport;
-use App\RegistrationSportDisciplines;
 
 class PersonalController extends Controller
 {
@@ -43,13 +40,16 @@ class PersonalController extends Controller
 	public function save(Request $request) {
 		$countryId = intval($request->get('country_id'));
 		$currencyId = intval($request->get('currency_id'));
-        $validator = $this->getValidationFactory()->make($request->all(), []);
+        $validator = $this->getValidationFactory()->make($request->all(), [
+        	'birthdate' => 'required|date|before:-6 years'
+		]);
 		if ($currencyId === Currency::CZK && $countryId !== Country::CZECHIA) {
 			$validator->errors()->add('currency_id', "You can pay in EUR only.");
-			$this->throwValidationException($request, $validator);
 		}
 		if ($request->get('is_member') === '1' && $currencyId !== Currency::CZK) {
 			$validator->errors()->add('checkbox', "You can't be an Alceco member and pay in EUR.");
+		}
+		if (count($validator->errors()) > 0) {
 			$this->throwValidationException($request, $validator);
 		}
 

@@ -39,17 +39,18 @@ $(document).ready(function(){
 	});
 
 	$('#hosted_housing_date_range input').daterangepicker({
-		"minDate": "2017-04-25",
-		"maxDate": "2017-05-04",
+		minDate: '2017-04-25',
+		maxDate: '2017-05-04',
 		locale: {
 			format: 'YYYY-MM-DD',
-			"firstDay": 1
+			firstDay: 1
 		}
 	});
 
 	$('#birthdate').daterangepicker({
 		singleDatePicker: true,
 		showDropdowns: true,
+		maxDate: new Date(),
 		locale: {
 			format: 'YYYY-MM-DD',
 			firstDay: 1
