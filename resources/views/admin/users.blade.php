@@ -33,6 +33,7 @@
 					<th>ID</th>
 					<th>Name</th>
 					<th>Email</th>
+					<th>Birthdate</th>
 					<th>Admin</th>
 					<th>Member</th>
 					<th>Currency</th>
@@ -47,6 +48,7 @@
 						<td>{{ $user->id }}</td>
 						<td>{{ $user->name }}</td>
 						<td>{{ $user->email }}</td>
+						<td>{{ $user->birthdate }}</td>
 						<td>{{ $user->is_admin }}</td>
 						<td>{{ $user->is_member }}</td>
 						<td>{{ $user->currency ? $user->currency->iso : '' }}</td>

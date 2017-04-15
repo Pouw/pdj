@@ -23,6 +23,7 @@
 			<th>Need Partner</th>
 		@endif
 		@if (in_array($sportId, [\App\Sport::SWIMMING]))
+			<th>Birthdate</th>
 			@foreach(\App\Discipline::swimming() as $i => $discipline)
 				<th title="{{ $discipline->name }}">{{ $i + 1 }}.</th>
 			@endforeach
@@ -100,6 +101,7 @@
 				</td>
 			@endif
 			@if (in_array($sportId, [\App\Sport::SWIMMING]))
+				<td>{{ $sportReg->registration->user->birthdate }}</td>
 				@foreach(\App\Discipline::swimming() as $discipline)
 					<td>
 						@if($sportReg->disciplines()->whereDisciplineId($discipline->id)->count()) Yes @endif

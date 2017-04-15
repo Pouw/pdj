@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-	<div class="container">
+	<div class="{{ $sportId == 4 ? 'container-fluid' : 'container'}} ">
 		<div class="row">
 			<div id="admin-content" class="panel panel-default">
 				<div class="panel-body">

@@ -13,6 +13,10 @@
 		<td>{{ $user->email }}</td>
 	</tr>
 	<tr>
+		<th>Birthdate</th>
+		<td>{{ $user->birthdate }}</td>
+	</tr>
+	<tr>
 		<th>Admin</th>
 		<td>{{ $user->is_admin }}</td>
 	</tr>
