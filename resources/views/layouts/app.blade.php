@@ -45,7 +45,7 @@
             <div class="collapse navbar-collapse col-md-offset-3" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/personal') }}">Registration</a></li>
+                    <li><a href="{{ url('/') }}">Registration</a></li>
 					<li><a href="http://www.praguerainbow.eu/">Back to Prague Rainbow Spring</a></li>
                     @if (!Auth::guest() && Auth::user()->isAdmin())
                         <li class="dropdown">
