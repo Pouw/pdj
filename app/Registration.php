@@ -33,6 +33,10 @@ class Registration extends Model
 
 	public static $states = ['unfinished', 'new', 'paid', 'canceled', 'test'];
 
+	protected $fillable = [
+		'state',
+	];
+
 	public function sports() {
 		return $this->hasMany(\App\RegistrationSport::class);
 	}

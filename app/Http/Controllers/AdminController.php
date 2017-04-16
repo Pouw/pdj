@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Currency;
+use App\Discipline;
 use App\Note;
 use App\Payments;
 use App\Price;
 use App\Registration;
+use App\RegistrationSport;
+use App\Sport;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -167,6 +171,166 @@ class AdminController extends Controller
 		Mail::send('emails.test', ['user' => $user], function ($m) use ($user) {
 			$m->to($user->email, $user->name)->subject('Your Reminder!');
 		});
+	}
+
+	public function exports(Request $request) {
+		return view('admin.exports');
+	}
+
+	public function export(Request $request) {
+		$ext = $request->get('ext');
+		$excel = \App::make('excel');
+		$excel->create('pdj', function($excel) {
+			$excel->setTitle('PDJ');
+			$excel->sheet('All', function($sheet) {
+				$sheet->appendRow([
+					'id',
+					'paid',
+					'name',
+					'email',
+					'birthdate',
+					'member',
+					'country',
+					'city',
+					'HH',
+					'HH from',
+					'HH to',
+					'outreach support',
+					'outreach request',
+					'note',
+					'registration for',
+				]);
+				$regs = Registration::whereIn('state', [Registration::PAID, Registration::NEW])->get();
+				$i = 1;
+				foreach ($regs as $reg) {
+					$i++;
+					$outreachSupport = '';
+					if ($reg->outreach_support) {
+						if ($reg->user->currency_id == Currency::EUR) {
+							$outreachSupport = 5 * $reg->outreach_support . ' EUR';
+						} else {
+							$outreachSupport = 50 * $reg->outreach_support . ' CZK';
+						}
+					}
+					$for = [];
+					foreach ($reg->sports as $s) {
+						$for[] = $s->sport->name;
+					}
+					$for = implode('. ', $for);
+					$sheet->appendRow([
+						$reg->id,
+						$reg->state == Registration::PAID ? 'yes' : 'no',
+						$reg->user->name,
+						$reg->user->email,
+						$reg->user->birthdate,
+						$reg->user->is_member ? 'yes' : 'no',
+						$reg->user->country_id ? $reg->user->country->name : '',
+						$reg->user->city,
+						$reg->hosted_housing ? 'yes' : 'no',
+						$reg->hosted_housing ? $reg->hh_from : '',
+						$reg->hosted_housing ? $reg->hh_to : '',
+						$outreachSupport,
+						$reg->outreach_request ? 'yes' : 'no',
+						$reg->note,
+						$for,
+					]);
+					$sheet->getCell('A' . $i)->getHyperlink()->setUrl('https://registration.praguerainbow.eu/admin/registration?id=' . $reg->id);
+				}
+				$sheet->setAutoFilter();
+			});
+
+
+			$sports = Sport::get();
+			foreach ($sports as $sport) {
+				$excel->sheet($sport->name, function ($sheet) use ($sport) {
+					$head = ['id', 'paid', 'user', 'brunch'];
+					if ($sport->id == Sport::VOLLEYBALL) {
+						$head[] = 'club';
+						$head[] = 'team';
+						$head[] = 'level';
+					} elseif ($sport->id == Sport::BEACH_VOLLEYBALL) {
+						$head[] = 'primary';
+						$head[] = 'team';
+						$head[] = 'level';
+						$head[] = 'level alternative';
+					} elseif ($sport->id == Sport::SOCCER) {
+						$head[] = 'team';
+					} elseif ($sport->id == Sport::SWIMMING) {
+						$head[] = 'birthdate';
+						$head[] = 'club';
+						$head[] = 'captain';
+						$disciplines =  Discipline::whereSportId($sport->id)->orderBy('sort_key')->get();
+						foreach ($disciplines as $discipline) {
+							$head[] = $discipline->name;
+						}
+					} elseif ($sport->id == Sport::RUNNING) {
+						$head[] = 'primary';
+						$head[] = 'distance';
+					} elseif ($sport->id == Sport::BADMINTON) {
+						$head[] = 'singles';
+						$head[] = 'doubles';
+						$head[] = 'partner';
+						$head[] = 'need partner';
+					}
+					$head[] = 'note';
+					$sheet->appendRow($head);
+					$regs = \App\RegistrationSport::whereSportId($sport->id)->whereHas('registration', function ($query) {
+						$query->whereIn('state', [Registration::PAID, Registration::NEW]);
+					})->get();
+					$i = 1;
+					foreach ($regs as $reg) {
+						$i++;
+						$row = [
+							$reg->registration->id,
+							$reg->registration->state == Registration::PAID ? 'yes' : 'no',
+							$reg->registration->user->name,
+							$reg->registration->brunch ? 'yes' : 'no',
+						];
+						if ($sport->id == Sport::VOLLEYBALL) {
+							$row[] = $reg->club;
+							$row[] = $reg->team_id ? $reg->team->name : '';
+							$row[] = $reg->team_id ? $reg->team->level->name : '';
+						} elseif ($sport->id == Sport::BEACH_VOLLEYBALL) {
+							$row[] = RegistrationSport::whereRegistrationId($reg->registration_id)->count() === 1 ? 'yes': 'no';
+							$row[] = $reg->team_id ? $reg->team_name : '';
+							$row[] = $reg->level_id	 ? $reg->level->name : '';
+							$row[] = $reg->alt_level_id ? $reg->altLevel->name : '';
+						} elseif ($sport->id == Sport::SOCCER) {
+							$row[] = $reg->team_id ? $reg->team->name : '';
+						} elseif ($sport->id == Sport::SWIMMING) {
+							$row[] = $reg->registration->user->birthdate;
+							$row[] = $reg->club;
+							$row[] = $reg->captain;
+							$dics = $reg->disciplines;
+							foreach ($disciplines as $discipline) {
+								foreach ($dics as $dis) {
+									if ($discipline->id == $dis->discipline_id) {
+										$row[] = $dis->time ? $dis->time : '???';
+										continue 2;
+									}
+								}
+								$row[] = '';
+							}
+						} elseif ($sport->id == Sport::RUNNING) {
+							$row[] = RegistrationSport::whereRegistrationId($reg->registration_id)->count() === 1 ? 'yes': 'no';
+							foreach ($reg->disciplines as $discipline) {
+								$row[] = $discipline->discipline->name;
+							}
+						} elseif ($sport->id == Sport::BADMINTON) {
+							$row[] = $reg->level_id	 ? $reg->level->name : '';
+							$row[] = $reg->alt_level_id ? $reg->altLevel->name : '';
+							$row[] = $reg->team_name;
+							$row[] = $reg->find_partner ? 'yes' : 'no';
+						}
+						$row[] = $reg->registration->note;
+						$sheet->appendRow($row);
+						$sheet->getCell('A' . $i)->getHyperlink()->setUrl('https://registration.praguerainbow.eu/admin/registration?id=' . $reg->registration->id);
+					}
+
+					$sheet->setAutoFilter();
+				});
+			}
+		})->download($ext);
 	}
 
 }

@@ -56,6 +56,7 @@
                                 <li><a href="/admin/registrations">Registrations</a></li>
 								<li><a href="/admin/users">Users</a></li>
 								<li><a href="/admin/payments">Payments</a></li>
+								<li><a href="/admin/exports">Exports</a></li>
                             </ul>
                         </li>
                     @endif
