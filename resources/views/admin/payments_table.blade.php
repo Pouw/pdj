@@ -9,6 +9,7 @@
 		<th>Text</th>
 		<th>By</th>
 		<th>At</th>
+		<th>Reg</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -22,6 +23,7 @@
 			<td>{{ $payment->result_text }}</td>
 			<td>{{ $payment->user->name }}</td>
 			<td>{{ $payment->created_at }}</td>
+			<td><a href="{{ url('/admin/registration?id=' . $payment->registration_id) }}">{{ $payment->registration_id }}</a></td>
 		</tr>
 	@endforeach
 	</tbody>
