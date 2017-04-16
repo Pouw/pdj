@@ -17,6 +17,9 @@
 					<div class="col-md-8">
 						@foreach ($sports->where('day', $day) as $sport)
 							<div class="checkbox {{ $sport->status_id == \App\Status::DISABLED ? 'disabled' : '' }}">
+								@if ($sport->status_id == \App\Status::DISABLED && in_array($sport->id, old('sports', $defaultSports)))
+									<input type="hidden" name="sports[]" value="{{ $sport->id }}">
+								@endif
 								<label @if($sport->title) data-toggle="tooltip" title="{{ $sport->title }}" @endif>
 									<input
 											name="sports[]"

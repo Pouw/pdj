@@ -26,6 +26,7 @@ class PaymentController extends Controller
 		return view('payment', [
 			'registration' => $registration,
 			'payments' => $registration->payments()->whereState(\App\Payments::PAID),
+			'isSinglePage' => $this->isSinglePage($request),
 		]);
 	}
 

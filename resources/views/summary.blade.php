@@ -15,7 +15,7 @@
 		</div>
 		<form role="form" method="POST">
 			{{ csrf_field() }}
-			@include('form.footer', ['back' => '/service'])
+			@include('form.footer', ['back' => '/service', 'next' => !$isSinglePage])
 		</form>
 	</div>
 

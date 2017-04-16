@@ -10,7 +10,7 @@
 	<form class="form-horizontal" role="form" method="POST">
 		{{ csrf_field() }}
 		@include('form.personal')
-		@include('form.footer')
+		@include('form.footer', ['showSave' => true])
 	</form>
 </div>
 

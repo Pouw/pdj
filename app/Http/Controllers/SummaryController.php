@@ -20,6 +20,7 @@ class SummaryController extends Controller
 	{
 		$data = [
 			'price' => new Price(),
+			'isSinglePage' => $this->isSinglePage($request),
 		];
 		return view('summary', $data);
 	}

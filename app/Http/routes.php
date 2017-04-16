@@ -33,9 +33,11 @@ Route::get('/service', 'ServiceController@index');
 Route::post('/service', 'ServiceController@save');
 
 Route::get('/summary', 'SummaryController@index');
+Route::get('/summary/single', 'SummaryController@index');
 Route::post('/summary', 'SummaryController@save');
 
 Route::get('/payment', 'PaymentController@index');
+Route::get('/payment/single', 'PaymentController@index');
 Route::post('/payment', 'PaymentController@save');
 Route::get('/payment/redirect', 'PaymentController@paymentRedirect');
 Route::post('/payment/return', 'PaymentController@paymentReturn');

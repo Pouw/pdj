@@ -17,7 +17,7 @@
 				</div>
 				<div class="row space">
 					<div class="col-md-10 col-md-offset-2">
-						<a class="btn btn-primary" href="{{ url('/summary') }}">
+						<a class="btn btn-primary" href="{{ url('/summary/single') }}">
 							<i class="fa fa-btn fa-eye"></i> View Summary Registration
 						</a>
 					</div>
@@ -31,7 +31,7 @@
 				</div>
 				<div class="row space">
 					<div class="col-md-10 col-md-offset-2">
-						<a class="btn btn-primary" href="{{ url('/payment') }}">
+						<a class="btn btn-primary" href="{{ url('/payment/single') }}">
 							<i class="fa fa-btn fa-credit-card"></i> Payment
 						</a>
 					</div>
