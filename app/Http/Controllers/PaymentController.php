@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Currency;
 use App\Payments;
+use App\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use OndraKoupil\Csob\Config;
@@ -99,6 +100,12 @@ class PaymentController extends Controller
 			$request->session()->flash('alert-danger', "Transaction error:\n$msg");
 		}
 		$payment->save();
+
+		if ($payment->state == Payments::PAID) {
+			$reg = $payment->registration;
+			$reg->state = Registration::PAID;
+			$reg->save();
+		}
 
 		return redirect('/payment');
 	}

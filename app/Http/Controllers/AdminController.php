@@ -74,10 +74,9 @@ class AdminController extends Controller
 	public function registration(Request $request) {
 		$id = $request->get('id');
 		$registration = Registration::findOrFail($id);
-		$user = User::findOrFail($registration->user_id);
 		$data = [
 			'registration' => $registration,
-			'user' => $user,
+			'user' => $registration->user,
 			'price' => new Price(),
 		];
 		return view('admin.registration', $data);
@@ -175,6 +174,18 @@ class AdminController extends Controller
 
 	public function exports(Request $request) {
 		return view('admin.exports');
+	}
+
+	public function fixPaid() {
+		$payments = Payments::where('bank_status', 7)->get();
+		foreach($payments as $payment) {
+			$reg = $payment->registration;
+			if ($reg->state == Registration::NEW) {
+				$reg->state = Registration::PAID;
+				$reg->save();
+
+			}
+		}
 	}
 
 	public function export(Request $request) {
