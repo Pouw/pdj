@@ -39,7 +39,7 @@
 		<div>
 			<div>
 				<div class="col-md-8 col-md-offset-4 from-note">
-					Please read this info <a href="http://www.praguerainbow.eu/outreach-program.html" target="_blank">http://www.praguerainbow.eu/outreach-program.html</a>
+					Please read this info <a href="http://www.praguerainbow.eu/outreach.html" target="_blank">http://www.praguerainbow.eu/outreach.html</a>
 				</div>
 			</div>
 		</div>
