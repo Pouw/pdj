@@ -209,6 +209,7 @@ class AdminController extends Controller
 					'outreach support',
 					'outreach request',
 					'note',
+					'internal note',
 					'registration for',
 				]);
 				$regs = Registration::whereIn('state', [Registration::PAID, Registration::NEW])->get();
@@ -223,11 +224,6 @@ class AdminController extends Controller
 							$outreachSupport = 50 * $reg->outreach_support . ' CZK';
 						}
 					}
-					$for = [];
-					foreach ($reg->sports as $s) {
-						$for[] = $s->sport->name;
-					}
-					$for = implode('. ', $for);
 					$sheet->appendRow([
 						$reg->id,
 						$reg->state == Registration::PAID ? 'yes' : 'no',
@@ -243,7 +239,8 @@ class AdminController extends Controller
 						$outreachSupport,
 						$reg->outreach_request ? 'yes' : 'no',
 						$reg->note,
-						$for,
+						$reg->notes->implode('content', "\n"),
+						$reg->sports->implode('sport.name', "\n")
 					]);
 					$sheet->getCell('A' . $i)->getHyperlink()->setUrl('https://registration.praguerainbow.eu/admin/registration?id=' . $reg->id);
 				}
