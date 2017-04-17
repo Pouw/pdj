@@ -56,3 +56,6 @@ Route::get('/admin/mail-test', 'AdminController@mailTest');
 Route::get('/admin/exports', 'AdminController@exports');
 Route::get('/admin/export', 'AdminController@export');
 Route::get('/admin/fix-paid', 'AdminController@fixPaid');
+Route::get('/admin/mails', 'Admin\EmailsController@index');
+Route::post('/admin/mails', 'Admin\EmailsController@index');
+Route::post('/admin/mails/send', 'Admin\EmailsController@send');

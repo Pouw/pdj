@@ -33,7 +33,7 @@
 								<li>{{ $regSport->sport->title }}</li>
 							@endif
 							@if ($regSport->sport->id == App\Sport::RUNNING)
-								<li>Distance: {{ $regSport->disciplines->first()->discipline->name }}</li>
+								<li>Distance: {{ $regSport->disciplines->count() ? $regSport->disciplines->first()->discipline->name : '' }}</li>
 							@endif
 							@if ($regSport->sport->id == App\Sport::SOCCER)
 								@if($regSport->team)

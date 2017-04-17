@@ -57,6 +57,7 @@
 								<li><a href="/admin/users">Users</a></li>
 								<li><a href="/admin/payments">Payments</a></li>
 								<li><a href="/admin/exports">Exports</a></li>
+								{{--<li><a href="/admin/mails">Mails</a></li>--}}
                             </ul>
                         </li>
                     @endif
