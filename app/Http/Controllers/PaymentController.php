@@ -114,12 +114,26 @@ class PaymentController extends Controller
 	public function test() {
 		$client = $this->getBankClient();
 		try {
-			dump($client->testPostConnection());
-			dump('OK');
-		} catch (Exception $e) {
+//			dump($client->testPostConnection());
+//			dump('OK');
+			echo "<pre>";
+			// 3) Platba zrušena
+			// 6) Platba zamítnuta
+			// 8) Platba zúčtována
+			$payments = Payments::whereNotNull('pay_id')->whereRaw('(bank_status NOT IN (3, 6, 8) OR bank_status IS NULL)')->get();
+			foreach ($payments as $payment) {
+				$status = $client->paymentStatus($payment->pay_id);
+				if ($payment->bank_status == $status) {
+					echo 'Same ' . $payment->id . ' - ' . $status . ' : ' . $payment->state . "\n";
+				} else {
+					echo 'Change ' . $payment->id . ' - ' . $payment->bank_status . ' => ' . $status . ' : ' . $payment->state . "\n";
+					$payment->bank_status = $status;
+					$payment->save();
+				}
+			}
+		} catch (\Exception $e) {
 			echo "Something went wrong: " . $e->getMessage();
 		}
-
 	}
 
 }

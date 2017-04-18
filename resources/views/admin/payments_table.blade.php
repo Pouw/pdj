@@ -7,6 +7,7 @@
 		<th>Currency</th>
 		<th>€</th>
 		<th>Text</th>
+		<th title="Bank Status">BS</th>
 		<th>By</th>
 		<th>At</th>
 		<th>Reg</th>
@@ -21,6 +22,7 @@
 			<td>{{ $payment->currency->iso }}</td>
 			<td class="text-right">{{ $payment->amount_eur }} €</td>
 			<td>{{ $payment->result_text }}</td>
+			<td>{{ $payment->bank_status }}</td>
 			<td>{{ $payment->user->name }}</td>
 			<td>{{ $payment->created_at }}</td>
 			<td><a href="{{ url('/admin/registration?id=' . $payment->registration_id) }}">{{ $payment->registration_id }}</a></td>

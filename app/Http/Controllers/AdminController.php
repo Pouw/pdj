@@ -181,9 +181,9 @@ class AdminController extends Controller
 		foreach($payments as $payment) {
 			$reg = $payment->registration;
 			if ($reg->state == Registration::NEW) {
+				dump($reg->id);
 				$reg->state = Registration::PAID;
 				$reg->save();
-
 			}
 		}
 	}
