@@ -20,7 +20,13 @@
 								@if ($sport->status_id == \App\Status::DISABLED && in_array($sport->id, old('sports', $defaultSports)))
 									<input type="hidden" name="sports[]" value="{{ $sport->id }}">
 								@endif
-								<label @if($sport->title) data-toggle="tooltip" title="{{ $sport->title }}" @endif>
+								<label
+									@if ($sport->title)
+										data-toggle="tooltip" title="{{ $sport->title }}"
+									@elseif ($sport->status_id == \App\Status::DISABLED)
+										data-toggle="tooltip" title="locked / closed"
+									@endif
+								>
 									<input
 											name="sports[]"
 											type="checkbox"
