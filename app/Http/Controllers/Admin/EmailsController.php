@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class EmailsController extends Controller
 {
-
-	public function __construct()
-	{
-		$this->middleware('auth');
-		$this->middleware('admin');
-	}
 
 	public function index() {
 		return view('admin.mails', []);

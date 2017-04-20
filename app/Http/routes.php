@@ -47,6 +47,7 @@ Route::get('/admin', 'AdminController@index');
 Route::get('/admin/registrations', 'AdminController@registrations');
 Route::get('/admin/registration', 'AdminController@registration');
 Route::post('/admin/registration', 'AdminController@registrationSave');
+Route::get('/admin/registration/log/{id}', 'Admin\RegistrationController@log');
 Route::get('/admin/users', 'AdminController@users');
 Route::get('/admin/user', 'AdminController@user');
 Route::get('/admin/payments', 'AdminController@payments');

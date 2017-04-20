@@ -95,6 +95,10 @@ class Registration extends Model
 		return $this->hasMany(\App\Note::class);
 	}
 
+	public function logs() {
+		return $this->hasMany(\App\RegistrationLog::class);
+	}
+
 	public function getAmountsForPay() {
 		$amount = $this->getPriceSummarize()->getTotalPrice();
 		$payments = $this->payments()->where('state', Payments::PAID);
