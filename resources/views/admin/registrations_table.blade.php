@@ -67,8 +67,8 @@
 			@endif
 			@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL, \App\Sport::SOCCER]))
 				<td>
-					@if ($sportReg->level)
-						{{ $sportReg->level->name }}
+					@if ($sportReg->team_id)
+						{{ $sportReg->team->name }}
 					@endif
 				</td>
 			@endif
