@@ -55,9 +55,6 @@
 					@endif
 				</td>
 			@endif
-			@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL]))
-				<td>{{ $sportReg->team_name }}</td>
-			@endif
 			@if (in_array($sportId, [\App\Sport::VOLLEYBALL]))
 				<td>
 					@if ($sportReg->team && $sportReg->team->level)
@@ -65,7 +62,7 @@
 					@endif
 				</td>
 			@endif
-			@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL, \App\Sport::SOCCER]))
+			@if (in_array($sportId, [\App\Sport::SOCCER]))
 				<td>
 					@if ($sportReg->team_id)
 						{{ $sportReg->team->name }}
@@ -73,6 +70,12 @@
 				</td>
 			@endif
 			@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL]))
+				<td>{{ $sportReg->team_name }}</td>
+				<td>
+					@if ($sportReg->level)
+						{{ $sportReg->level->name }}
+					@endif
+				</td>
 				<td>
 					@if ($sportReg->altLevel)
 						{{ $sportReg->altLevel->name }}
