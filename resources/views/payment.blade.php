@@ -49,7 +49,7 @@
 				</a>
 			</p>
 
-			@include('helper.bank_info')
+			{{--@include('helper.bank_info')--}}
 		@endif
 
 		@include('form.footer', ['back' => '/summary', 'next' => false])
