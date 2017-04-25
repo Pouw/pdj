@@ -251,7 +251,7 @@ class AdminController extends Controller
 			$sports = Sport::get();
 			foreach ($sports as $sport) {
 				$excel->sheet($sport->name, function ($sheet) use ($sport) {
-					$head = ['id', 'paid', 'user', 'brunch'];
+					$head = ['id', 'paid', 'user', 'brunch', 'concert'];
 					if ($sport->id == Sport::VOLLEYBALL) {
 						$head[] = 'club';
 						$head[] = 'team';
@@ -293,6 +293,7 @@ class AdminController extends Controller
 							$reg->registration->state == Registration::PAID ? 'yes' : 'no',
 							$reg->registration->user->name,
 							$reg->registration->brunch ? 'yes' : 'no',
+							$reg->registration->concert ? 'yes' : 'no',
 						];
 						if ($sport->id == Sport::VOLLEYBALL) {
 							$row[] = $reg->club;
@@ -300,7 +301,7 @@ class AdminController extends Controller
 							$row[] = $reg->team_id ? $reg->team->level->name : '';
 						} elseif ($sport->id == Sport::BEACH_VOLLEYBALL) {
 							$row[] = RegistrationSport::whereRegistrationId($reg->registration_id)->count() === 1 ? 'yes': 'no';
-							$row[] = $reg->team_id ? $reg->team_name : '';
+							$row[] = $reg->team_name;
 							$row[] = $reg->level_id	 ? $reg->level->name : '';
 							$row[] = $reg->alt_level_id ? $reg->altLevel->name : '';
 						} elseif ($sport->id == Sport::SOCCER) {
