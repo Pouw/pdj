@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Registration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class EmailsController extends Controller
@@ -14,7 +15,21 @@ class EmailsController extends Controller
 	}
 
 	public function preview() {
+		$user = Auth::user();
+		return view('emails.schedule', ['registration' => $user->registration]);
+	}
 
+	public function sendSchedule() {
+
+	}
+
+	public function sendScheduleEmail() {
+		$user = Auth::user();
+		$reg = $user->registration;
+		Mail::send('emails.schedule', [], function ($m) use ($reg) {
+			$m->to($reg->user->email, $reg->user->name)
+				->subject('Prague Rainbow Spring - Schedule');
+		});
 	}
 
 	public function send(Request $request) {

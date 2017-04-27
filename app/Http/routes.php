@@ -58,6 +58,9 @@ Route::get('/admin/mail-test', 'AdminController@mailTest');
 Route::get('/admin/exports', 'AdminController@exports');
 Route::get('/admin/export', 'AdminController@export');
 Route::get('/admin/fix-paid', 'AdminController@fixPaid');
-Route::get('/admin/mails', 'Admin\EmailsController@index');
-Route::post('/admin/mails', 'Admin\EmailsController@index');
-Route::post('/admin/mails/send', 'Admin\EmailsController@send');
+Route::get('/admin/emails', 'Admin\EmailsController@index');
+Route::get('/admin/emails/preview', 'Admin\EmailsController@preview');
+Route::get('/admin/emails/send-schedule-email', 'Admin\EmailsController@sendScheduleEmail');
+Route::post('/admin/emails/send', 'Admin\EmailsController@send');
+
+Route::get('/cron/email', 'CronController@email');
