@@ -13,7 +13,7 @@
 	<tbody>
 	@foreach($registration->sports as $regSport)
 		<tr>
-			@if ($regSport->sport->id == \App\Sport::VISITOR)
+			@if ($regSport->sport->id == \App\Item::VISITOR)
 				<td>
 					Visitor<br>
 					<small>Includes public transport and party tickets.</small>
@@ -22,25 +22,25 @@
 				<td>
 					{{ $regSport->sport->name }}
 					@if ($regSport->sport->title || in_array($regSport->sport->id, [
-					App\Sport::RUNNING,
-					App\Sport::SOCCER,
-					App\Sport::VOLLEYBALL,
-					App\Sport::BEACH_VOLLEYBALL,
-					App\Sport::BADMINTON,
-					App\Sport::SWIMMING]))
+					App\Item::RUNNING,
+					App\Item::SOCCER,
+					App\Item::VOLLEYBALL,
+					App\Item::BEACH_VOLLEYBALL,
+					App\Item::BADMINTON,
+					App\Item::SWIMMING]))
 						<ul style="font-size: 0.9em; margin-bottom: 0; margin-top: 0">
 							@if ($regSport->sport->title)
 								<li>{{ $regSport->sport->title }}</li>
 							@endif
-							@if ($regSport->sport->id == App\Sport::RUNNING)
+							@if ($regSport->sport->id == App\Item::RUNNING)
 								<li>Distance: {{ $regSport->disciplines->count() ? $regSport->disciplines->first()->discipline->name : '' }}</li>
 							@endif
-							@if ($regSport->sport->id == App\Sport::SOCCER)
+							@if ($regSport->sport->id == App\Item::SOCCER)
 								@if($regSport->team)
 									<li>Team name: {{ $regSport->team->name }}</li>
 								@endif
 							@endif
-							@if ($regSport->sport->id == App\Sport::VOLLEYBALL)
+							@if ($regSport->sport->id == App\Item::VOLLEYBALL)
 								@if($regSport->team)
 									<li>Team: {{ $regSport->team->name }}</li>
 									<li>Level: {{$regSport->team->level->name}}</li>
@@ -49,7 +49,7 @@
 									<li>Club: {{ $regSport->club }}</li>
 								@endif
 							@endif
-							@if ($regSport->sport->id == App\Sport::BEACH_VOLLEYBALL)
+							@if ($regSport->sport->id == App\Item::BEACH_VOLLEYBALL)
 								<li>Team name: {{ $regSport->team_name }}</li>
 								@if ($regSport->level)
 									<li>Level: {{ $regSport->level->name }}</li>
@@ -58,7 +58,7 @@
 									<li>Alternative level: {{ $regSport->altLevel->name }}</li>
 								@endif
 							@endif
-							@if ($regSport->sport->id == App\Sport::SWIMMING)
+							@if ($regSport->sport->id == App\Item::SWIMMING)
 								<li>Club: {{ $regSport->club }}</li>
 								<li>Captain: {{ $regSport->captain }}</li>
 								<li>
@@ -75,7 +75,7 @@
 									</ul>
 								</li>
 							@endif
-							@if ($regSport->sport->id == App\Sport::BADMINTON)
+							@if ($regSport->sport->id == App\Item::BADMINTON)
 								<li>
 									Category: {{ $regSport->disciplines->count() ? $regSport->disciplines->first()->discipline->name : ''}}</li>
 								<li>Singles: {{ $regSport->level_id ? $regSport->level->name : ''}}</li>

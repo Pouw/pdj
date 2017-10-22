@@ -14,7 +14,7 @@
 							<label>Recipients</label>
 							<select class="selectpicker" name="sport_id" title="Sport">
 								<option></option>
-								@foreach (App\Sport::all() as $sport)
+								@foreach (App\Item::all() as $sport)
 									<option value="{{ $sport->id }}" {{ old('sport_id') == $sport->id ? ' selected' : ''}}>
 										{{ $sport->name }}
 									</option>

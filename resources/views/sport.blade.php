@@ -11,27 +11,27 @@
             {{ csrf_field() }}
 
             @foreach($user->registration->sports as $regSport)
-                @if($regSport->sport->id === \App\Sport::VOLLEYBALL)
+                @if($regSport->sport->id === \App\Item::VOLLEYBALL)
                     <h3>{{ $regSport->sport->name }}</h3>
                     @include('sports/volleyball')
 
-                @elseif($regSport->sport->id === \App\Sport::BEACH_VOLLEYBALL)
+                @elseif($regSport->sport->id === \App\Item::BEACH_VOLLEYBALL)
                     <h3>{{ $regSport->sport->name }}</h3>
                     @include('sports/beach_volleyball')
 
-                @elseif($regSport->sport->id === \App\Sport::SOCCER)
+                @elseif($regSport->sport->id === \App\Item::SOCCER)
                     <h3>{{ $regSport->sport->name }}</h3>
                     @include('sports/soccer')
 
-                @elseif($regSport->sport->id === \App\Sport::RUNNING)
+                @elseif($regSport->sport->id === \App\Item::RUNNING)
                     <h3>{{ $regSport->sport->name }}</h3>
                     @include('sports/running')
 
-                @elseif($regSport->sport->id === \App\Sport::SWIMMING)
+                @elseif($regSport->sport->id === \App\Item::SWIMMING)
                     <h3>{{ $regSport->sport->name }}</h3>
                     @include('sports/swimming')
 
-                @elseif($regSport->sport->id === \App\Sport::BADMINTON)
+                @elseif($regSport->sport->id === \App\Item::BADMINTON)
                     <h3>{{ $regSport->sport->name }}</h3>
                     @include('sports/badminton')
 

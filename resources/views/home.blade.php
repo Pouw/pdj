@@ -22,13 +22,13 @@
 						</a>
 					</div>
 				</div>
-				{{--<div class="row space">--}}
-					{{--<div class="col-md-10 col-md-offset-2">--}}
-						{{--<a class="btn btn-primary" href="{{ url('/registration') }}">--}}
-							{{--<i class="fa fa-btn fa-pencil"></i> Edit Your Registration--}}
-						{{--</a>--}}
-					{{--</div>--}}
-				{{--</div>--}}
+				<div class="row space">
+					<div class="col-md-10 col-md-offset-2">
+						<a class="btn btn-primary" href="{{ url('/registration') }}">
+							<i class="fa fa-btn fa-pencil"></i> Edit Your Registration
+						</a>
+					</div>
+				</div>
 				<div class="row space">
 					<div class="col-md-10 col-md-offset-2">
 						<a class="btn btn-primary" href="{{ url('/payment/single') }}">

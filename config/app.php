@@ -2,6 +2,8 @@
 
 return [
 
+	'name' => 'Prague Rainbow Spring',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

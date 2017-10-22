@@ -50,9 +50,17 @@ class Registration extends Model
 		return $this->belongsTo(\App\User::class);
 	}
 
+	public function tournament() {
+		return $this->belongsTo(\App\Tournament::class);
+	}
+
+//	public function items() {
+//		return $this->belongsToMany('App\Item');
+//	}
+
 	public function isOnlySinger() {
 		$sports = $this->sports();
-		if ($sports->count() === 1 && intval($sports->first()->sport_id) === Sport::SINGING) {
+		if ($sports->count() === 1 && intval($sports->first()->sport_id) === Item::SINGING) {
 			return true;
 		}
 		return false;

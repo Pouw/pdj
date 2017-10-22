@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Tournament;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Sport;
+use App\Item;
 use App\Registration;
 use App\RegistrationSport;
 
@@ -17,13 +17,26 @@ class RegistrationController extends Controller
 
 	public function index(Request $request)
 	{
-		$user = Auth::user();
+		$user = $request->user();
+		if ($user->hasFinishedRegistration()) {
+			return redirect('/');
+		}
 		$defaultSports = [];
-		if ($user->registration != null) {
+
+		$tournament = Tournament::getActive();
+		if (empty($tournament)) {
+			return redirect('/');
+		}
+
+		$registration = $user->getActiveRegistration();
+		if ($registration != null) {
+			dd($tournament->items->all());
 			$defaultSports = array_column($user->registration->sports->all(), 'sport_id');
 		}
+
+		$items = $tournament->items();
 		$data = [
-			'sports' => Sport::orderBy('sort_key')->get(),
+			'sports' => $items->orderBy('sort_key')->get(),
 			'user' => $user,
 			'defaultSports' => $defaultSports,
 		];
@@ -31,20 +44,20 @@ class RegistrationController extends Controller
 	}
 
 	public function save(Request $request) {
-		$user = Auth::user();
+		$user = $request->user();
 		$sportIds = $request->get('sports');
 
 		$validator = $this->getValidationFactory()->make($request->all(), []);
 		if (empty($sportIds)) {
 			$validator->errors()->add('checkbox', 'Please, select at least one option!');
 		} else {
-			if (in_array(Sport::VISITOR, $sportIds) && count($sportIds) > 1) {
+			if (in_array(Item::VISITOR, $sportIds) && count($sportIds) > 1) {
 				$validator->errors()->add('checkbox', 'You are not a visitor if you wish to participate');
 			}
-			if (count(array_intersect($sportIds, [Sport::BADMINTON, Sport::SWIMMING, Sport::SOCCER, Sport::VOLLEYBALL])) >= 2) {
+			if (count(array_intersect($sportIds, [Item::BADMINTON, Item::SWIMMING, Item::SOCCER, Item::VOLLEYBALL])) >= 2) {
 				$validator->errors()->add('checkbox', 'Badminton, Swimming, Soccer and Volleyball take place in parallel. You can only participate in one of them.');
 			}
-			if (count(array_intersect($sportIds, [Sport::BEACH_VOLLEYBALL, Sport::RUNNING])) >= 2) {
+			if (count(array_intersect($sportIds, [Item::BEACH_VOLLEYBALL, Item::RUNNING])) >= 2) {
 				$validator->errors()->add('checkbox', 'Beach Volleyball and Running take place in parallel. You can only participate in one of them.');
 			}
 		}
@@ -76,12 +89,12 @@ class RegistrationController extends Controller
 				->whereNotIn('sport_id', $sportIds)
 				->delete();
 			$needMoreInfo = [
-				Sport::BADMINTON,
-				Sport::BEACH_VOLLEYBALL,
-				Sport::RUNNING,
-				Sport::SOCCER,
-				Sport::SWIMMING,
-				Sport::VOLLEYBALL
+				Item::BADMINTON,
+				Item::BEACH_VOLLEYBALL,
+				Item::RUNNING,
+				Item::SOCCER,
+				Item::SWIMMING,
+				Item::VOLLEYBALL
 			];
 			if (count(array_intersect($sportIds, $needMoreInfo)) > 0) {
 				$nextUrl = '/sport';

@@ -4,25 +4,25 @@
 		<th>ID</th>
 		<th>State</th>
 		<th>User</th>
-		@if (in_array($sportId, [\App\Sport::VOLLEYBALL, \App\Sport::BEACH_VOLLEYBALL, \App\Sport::SOCCER]))
+		@if (in_array($sportId, [\App\Item::VOLLEYBALL, \App\Item::BEACH_VOLLEYBALL, \App\Item::SOCCER]))
 			<th>Team Name</th>
 		@endif
-		@if (in_array($sportId, [\App\Sport::VOLLEYBALL, \App\Sport::BEACH_VOLLEYBALL]))
+		@if (in_array($sportId, [\App\Item::VOLLEYBALL, \App\Item::BEACH_VOLLEYBALL]))
 			<th>Level</th>
 		@endif
-		@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL]))
+		@if (in_array($sportId, [\App\Item::BEACH_VOLLEYBALL]))
 			<th>Alt. Level</th>
 		@endif
-		@if (in_array($sportId, [\App\Sport::RUNNING]))
+		@if (in_array($sportId, [\App\Item::RUNNING]))
 			<th>Distance</th>
 		@endif
-		@if (in_array($sportId, [\App\Sport::BADMINTON]))
+		@if (in_array($sportId, [\App\Item::BADMINTON]))
 			<th>Singles</th>
 			<th>Doubles</th>
 			<th>Partner Name</th>
 			<th>Need Partner</th>
 		@endif
-		@if (in_array($sportId, [\App\Sport::SWIMMING]))
+		@if (in_array($sportId, [\App\Item::SWIMMING]))
 			<th>Birthdate</th>
 			@foreach(\App\Discipline::swimming() as $i => $discipline)
 				<th title="{{ $discipline->name }}">{{ $i + 1 }}.</th>
@@ -48,28 +48,28 @@
 			</td>
 			<td class="{{ $sportReg->registration->state === \App\Registration::PAID ? 'success' : '' }}">{{ $sportReg->registration->state }}</td>
 			<td>{{ $sportReg->registration->user->name }}</td>
-			@if (in_array($sportId, [\App\Sport::VOLLEYBALL]))
+			@if (in_array($sportId, [\App\Item::VOLLEYBALL]))
 				<td>
 					@if ($sportReg->team)
 						{{ $sportReg->team->name }}
 					@endif
 				</td>
 			@endif
-			@if (in_array($sportId, [\App\Sport::VOLLEYBALL]))
+			@if (in_array($sportId, [\App\Item::VOLLEYBALL]))
 				<td>
 					@if ($sportReg->team && $sportReg->team->level)
 						{{ $sportReg->team->level->name }}
 					@endif
 				</td>
 			@endif
-			@if (in_array($sportId, [\App\Sport::SOCCER]))
+			@if (in_array($sportId, [\App\Item::SOCCER]))
 				<td>
 					@if ($sportReg->team_id)
 						{{ $sportReg->team->name }}
 					@endif
 				</td>
 			@endif
-			@if (in_array($sportId, [\App\Sport::BEACH_VOLLEYBALL]))
+			@if (in_array($sportId, [\App\Item::BEACH_VOLLEYBALL]))
 				<td>{{ $sportReg->team_name }}</td>
 				<td>
 					@if ($sportReg->level)
@@ -82,7 +82,7 @@
 					@endif
 				</td>
 			@endif
-			@if (in_array($sportId, [\App\Sport::BADMINTON]))
+			@if (in_array($sportId, [\App\Item::BADMINTON]))
 				<td>
 					@if ($sportReg->level)
 						{{ $sportReg->level->name }}
@@ -96,14 +96,14 @@
 				<td>{{ $sportReg->team_name }}</td>
 				<td>@if($sportReg->find_partner) Yes @endif</td>
 			@endif
-			@if (in_array($sportId, [\App\Sport::RUNNING]))
+			@if (in_array($sportId, [\App\Item::RUNNING]))
 				<td>
 					@if ($sportReg->disciplines->count())
 						{{ $sportReg->disciplines->first()->discipline->name }}
 					@endif
 				</td>
 			@endif
-			@if (in_array($sportId, [\App\Sport::SWIMMING]))
+			@if (in_array($sportId, [\App\Item::SWIMMING]))
 				<td>{{ $sportReg->registration->user->birthdate }}</td>
 				@foreach(\App\Discipline::swimming() as $discipline)
 					<td>

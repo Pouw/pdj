@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -26,6 +27,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
+	use Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -61,13 +64,21 @@ class User extends Authenticatable
 	}
 
 	public function hasFinishedRegistration() {
-		$registration = $this->registration();
+		$registration = $this->registration->tournament()->where('status_id', 1);
 		if ($registration->count() > 0) {
 			if (in_array($registration->first()->state, [\App\Registration::NEW, \App\Registration::PAID])) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public function getActiveRegistration() {
+		$tournament = Tournament::getActive();
+		if ($tournament) {
+			return $this->registration->where('tournament_id', $tournament->id)->first();
+		}
+		return null;
 	}
 
 }

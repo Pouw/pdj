@@ -8,7 +8,7 @@ class Discipline extends Model
 {
 
 	static public function swimming() {
-		return self::whereSportId(\App\Sport::SWIMMING)->orderBy('sort_key')->get();
+		return self::whereSportId(\App\Item::SWIMMING)->orderBy('sort_key')->get();
 	}
 
 }

@@ -9,7 +9,7 @@
 					<form action="">
 						<select class="selectpicker" name="sport_id" title="Sport" _onchange="this.form.submit();">
 							<option></option>
-							@foreach (App\Sport::all() as $sport)
+							@foreach (App\Item::all() as $sport)
 								<option value="{{ $sport->id }}" {{ $sportId == $sport->id ? ' selected' : ''}}>
 									{{ $sport->name }}
 								</option>
@@ -47,7 +47,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				@foreach (\App\Sport::all() as $sport)
+				@foreach (\App\Item::all() as $sport)
 					<tr>
 						<td><a href="{{ url("/admin/registrations?sport_id=$sport->id") }}">{{ $sport->name }}</a></td>
 						@foreach(\App\Registration::$states as $state)

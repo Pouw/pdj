@@ -5,7 +5,7 @@ namespace App\Libraries;
 use App\Currency;
 use App\Price;
 use App\Registration;
-use App\Sport;
+use App\Item;
 
 class PriceSummarize {
 
@@ -85,10 +85,10 @@ class PriceSummarize {
 		foreach ($this->registration->sports as $regSport) {
 			$sportIds[] = $regSport->sport->id;
 		}
-		if (count(array_intersect($sportIds, Sport::getMainSportIds()))) {
-			if (in_array(Sport::BEACH_VOLLEYBALL, $sportIds)) {
+		if (count(array_intersect($sportIds, Item::getMainSportIds()))) {
+			if (in_array(Item::BEACH_VOLLEYBALL, $sportIds)) {
 				$sale = Price::getBeachVolleyballSale();
-			} elseif (in_array(Sport::RUNNING, $sportIds)) {
+			} elseif (in_array(Item::RUNNING, $sportIds)) {
 				$sale = Price::getRunningSale();
 			}
 		}

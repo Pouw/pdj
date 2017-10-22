@@ -18,6 +18,8 @@ Route::get('/home', function () {
 
 Route::auth();
 
+Route::get('/logout', 'Auth\LoginController@logout');
+
 Route::get('/personal', 'PersonalController@index');
 Route::post('/personal', 'PersonalController@saveNext');
 Route::get('/personal/single', 'PersonalController@index');

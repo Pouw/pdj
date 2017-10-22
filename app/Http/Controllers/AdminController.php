@@ -9,7 +9,7 @@ use App\Payments;
 use App\Price;
 use App\Registration;
 use App\RegistrationSport;
-use App\Sport;
+use App\Item;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -248,22 +248,22 @@ class AdminController extends Controller
 			});
 
 
-			$sports = Sport::get();
+			$sports = Item::get();
 			foreach ($sports as $sport) {
 				$excel->sheet($sport->name, function ($sheet) use ($sport) {
 					$head = ['id', 'paid', 'user', 'brunch', 'concert'];
-					if ($sport->id == Sport::VOLLEYBALL) {
+					if ($sport->id == Item::VOLLEYBALL) {
 						$head[] = 'club';
 						$head[] = 'team';
 						$head[] = 'level';
-					} elseif ($sport->id == Sport::BEACH_VOLLEYBALL) {
+					} elseif ($sport->id == Item::BEACH_VOLLEYBALL) {
 						$head[] = 'primary';
 						$head[] = 'team';
 						$head[] = 'level';
 						$head[] = 'level alternative';
-					} elseif ($sport->id == Sport::SOCCER) {
+					} elseif ($sport->id == Item::SOCCER) {
 						$head[] = 'team';
-					} elseif ($sport->id == Sport::SWIMMING) {
+					} elseif ($sport->id == Item::SWIMMING) {
 						$head[] = 'birthdate';
 						$head[] = 'club';
 						$head[] = 'captain';
@@ -271,10 +271,10 @@ class AdminController extends Controller
 						foreach ($disciplines as $discipline) {
 							$head[] = $discipline->name;
 						}
-					} elseif ($sport->id == Sport::RUNNING) {
+					} elseif ($sport->id == Item::RUNNING) {
 						$head[] = 'primary';
 						$head[] = 'distance';
-					} elseif ($sport->id == Sport::BADMINTON) {
+					} elseif ($sport->id == Item::BADMINTON) {
 						$head[] = 'singles';
 						$head[] = 'doubles';
 						$head[] = 'partner';
@@ -295,18 +295,18 @@ class AdminController extends Controller
 							$reg->registration->brunch ? 'yes' : 'no',
 							$reg->registration->concert ? 'yes' : 'no',
 						];
-						if ($sport->id == Sport::VOLLEYBALL) {
+						if ($sport->id == Item::VOLLEYBALL) {
 							$row[] = $reg->club;
 							$row[] = $reg->team_id ? $reg->team->name : '';
 							$row[] = $reg->team_id ? $reg->team->level->name : '';
-						} elseif ($sport->id == Sport::BEACH_VOLLEYBALL) {
+						} elseif ($sport->id == Item::BEACH_VOLLEYBALL) {
 							$row[] = RegistrationSport::whereRegistrationId($reg->registration_id)->count() === 1 ? 'yes': 'no';
 							$row[] = $reg->team_name;
 							$row[] = $reg->level_id	 ? $reg->level->name : '';
 							$row[] = $reg->alt_level_id ? $reg->altLevel->name : '';
-						} elseif ($sport->id == Sport::SOCCER) {
+						} elseif ($sport->id == Item::SOCCER) {
 							$row[] = $reg->team_id ? $reg->team->name : '';
-						} elseif ($sport->id == Sport::SWIMMING) {
+						} elseif ($sport->id == Item::SWIMMING) {
 							$row[] = $reg->registration->user->birthdate;
 							$row[] = $reg->club;
 							$row[] = $reg->captain;
@@ -320,12 +320,12 @@ class AdminController extends Controller
 								}
 								$row[] = '';
 							}
-						} elseif ($sport->id == Sport::RUNNING) {
+						} elseif ($sport->id == Item::RUNNING) {
 							$row[] = RegistrationSport::whereRegistrationId($reg->registration_id)->count() === 1 ? 'yes': 'no';
 							foreach ($reg->disciplines as $discipline) {
 								$row[] = $discipline->discipline->name;
 							}
-						} elseif ($sport->id == Sport::BADMINTON) {
+						} elseif ($sport->id == Item::BADMINTON) {
 							$row[] = $reg->level_id	 ? $reg->level->name : '';
 							$row[] = $reg->alt_level_id ? $reg->altLevel->name : '';
 							$row[] = $reg->team_name;

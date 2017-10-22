@@ -16,14 +16,14 @@
 					<div class="col-md-4">{{ $dayTitle }}</div>
 					<div class="col-md-8">
 						@foreach ($sports->where('day', $day) as $sport)
-							<div class="checkbox {{ $sport->status_id == \App\Status::DISABLED ? 'disabled' : '' }}">
-								@if ($sport->status_id == \App\Status::DISABLED && in_array($sport->id, old('sports', $defaultSports)))
+							<div class="checkbox {{ $sport->pivot->status_id == \App\Status::DISABLED ? 'disabled' : '' }}">
+								@if ($sport->pivot->status_id == \App\Status::DISABLED && in_array($sport->id, old('sports', $defaultSports)))
 									<input type="hidden" name="sports[]" value="{{ $sport->id }}">
 								@endif
 								<label
 									@if ($sport->title)
 										data-toggle="tooltip" title="{{ $sport->title }}"
-									@elseif ($sport->status_id == \App\Status::DISABLED)
+									@elseif ($sport->pivot->status_id == \App\Status::DISABLED)
 										data-toggle="tooltip" title="locked / closed"
 									@endif
 								>
@@ -32,9 +32,9 @@
 											type="checkbox"
 											value="{{ $sport->id }}"
 											{{ in_array($sport->id, old('sports', $defaultSports)) ? ' checked' : '' }}
-											{{ $sport->status_id == \App\Status::DISABLED ? 'disabled' : '' }}
+											{{ $sport->pivot->status_id == \App\Status::DISABLED ? 'disabled' : '' }}
 									>
-									{{ $sport->id == \App\Sport::VISITOR ? "I'm a visitor only" : $sport->name }}
+									{{ $sport->id == \App\Item::VISITOR ? "I'm a visitor only" : $sport->name }}
 								</label>
 							</div>
 						@endforeach

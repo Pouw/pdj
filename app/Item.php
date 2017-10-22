@@ -11,14 +11,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\App\Sport whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Sport whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Sport whereIsActive($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Sport whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Sport whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereIsActive($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Item whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Sport extends Model
+class Item extends Model
 {
 
 	const VOLLEYBALL = 1;

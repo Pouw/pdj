@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests;
-use App\Sport;
+use App\Item;
 use App\Team;
 use App\RegistrationSportDisciplines;
 
@@ -30,12 +30,12 @@ class SportController extends Controller
 
 		$validator = $this->getValidationFactory()->make($request->all(), []);
 
-		foreach ([Sport::VOLLEYBALL => 'volleyball', Sport::SOCCER => 'football'] as $sportId => $sportName) {
+		foreach ([Item::VOLLEYBALL => 'volleyball', Item::SOCCER => 'football'] as $sportId => $sportName) {
 			if ($request->get($sportName . '_team') === 'create') {
 				if (empty($request->get($sportName . '_team_name'))) {
 					$validator->errors()->add($sportName . '_team', "Fill in name for your new team.");
 				}
-				if ($sportId === Sport::VOLLEYBALL) {
+				if ($sportId === Item::VOLLEYBALL) {
 					if (empty($request->get($sportName . '_team_level_id'))) {
 						$validator->errors()->add($sportName . '_team', "Select level for your new team.");
 					}
@@ -56,16 +56,16 @@ class SportController extends Controller
 		foreach ($user->registration->sports as $sport) {
 			$sportId = intval($sport->sport->id);
 			$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
-			if ($sportId === Sport::BEACH_VOLLEYBALL) {
+			if ($sportId === Item::BEACH_VOLLEYBALL) {
 				if (empty($request->get($sportKey . '_team_name'))) {
 					$validator->errors()->add($sportKey . '_team_name', "Fill in your team name for Beach Volleyball.");
 				}
-			} elseif (in_array($sportId, [Sport::RUNNING, Sport::SWIMMING, Sport::BADMINTON])) {
+			} elseif (in_array($sportId, [Item::RUNNING, Item::SWIMMING, Item::BADMINTON])) {
 				if (empty($request->get($sportKey . '_discipline'))) {
 					$validator->errors()->add($sportKey . '_discipline', "Select at least one discipline for $sportKey.");
 				}
 			}
-			if ($sportId === Sport::SWIMMING) {
+			if ($sportId === Item::SWIMMING) {
 				$disciplinesIds = $request->get($sportKey . '_discipline');
 				if (!empty($disciplinesIds)) {
 					foreach ($disciplinesIds as $disciplineId) {
@@ -76,7 +76,7 @@ class SportController extends Controller
 					}
 				}
 			}
-			if ($sportId === Sport::BADMINTON) {
+			if ($sportId === Item::BADMINTON) {
 				if (empty($request->get('badminton_level'))) {
 					$validator->errors()->add('badminton_level', "Select level for badminton singles or set you don't want to play.");
 				}
@@ -98,7 +98,7 @@ class SportController extends Controller
 //			DB::beginTransaction();
 			foreach ($user->registration->sports as $sport) {
 				$sportKey = str_replace(' ', '_', strtolower($sport->sport->name));
-				if (in_array($sport->sport->id, [Sport::VOLLEYBALL, Sport::SOCCER])) {
+				if (in_array($sport->sport->id, [Item::VOLLEYBALL, Item::SOCCER])) {
 					$switch = $request->get($sportKey . '_team');
 					if ($switch === 'find') {
 						$sport->team_id = $request->get($sportKey . '_team_id');
@@ -124,7 +124,7 @@ class SportController extends Controller
 				$sport->find_partner = $request->get($sportKey . '_find_partner');
 				$sport->save();
 
-				if (intval($sport->sport->id) === Sport::SWIMMING) {
+				if (intval($sport->sport->id) === Item::SWIMMING) {
 					foreach ($sport->disciplines as $discipline) {
 						$discipline->time = $request->get($sportKey . '_discipline_time_' . $discipline->discipline->id);
 						$discipline->save();
@@ -145,7 +145,7 @@ class SportController extends Controller
 						RegistrationSportDisciplines::insert($item);
 					}
 				}
-				if (in_array($sport->sport->id, [Sport::RUNNING, Sport::BADMINTON])) {
+				if (in_array($sport->sport->id, [Item::RUNNING, Item::BADMINTON])) {
 					RegistrationSportDisciplines::where('registration_sport_id', $sport->id)->delete();
 					$item = [
 						'registration_sport_id' => $sport->id,

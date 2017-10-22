@@ -33,7 +33,7 @@ class RegistrationSport extends Model
 	}
 
 	public function sport() {
-		return $this->belongsTo(\App\Sport::class);
+		return $this->belongsTo(\App\Item::class);
 	}
 
 	public function disciplines() {
