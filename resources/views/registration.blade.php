@@ -15,26 +15,27 @@
 				<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 {{ $day }}">
 					<div class="col-md-4">{{ $dayTitle }}</div>
 					<div class="col-md-8">
-						@foreach ($sports->where('day', $day) as $sport)
-							<div class="checkbox {{ $sport->pivot->status_id == \App\Status::DISABLED ? 'disabled' : '' }}">
-								@if ($sport->pivot->status_id == \App\Status::DISABLED && in_array($sport->id, old('sports', $defaultSports)))
-									<input type="hidden" name="sports[]" value="{{ $sport->id }}">
+						@foreach ($items->where('day', $day) as $item)
+							<div class="checkbox {{ $item->pivot->status_id == \App\Status::DISABLED ? 'disabled' : '' }}">
+								@if ($item->pivot->status_id == \App\Status::DISABLED && in_array($item->pivot->id, old('tournament_item_ids', $defaultSports)))
+									<input type="hidden" name="tournament_item_ids[]" value="{{ $item->id }}">
 								@endif
 								<label
-									@if ($sport->title)
-										data-toggle="tooltip" title="{{ $sport->title }}"
-									@elseif ($sport->pivot->status_id == \App\Status::DISABLED)
+									@if ($item->title)
+										data-toggle="tooltip" title="{{ $item->title }}"
+									@elseif ($item->pivot->status_id == \App\Status::DISABLED)
 										data-toggle="tooltip" title="locked / closed"
 									@endif
 								>
 									<input
-											name="sports[]"
+											name="tournament_item_ids[]"
 											type="checkbox"
-											value="{{ $sport->id }}"
-											{{ in_array($sport->id, old('sports', $defaultSports)) ? ' checked' : '' }}
-											{{ $sport->pivot->status_id == \App\Status::DISABLED ? 'disabled' : '' }}
+											value="{{ $item->pivot->id }}"
+											{{ in_array($item->pivot->id, old('tournament_item_ids', $defaultSports)) ? ' checked' : '' }}
+											{{ $item->pivot->status_id == \App\Status::DISABLED ? 'disabled' : '' }}
 									>
-									{{ $sport->id == \App\Item::VISITOR ? "I'm a visitor only" : $sport->name }}
+									{{$item->pivot->id}}
+									{{ $item->id == \App\Item::VISITOR ? "I'm a visitor only" : $item->name }}
 								</label>
 							</div>
 						@endforeach

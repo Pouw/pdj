@@ -11,6 +11,8 @@ class TournamentItem extends Model
 		return self::where('status_id', 1)->first();
 	}
 
-
+	public function tournament() {
+		return $this->belongsTo(Tournament::class);
+	}
 
 }
