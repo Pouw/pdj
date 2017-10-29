@@ -39,8 +39,9 @@ $(document).ready(function(){
 	});
 
 	$('#hosted_housing_date_range input').daterangepicker({
-		minDate: '2017-04-25',
-		maxDate: '2017-05-04',
+		opens: 'center',
+		minDate: '2018-05-02',
+		maxDate: '2018-05-09',
 		locale: {
 			format: 'YYYY-MM-DD',
 			firstDay: 1

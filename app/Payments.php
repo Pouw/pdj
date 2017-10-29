@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $registration_id
  * @property integer $amount
  * @property integer $currency_id
+ * @property integer $amount_eur
  * @property integer $user_id
  * @property string $pay_id
  * @property integer $bank_status

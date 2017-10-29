@@ -1,6 +1,6 @@
 
 @include('sports/input/discipline_running', [
 	'name' => 'running_discipline',
-	'disciplines' => $regSport->sport->disciplines,
-    'default' => $regSport->disciplines->count() > 0 ? $regSport->disciplines->first()->discipline_id : null,
+	'disciplines' => $registrationItem->tournamentItem->item->disciplines,
+    'default' => $registrationItem->disciplines->count() > 0 ? $registrationItem->disciplines->first()->discipline_id : null,
 ])

@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="table-responsive">
 				<div class="col-md-10 col-md-offset-1">
-					@include('summary.table', ['registration' => Auth::user()->registration, 'isMail' => false])
+					@include('summary.table', ['isMail' => false])
 				</div>
 			</div>
 		</div>

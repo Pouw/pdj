@@ -52,7 +52,7 @@
 						<td><a href="{{ url("/admin/registrations?sport_id=$sport->id") }}">{{ $sport->name }}</a></td>
 						@foreach(\App\Registration::$states as $state)
 							<td><a href="{{ url("/admin/registrations?sport_id=$sport->id&states[]=$state") }}">
-								{{ \App\RegistrationSport::join('registrations', 'registrations.id', '=', 'registration_sports.registration_id')
+								{{ \App\RegistrationItem::join('registrations', 'registrations.id', '=', 'registration_sports.registration_id')
 							->where('registrations.state', $state)
 							->where('sport_id', $sport->id)
 							->count() }}</a></td>

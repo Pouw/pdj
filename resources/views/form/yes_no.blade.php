@@ -28,7 +28,7 @@
 		<div>
 			<div class="col-md-4 col-md-offset-4">
 				<input type="text" name="hosted_housing_date_range" class="form-control" title="Arrival - Departure Range"
-					   value="{{ old('hosted_housing_date_range', ($user->registration->hh_from ?? '2017-04-28') . ' - ' . ($user->registration->hh_to ?? '2017-05-01')) }}">
+					   value="{{ old('hosted_housing_date_range', ($registration->hh_from ?? '2018-05-04') . ' - ' . ($registration->hh_to ?? '2018-05-06')) }}">
 			</div>
 		</div>
 		<div class="clearfix"></div>

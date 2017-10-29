@@ -12,17 +12,14 @@ use OndraKoupil\Csob\Client;
 use OndraKoupil\Csob\GatewayUrl;
 use OndraKoupil\Csob\Payment;
 
-class PaymentController extends Controller
-{
+class PaymentController extends Controller {
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->middleware('auth');
 	}
 
-	public function index(Request $request)
-	{
-		$registration = Auth::user()->registration;
+	public function index(Request $request) {
+		$registration = $request->user()->getActiveRegistration();
 		return view('payment', [
 			'registration' => $registration,
 			'payments' => $registration->payments()->whereState(\App\Payments::PAID),
@@ -50,18 +47,19 @@ class PaymentController extends Controller
 		return $client;
 	}
 
-	public function paymentRedirect() {
-		$user = Auth::user();
+	public function paymentRedirect(Request $request) {
+		$user = $request->user();
+		$registration = $request->user()->getActiveRegistration();
 		$bc = $this->getBankClient();
 
 		$payment = new Payments();
-		$payment->registration_id = $user->registration->id;
-		$amounts = $user->registration->getAmountsForPay();
-        $payment->amount = $amounts[Currency::CZK];
-        $payment->currency_id = Currency::CZK;
-        if ($user->currency_id == Currency::EUR) {
-            $payment->amount_eur = $amounts[Currency::EUR];
-        }
+		$payment->registration_id = $registration->id;
+		$amounts = $registration->getAmountsForPay();
+		$payment->amount = $amounts[Currency::CZK];
+		$payment->currency_id = Currency::CZK;
+		if ($user->currency_id == Currency::EUR) {
+			$payment->amount_eur = $amounts[Currency::EUR];
+		}
 		$payment->user_id = $user->id;
 		$payment->save();
 

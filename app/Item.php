@@ -31,27 +31,28 @@ class Item extends Model
 	const VISITOR = 8;
 
 	public function levels() {
-		return $this->hasMany(\App\Level::class);
+		return $this->hasMany(Level::class);
 	}
 
 	public function disciplines() {
-		return $this->hasMany(\App\Discipline::class);
+		return $this->hasMany(Discipline::class);
 	}
 
 	public function teams() {
-		return $this->hasMany(\App\Team::class);
+		return $this->hasMany(Team::class);
 	}
 
-	public function price() {
-		return $this->belongsTo(\App\Price::class);
-	}
+	// @deprecated
+//	public function price() {
+//		return $this->belongsTo(Price::class);
+//	}
 
 	public static function getMainSportIds() {
 		return [self::BADMINTON, self::SOCCER, self::SWIMMING, self::VOLLEYBALL];
 	}
 
 	public function registrations() {
-		return $this->hasMany(\App\RegistrationSport::class);
+		return $this->hasMany(RegistrationItem::class);
 	}
 
 }

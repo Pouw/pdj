@@ -11,17 +11,17 @@
 	</tr>
 	</thead>
 	<tbody>
-	@foreach($registration->sports as $regSport)
+	@foreach($registration->registrationItems as $registrationItem)
 		<tr>
-			@if ($regSport->sport->id == \App\Item::VISITOR)
+			@if ($registrationItem->tournamentItem->item_id == \App\Item::VISITOR)
 				<td>
 					Visitor<br>
 					<small>Includes public transport and party tickets.</small>
 				</td>
 			@else
 				<td>
-					{{ $regSport->sport->name }}
-					@if ($regSport->sport->title || in_array($regSport->sport->id, [
+					{{ $registrationItem->tournamentItem->item->name }}
+					@if ($registrationItem->tournamentItem->item->title || in_array($registrationItem->tournamentItem->item->id, [
 					App\Item::RUNNING,
 					App\Item::SOCCER,
 					App\Item::VOLLEYBALL,
@@ -29,42 +29,42 @@
 					App\Item::BADMINTON,
 					App\Item::SWIMMING]))
 						<ul style="font-size: 0.9em; margin-bottom: 0; margin-top: 0">
-							@if ($regSport->sport->title)
-								<li>{{ $regSport->sport->title }}</li>
+							@if ($registrationItem->tournamentItem->item->title)
+								<li>{{ $registrationItem->tournamentItem->item->title }}</li>
 							@endif
-							@if ($regSport->sport->id == App\Item::RUNNING)
-								<li>Distance: {{ $regSport->disciplines->count() ? $regSport->disciplines->first()->discipline->name : '' }}</li>
+							@if ($registrationItem->tournamentItem->item_id == App\Item::RUNNING)
+								<li>Distance: {{ $registrationItem->disciplines->count() ? $registrationItem->disciplines->first()->discipline->name : '' }}</li>
 							@endif
-							@if ($regSport->sport->id == App\Item::SOCCER)
-								@if($regSport->team)
-									<li>Team name: {{ $regSport->team->name }}</li>
+							@if ($registrationItem->tournamentItem->item_id == App\Item::SOCCER)
+								@if($registrationItem->team)
+									<li>Team name: {{ $registrationItem->team->name }}</li>
 								@endif
 							@endif
-							@if ($regSport->sport->id == App\Item::VOLLEYBALL)
-								@if($regSport->team)
-									<li>Team: {{ $regSport->team->name }}</li>
-									<li>Level: {{$regSport->team->level->name}}</li>
+							@if ($registrationItem->tournamentItem->item_id == App\Item::VOLLEYBALL)
+								@if($registrationItem->team)
+									<li>Team: {{ $registrationItem->team->name }}</li>
+									<li>Level: {{$registrationItem->team->level->name}}</li>
 								@endif
-								@if($regSport->club)
-									<li>Club: {{ $regSport->club }}</li>
-								@endif
-							@endif
-							@if ($regSport->sport->id == App\Item::BEACH_VOLLEYBALL)
-								<li>Team name: {{ $regSport->team_name }}</li>
-								@if ($regSport->level)
-									<li>Level: {{ $regSport->level->name }}</li>
-								@endif
-								@if ($regSport->altLevel)
-									<li>Alternative level: {{ $regSport->altLevel->name }}</li>
+								@if($registrationItem->club)
+									<li>Club: {{ $registrationItem->club }}</li>
 								@endif
 							@endif
-							@if ($regSport->sport->id == App\Item::SWIMMING)
-								<li>Club: {{ $regSport->club }}</li>
-								<li>Captain: {{ $regSport->captain }}</li>
+							@if ($registrationItem->tournamentItem->item_id == App\Item::BEACH_VOLLEYBALL)
+								<li>Team name: {{ $registrationItem->team_name }}</li>
+								@if ($registrationItem->level)
+									<li>Level: {{ $registrationItem->level->name }}</li>
+								@endif
+								@if ($registrationItem->altLevel)
+									<li>Alternative level: {{ $registrationItem->altLevel->name }}</li>
+								@endif
+							@endif
+							@if ($registrationItem->tournamentItem->item_id == App\Item::SWIMMING)
+								<li>Club: {{ $registrationItem->club }}</li>
+								<li>Captain: {{ $registrationItem->captain }}</li>
 								<li>
 									Disciplines:
 									<ul style="margin-bottom: 0; margin-top: 0">
-										@foreach($regSport->disciplines as $discipline)
+										@foreach($registrationItem->disciplines as $discipline)
 											<li>
 												{{ $discipline->discipline->name }}
 												@if ($discipline->time)
@@ -75,19 +75,19 @@
 									</ul>
 								</li>
 							@endif
-							@if ($regSport->sport->id == App\Item::BADMINTON)
+							@if ($registrationItem->tournamentItem->item_id == App\Item::BADMINTON)
 								<li>
-									Category: {{ $regSport->disciplines->count() ? $regSport->disciplines->first()->discipline->name : ''}}</li>
-								<li>Singles: {{ $regSport->level_id ? $regSport->level->name : ''}}</li>
-								<li>Doubles: {{ $regSport->altLevel ? $regSport->altLevel->name : '' }}</li>
+									Category: {{ $registrationItem->disciplines->count() ? $registrationItem->disciplines->first()->discipline->name : ''}}</li>
+								<li>Singles: {{ $registrationItem->level_id ? $registrationItem->level->name : ''}}</li>
+								<li>Doubles: {{ $registrationItem->altLevel ? $registrationItem->altLevel->name : '' }}</li>
 								<li>Your
-									partner: {{ $regSport->find_partner ? 'Need to find' : $regSport->team_name }}</li>
+									partner: {{ $registrationItem->find_partner ? 'Need to find' : $registrationItem->team_name }}</li>
 							@endif
 						</ul>
 					@endif
 				</td>
 			@endif
-			<td align="right">@include('helper.price', ['price' => $regSport->sport->price, 'user' => $registration->user])</td>
+			<td align="right">@include('helper.price', ['price' => $registrationItem->tournamentItem->price, 'user' => $registration->user])</td>
 		</tr>
 	@endforeach
 

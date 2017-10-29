@@ -34,7 +34,6 @@
 											{{ in_array($item->pivot->id, old('tournament_item_ids', $defaultSports)) ? ' checked' : '' }}
 											{{ $item->pivot->status_id == \App\Status::DISABLED ? 'disabled' : '' }}
 									>
-									{{$item->pivot->id}}
 									{{ $item->id == \App\Item::VISITOR ? "I'm a visitor only" : $item->name }}
 								</label>
 							</div>

@@ -3,36 +3,36 @@
 @section('content')
     @include('helper.panel_top')
 
-    <div class="panel-heading">Please fill detail about sport{{ $user->registration->sports->count() > 1 ? 's': ''}}</div>
+    <div class="panel-heading">Please fill detail about sport{{ $user->getActiveRegistration()->registrationItems->count() > 1 ? 's': ''}}</div>
 
     <div class="panel-body">
         @include('form.errors')
         <form class="form-horizontal" role="form" method="POST">
             {{ csrf_field() }}
 
-            @foreach($user->registration->sports as $regSport)
-                @if($regSport->sport->id === \App\Item::VOLLEYBALL)
-                    <h3>{{ $regSport->sport->name }}</h3>
+            @foreach($user->getActiveRegistration()->registrationItems as $registrationItem)
+                @if($registrationItem->tournamentItem->item_id === \App\Item::VOLLEYBALL)
+                    <h3>{{ $registrationItem->tournamentItem->name }}</h3>
                     @include('sports/volleyball')
 
-                @elseif($regSport->sport->id === \App\Item::BEACH_VOLLEYBALL)
-                    <h3>{{ $regSport->sport->name }}</h3>
+                @elseif($registrationItem->tournamentItem->item_id === \App\Item::BEACH_VOLLEYBALL)
+                    <h3>{{ $registrationItem->tournamentItem->item->name }}</h3>
                     @include('sports/beach_volleyball')
 
-                @elseif($regSport->sport->id === \App\Item::SOCCER)
-                    <h3>{{ $regSport->sport->name }}</h3>
+                @elseif($registrationItem->tournamentItem->item_id === \App\Item::SOCCER)
+                    <h3>{{ $registrationItem->tournamentItem->item->name }}</h3>
                     @include('sports/soccer')
 
-                @elseif($regSport->sport->id === \App\Item::RUNNING)
-                    <h3>{{ $regSport->sport->name }}</h3>
+                @elseif($registrationItem->tournamentItem->item_id === \App\Item::RUNNING)
+                    <h3>{{ $registrationItem->tournamentItem->item->name }}</h3>
                     @include('sports/running')
 
-                @elseif($regSport->sport->id === \App\Item::SWIMMING)
-                    <h3>{{ $regSport->sport->name }}</h3>
+                @elseif($registrationItem->tournamentItem->item_id === \App\Item::SWIMMING)
+                    <h3>{{ $registrationItem->tournamentItem->item->name }}</h3>
                     @include('sports/swimming')
 
-                @elseif($regSport->sport->id === \App\Item::BADMINTON)
-                    <h3>{{ $regSport->sport->name }}</h3>
+                @elseif($registrationItem->tournamentItem->item_id === \App\Item::BADMINTON)
+                    <h3>{{ $registrationItem->tournamentItem->item->name }}</h3>
                     @include('sports/badminton')
 
                 @endif

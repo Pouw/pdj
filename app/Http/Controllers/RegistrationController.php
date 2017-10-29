@@ -8,10 +8,10 @@ use App\Rules\VisitorOnly;
 use App\Rules\FirstDayItemsCombination;
 use App\Rules\SecondDayItemsCombination;
 use App\Tournament;
+use App\TournamentItem;
 use Illuminate\Http\Request;
-use App\Item;
 use App\Registration;
-use App\RegistrationSport;
+use App\RegistrationItem;
 
 class RegistrationController extends Controller
 {
@@ -24,14 +24,12 @@ class RegistrationController extends Controller
 	public function index(Request $request)
 	{
 		$user = $request->user();
-		if ($user->hasFinishedRegistration()) {
-			return redirect('/');
-		}
-		$defaultSports = [];
 
+		$defaultSports = [];
 		$registration = $user->getActiveRegistration();
 		if ($registration != null) {
-			$defaultSports = array_column($user->registration->sports->all(), 'sport_id');
+			$registrationItem = $user->getActiveRegistration()->registrationItems->all();
+			$defaultSports = array_column($registrationItem, 'tournament_item_id');
 		}
 
 		$tournament = Tournament::getActive();
@@ -52,41 +50,40 @@ class RegistrationController extends Controller
 		]);
 
 		$user = $request->user();
-		if (empty($user->registration)) {
-			$item = ['user_id' => $user->id];
-			$regId = Registration::insertGetId($item);
+		$registration = $user->getActiveRegistration();
+		if (empty($registration)) {
+			$item = [
+				'user_id' => $user->id,
+				'tournament_id' => Tournament::getActive()->id,
+			];
+			$registrationId = Registration::insertGetId($item);
 		} else {
-			$regId = $user->registration->id;
+			$registrationId = $registration->id;
 		}
 
-		$nextUrl = '/service';
-		$sportIds = $request->get('tournament_item_ids');
-		foreach ($sportIds as $sportId) {
-			$item = [
-				'registration_id' => $regId,
-				'sport_id' => $sportId,
+		$tournamentItemIds = $request->get('tournament_item_ids');
+		foreach ($tournamentItemIds as $tournamentItemId) {
+			$newItem = [
+				'registration_id' => $registrationId,
+				'tournament_item_id' => $tournamentItemId,
 			];
-			$regSport = RegistrationSport::where($item);
-			if ($regSport->count() === 0) {
-				$regSport->insert($item);
+			$registrationItem = RegistrationItem::where($newItem);
+			if ($registrationItem->count() === 0) {
+				$registrationItem->insert($newItem);
 			}
 		}
-		RegistrationSport::where('registration_id', $regId)
-			->whereNotIn('sport_id', $sportIds)
+		RegistrationItem::where('registration_id', $registrationId)
+			->whereNotIn('tournament_item_id', $tournamentItemIds)
 			->delete();
-		$needMoreInfo = [
-			Item::BADMINTON,
-			Item::BEACH_VOLLEYBALL,
-			Item::RUNNING,
-			Item::SOCCER,
-			Item::SWIMMING,
-			Item::VOLLEYBALL
-		];
-		if (count(array_intersect($sportIds, $needMoreInfo)) > 0) {
-			$nextUrl = '/sport';
+		RegistrationLog::log($registration);
+
+		$tournamentItems = TournamentItem::whereIn('id', $tournamentItemIds);
+		foreach ($tournamentItems->get() as $tournamentItem) {
+			if ($tournamentItem->item->needs_info) {
+				return redirect('/sport');
+			}
 		}
-		RegistrationLog::log();
-		return redirect($nextUrl);
+		return redirect('/service');
 	}
 
 }

@@ -5,22 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Currency;
 use App\Country;
-use Illuminate\Support\Facades\Auth;
 
-class PersonalController extends Controller
-{
-	public function __construct()
-	{
+class PersonalController extends Controller {
+	public function __construct() {
 		$this->middleware('auth');
 	}
 
 	public function index(Request $request) {
-		$user = Auth::user();
-
 		$data = [
-			'user' => $user,
-            'currencies' => Currency::all(),
-            'countries' => Country::orderBy('name')->get(),
+			'user' => $request->user(),
+			'currencies' => Currency::all(),
+			'countries' => Country::orderBy('name')->get(),
 			'isSinglePage' => $this->isSinglePage($request),
 		];
 		return view('personal', $data);
@@ -40,27 +35,30 @@ class PersonalController extends Controller
 	public function save(Request $request) {
 		$countryId = intval($request->get('country_id'));
 		$currencyId = intval($request->get('currency_id'));
-        $validator = $this->getValidationFactory()->make($request->all(), [
-        	'birthdate' => 'required|date|before:-6 years'
-		]);
-		if ($currencyId === Currency::CZK && $countryId !== Country::CZECHIA) {
-			$validator->errors()->add('currency_id', "You can pay in EUR only.");
+
+		$rules = [
+			'birthdate' => 'required|date|before:-6 years',
+		];
+		if ($countryId !== Country::CZECHIA) {
+			$rules['currency_id'] = 'in:' . Currency::EUR;
 		}
 		if ($request->get('is_member') === '1' && $currencyId !== Currency::CZK) {
-			$validator->errors()->add('checkbox', "You can't be an Alceco member and pay in EUR.");
-		}
-		if (count($validator->errors()) > 0) {
-			$this->throwValidationException($request, $validator);
+			$rules['is_member'] = 'in:0';
 		}
 
-		$user = Auth::user();
-        $user->name = $request->get('name');
-        $user->birthdate = $request->get('birthdate');
-        $user->is_member = $request->get('is_member');
-        $user->currency_id = $request->get('currency_id');
-        $user->country_id = $request->get('country_id');
-        $user->city = $request->get('city');
-        $user->save();
+		$request->validate($rules,[
+			'currency_id.in' => "You can pay in EUR only.",
+			'is_member.in' => "You can't be an Alceco member and pay in EUR.",
+		]);
+
+		$user = $request->user();
+		$user->name = $request->get('name');
+		$user->birthdate = $request->get('birthdate');
+		$user->is_member = $request->get('is_member');
+		$user->currency_id = $request->get('currency_id');
+		$user->country_id = $request->get('country_id');
+		$user->city = $request->get('city');
+		$user->save();
 
 		return redirect('/registration');
 	}

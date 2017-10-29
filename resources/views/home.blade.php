@@ -7,7 +7,7 @@
 
 	<div class="panel-body">
 		@if ($user)
-			 @if ($user->hasFinishedRegistration())
+			 @if ($user->hasFinishedActiveRegistration())
 				<div class="row space">
 					<div class="col-md-10 col-md-offset-2">
 						<a class="btn btn-primary" href="{{ url('/personal/single') }}">

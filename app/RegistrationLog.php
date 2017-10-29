@@ -3,17 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 class RegistrationLog extends Model
 {
 
-	public static function log() {
-		$user = Auth::user();
-		$registration = $user->registration()->first();
-		if ($registration->sports->count() > 0) {
-			foreach ($registration->sports as $sport) {
-				$sport->disciplines; // Intentionally, just load data for log
+	public static function log(Registration $registration) {
+		if ($registration->registrationItems->count() > 0) {
+			foreach ($registration->registrationItems as $registrationItem) {
+				$registrationItem->disciplines; // Intentionally, just load data for log
 			}
 		}
 		$content['registration'] = $registration;

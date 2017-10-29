@@ -2,6 +2,6 @@
 @include('form.team', [
 	'name' => 'football_team',
 	'title' => 'Team',
-	'teams' => $regSport->sport->teams,
-	'default' => $regSport->team_id,
+	'teams' => $registrationItem->tournamentItem->item->teams,
+	'default' => $registrationItem->team_id,
 ])

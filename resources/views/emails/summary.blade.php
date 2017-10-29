@@ -5,6 +5,6 @@
 	<p>Your registration was successful.</p>
 	<p>The summary of your registration is as follows:</p>
 
-	@include('summary.table', ['registration' => Auth::user()->registration, 'isMail' => true])
+	@include('summary.table', ['isMail' => true])
 
 @endsection

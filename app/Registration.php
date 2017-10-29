@@ -37,8 +37,8 @@ class Registration extends Model
 		'state',
 	];
 
-	public function sports() {
-		return $this->hasMany(\App\RegistrationSport::class);
+	public function registrationItems() {
+		return $this->hasMany(RegistrationItem::class);
 	}
 
 	public function priceBunch() {
@@ -47,11 +47,11 @@ class Registration extends Model
 	}
 
 	public function user() {
-		return $this->belongsTo(\App\User::class);
+		return $this->belongsTo(User::class);
 	}
 
 	public function tournament() {
-		return $this->belongsTo(\App\Tournament::class);
+		return $this->belongsTo(Tournament::class);
 	}
 
 //	public function items() {
@@ -59,19 +59,19 @@ class Registration extends Model
 //	}
 
 	public function isOnlySinger() {
-		$sports = $this->sports();
-		if ($sports->count() === 1 && intval($sports->first()->sport_id) === Item::SINGING) {
+		$registrationItems = $this->registrationItems;
+		if ($registrationItems->count() === 1 && intval($registrationItems->first()->item_id) === Item::SINGING) {
 			return true;
 		}
 		return false;
 	}
 
 	public function payments() {
-		return $this->hasMany(\App\Payments::class);
+		return $this->hasMany(Payments::class);
 	}
 
 	public function changes() {
-		return $this->hasMany(\App\RegistrationChange::class);
+		return $this->hasMany(RegistrationChange::class);
 	}
 
 	public function variableSymbol() {
@@ -100,11 +100,11 @@ class Registration extends Model
 	}
 
 	public function notes() {
-		return $this->hasMany(\App\Note::class);
+		return $this->hasMany(Note::class);
 	}
 
 	public function logs() {
-		return $this->hasMany(\App\RegistrationLog::class);
+		return $this->hasMany(RegistrationLog::class);
 	}
 
 	public function getAmountsForPay() {

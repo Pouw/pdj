@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RegistrationSportDisciplines extends Model
+class RegistrationItemDiscipline extends Model
 {
 	public function discipline() {
-		return $this->belongsTo(\App\Discipline::class);
+		return $this->belongsTo(Discipline::class);
 	}
 }

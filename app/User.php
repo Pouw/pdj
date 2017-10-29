@@ -47,8 +47,8 @@ class User extends Authenticatable
         'password', 'remember_token', 'is_admin'
     ];
 
-	public function registration() {
-		return $this->hasOne(\App\Registration::class);
+	public function registrations() {
+		return $this->hasMany(Registration::class);
 	}
 
 	public function isAdmin(): bool {
@@ -56,17 +56,17 @@ class User extends Authenticatable
 	}
 
 	public function currency() {
-		return $this->belongsTo(\App\Currency::class);
+		return $this->belongsTo(Currency::class);
 	}
 
 	public function country() {
-		return $this->belongsTo(\App\Country::class);
+		return $this->belongsTo(Country::class);
 	}
 
-	public function hasFinishedRegistration() {
-		$registration = $this->registration->tournament()->where('status_id', 1);
-		if ($registration->count() > 0) {
-			if (in_array($registration->first()->state, [\App\Registration::NEW, \App\Registration::PAID])) {
+	public function hasFinishedActiveRegistration() {
+		$registration = $this->getActiveRegistration();
+		if ($registration) {
+			if (in_array($registration->state, [Registration::NEW, Registration::PAID])) {
 				return true;
 			}
 		}
@@ -76,7 +76,7 @@ class User extends Authenticatable
 	public function getActiveRegistration() {
 		$tournament = Tournament::getActive();
 		if ($tournament) {
-			return $this->registration->where('tournament_id', $tournament->id)->first();
+			return $this->registrations()->whereTournamentId($tournament->id)->whereUserId($this->id)->first();
 		}
 		return null;
 	}

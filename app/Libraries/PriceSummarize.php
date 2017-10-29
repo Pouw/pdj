@@ -19,8 +19,8 @@ class PriceSummarize {
 
 	public function getTotalPrice() {
 		$items = [];
-		foreach ($this->registration->sports as $regSport) {
-			$price = $regSport->sport->price;
+		foreach ($this->registration->registrationItems as $registrationItems) {
+			$price = $registrationItems->tournamentItem->price;
 			$items[] = [
 				'price' => $price,
 				'quantity' => 1,
@@ -82,8 +82,8 @@ class PriceSummarize {
 	public function getSale() {
 		$sportIds = [];
 		$sale = false;
-		foreach ($this->registration->sports as $regSport) {
-			$sportIds[] = $regSport->sport->id;
+		foreach ($this->registration->registrationItems as $registrationItems) {
+			$sportIds[] = $registrationItems->tournamentItem->id;
 		}
 		if (count(array_intersect($sportIds, Item::getMainSportIds()))) {
 			if (in_array(Item::BEACH_VOLLEYBALL, $sportIds)) {

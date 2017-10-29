@@ -8,7 +8,7 @@ use App\Note;
 use App\Payments;
 use App\Price;
 use App\Registration;
-use App\RegistrationSport;
+use App\RegistrationItem;
 use App\Item;
 use App\User;
 use Illuminate\Http\Request;
@@ -43,7 +43,7 @@ class AdminController extends Controller
 		];
 
 		if (!empty($states) || !empty($service) || !empty($sportId)) {
-			$sportRegistrations = new \App\RegistrationSport();
+			$sportRegistrations = new \App\RegistrationItem();
 			if (!empty($states) || !empty($service)) {
 				$sportRegistrations = $sportRegistrations->whereHas('registration', function ($query) use ($states, $service) {
 					if (!empty($states)) {
@@ -282,7 +282,7 @@ class AdminController extends Controller
 					}
 					$head[] = 'note';
 					$sheet->appendRow($head);
-					$regs = \App\RegistrationSport::whereSportId($sport->id)->whereHas('registration', function ($query) {
+					$regs = \App\RegistrationItem::whereSportId($sport->id)->whereHas('registration', function ($query) {
 						$query->whereIn('state', [Registration::PAID, Registration::NEW]);
 					})->get();
 					$i = 1;
@@ -300,7 +300,7 @@ class AdminController extends Controller
 							$row[] = $reg->team_id ? $reg->team->name : '';
 							$row[] = $reg->team_id ? $reg->team->level->name : '';
 						} elseif ($sport->id == Item::BEACH_VOLLEYBALL) {
-							$row[] = RegistrationSport::whereRegistrationId($reg->registration_id)->count() === 1 ? 'yes': 'no';
+							$row[] = RegistrationItem::whereRegistrationId($reg->registration_id)->count() === 1 ? 'yes': 'no';
 							$row[] = $reg->team_name;
 							$row[] = $reg->level_id	 ? $reg->level->name : '';
 							$row[] = $reg->alt_level_id ? $reg->altLevel->name : '';
@@ -321,7 +321,7 @@ class AdminController extends Controller
 								$row[] = '';
 							}
 						} elseif ($sport->id == Item::RUNNING) {
-							$row[] = RegistrationSport::whereRegistrationId($reg->registration_id)->count() === 1 ? 'yes': 'no';
+							$row[] = RegistrationItem::whereRegistrationId($reg->registration_id)->count() === 1 ? 'yes': 'no';
 							foreach ($reg->disciplines as $discipline) {
 								$row[] = $discipline->discipline->name;
 							}
