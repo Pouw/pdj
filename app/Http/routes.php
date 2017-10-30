@@ -46,10 +46,10 @@ Route::post('/payment/return', 'PaymentController@paymentReturn');
 Route::get('/payment/test', 'PaymentController@test');
 
 Route::get('/admin', 'AdminController@index');
-Route::get('/admin/registrations', 'AdminController@registrations');
-Route::get('/admin/registration', 'AdminController@registration');
-Route::post('/admin/registration', 'AdminController@registrationSave');
+Route::get('/admin/registration/id/{id}', 'Admin\RegistrationController@edit');
+Route::post('/admin/registration/id/{id}', 'Admin\RegistrationController@save');
 Route::get('/admin/registration/overview', 'Admin\RegistrationController@overview');
+Route::get('/admin/registration/list', 'Admin\RegistrationController@list');
 Route::get('/admin/registration/log/{id}', 'Admin\RegistrationController@log');
 Route::get('/admin/registration/check-paid', 'Admin\RegistrationController@checkPaid');
 Route::get('/admin/users', 'AdminController@users');

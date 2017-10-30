@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Price;
 use App\Tournament;
+use App\TournamentItem;
 use Illuminate\Http\Request;
 use App\Currency;
 use App\Payments;
-use App\RegistrationItem;
 use App\Registration;
+use Illuminate\Support\Facades\DB;
 
 class RegistrationController extends Controller {
 
@@ -20,44 +22,66 @@ class RegistrationController extends Controller {
 		if (!isset($tournamentId)) {
 			$tournamentId = Tournament::orderBy('id', 'desc')->first()->id;
 		}
-		$sportId = intval($request->get('sport_id'));
-		$states = (array) $request->get('states');
-		$service = $request->get('service');
 		$data = [
 			'tournamentId' => $tournamentId,
-			'sportId' => $sportId,
+		];
+		return view('admin.registration.overview', $data);
+	}
+
+	public function list(Request $request) {
+		$tournamentId = $request->get('tournament_id');
+		$itemId = $request->get('item_id');
+		$states = (array) $request->get('states');
+		$service = $request->get('service');
+		DB::enableQueryLog();
+		$query = new Registration();
+		$query = $query->select('registrations.*');
+		if ($tournamentId) {
+			$query = $query->whereTournamentId($tournamentId);
+		}
+		if (!empty($states)) {
+			$query = $query->whereIn('state', $states);
+		}
+		if (!empty($service)) {
+			if ($service === 'concert') {
+				$query = $query->where('concert', '>', 0);
+			} elseif ($service === 'brunch') {
+				$query = $query->where('brunch', '>', 0);
+			} elseif ($service === 'hosted_housing') {
+				$query = $query->where('hosted_housing', '>', 0);
+			} elseif ($service === 'outreach_support') {
+				$query = $query->where('outreach_support', '>', 0);
+			} elseif ($service === 'outreach_request') {
+				$query = $query->where('outreach_request', '>', 0);
+			}
+		}
+		if ($itemId) {
+			$query = $query->join('registration_items', 'registration_items.registration_id', '=', 'registrations.id');
+
+			$tournamentItemId = TournamentItem::whereTournamentId($tournamentId)->whereItemId($itemId)->first()->id;
+			$query = $query->where('registration_items.tournament_item_id', $tournamentItemId);
+		}
+		$registrations = $query->get();
+
+//		dump(DB::getQueryLog());
+
+		$data = [
+			'registrations' => $registrations,
+			'tournamentId' => $tournamentId,
+			'itemId' => $itemId,
 			'states' => $states,
 			'service' => $service,
 		];
+		return view('admin.registration.list', $data);
+	}
 
-
-		if (!empty($states) || !empty($service) || !empty($sportId)) {
-			$sportRegistrations = new RegistrationItem();
-			if (!empty($states) || !empty($service)) {
-				$sportRegistrations = $sportRegistrations->whereHas('registration', function ($query) use ($states, $service) {
-					if (!empty($states)) {
-						$query->whereIn('registrations.state', $states);
-					}
-					if ($service === 'concert') {
-						$query->where('registrations.concert', '>', 0);
-					} elseif ($service === 'brunch') {
-						$query->where('registrations.brunch', '>', 0);
-					} elseif ($service === 'hosted_housing') {
-						$query->where('registrations.hosted_housing', '>', 0);
-					} elseif ($service === 'outreach_support') {
-						$query->where('registrations.outreach_support', '>', 0);
-					} elseif ($service === 'outreach_request') {
-						$query->where('registrations.outreach_request', '>', 0);
-					}
-				});
-			}
-			if (!empty($sportId)) {
-				$sportRegistrations = $sportRegistrations->whereSportId($sportId);
-			};
-			$data['sportRegistrations'] = $sportRegistrations->groupBy('registration_id')->get();
-		}
-
-		return view('admin.registrations', $data);
+	public function edit($id) {
+		$registration = Registration::findOrFail($id);
+		$data = [
+			'registration' => $registration,
+			'price' => new Price(),
+		];
+		return view('admin.registration.edit', $data);
 	}
 
 	public function log($id) {

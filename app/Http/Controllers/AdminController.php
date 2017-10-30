@@ -23,16 +23,7 @@ class AdminController extends Controller
 		$this->middleware('admin');
 	}
 
-	public function registration(Request $request) {
-		$id = $request->get('id');
-		$registration = Registration::findOrFail($id);
-		$data = [
-			'registration' => $registration,
-			'user' => $registration->user,
-			'price' => new Price(),
-		];
-		return view('admin.registration', $data);
-	}
+
 
 	public function registrationSave(Request $request) {
 		$id = $request->get('id');
