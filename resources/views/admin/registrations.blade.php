@@ -5,9 +5,17 @@
 		<div class="row">
 			<div id="admin-content" class="panel panel-default">
 				<div class="panel-body">
-					{{--Registrations ---}}
 					<form action="">
-						<select class="selectpicker" name="sport_id" title="Sport" _onchange="this.form.submit();">
+						<select class="selectpicker" name="tournament_id" title="Tournament">
+							<option></option>
+							@foreach (App\Tournament::all() as $tournament)
+								<option value="{{ $tournament->id }}" {{ $tournamentId == $tournament->id ? ' selected' : ''}}>
+									{{ $tournament->name }}
+								</option>
+							@endforeach
+						</select>
+
+						<select class="selectpicker" name="item_id" title="Sport" _onchange="this.form.submit();">
 							<option></option>
 							@foreach (App\Item::all() as $sport)
 								<option value="{{ $sport->id }}" {{ $sportId == $sport->id ? ' selected' : ''}}>
@@ -47,17 +55,18 @@
 				</tr>
 				</thead>
 				<tbody>
-				@foreach (\App\Item::all() as $sport)
+				@foreach (\App\Item::all() as $item)
 					<tr>
-						<td><a href="{{ url("/admin/registrations?sport_id=$sport->id") }}">{{ $sport->name }}</a></td>
+						<td><a href="{{ url("/admin/registration/list?sport_id=$item->id") }}">{{ $item->name }}</a></td>
 						@foreach(\App\Registration::$states as $state)
-							<td><a href="{{ url("/admin/registrations?sport_id=$sport->id&states[]=$state") }}">
-								{{ \App\RegistrationItem::join('registrations', 'registrations.id', '=', 'registration_sports.registration_id')
+							<td><a href="{{ url("/admin/registrations?sport_id=$item->id&states[]=$state") }}">
+								{{ \App\RegistrationItem::join('registrations', 'registrations.id', '=', 'registration_items.registration_id')
+							->join('tournament_items', 'tournament_items.id', '=', 'registration_items.tournament_item_id')
+							->where('registrations.tournament_id', $tournamentId)
 							->where('registrations.state', $state)
-							->where('sport_id', $sport->id)
+							->where('tournament_items.item_id', $item->id)
 							->count() }}</a></td>
 						@endforeach
-
 					</tr>
 				@endforeach
 				<tr>
@@ -65,7 +74,7 @@
 					@foreach(\App\Registration::$states as $state)
 						<td>
 							<a href="{{ url("/admin/registrations?service=concert&states[]=$state") }}">
-								{{ \App\Registration::whereConcert(1)->whereState($state)->count() }}
+								{{ \App\Registration::whereConcert(1)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 							</a>
 						</td>
 					@endforeach
@@ -75,7 +84,7 @@
 					@foreach(\App\Registration::$states as $state)
 						<td>
 							<a href="{{ url("/admin/registrations?service=brunch&states[]=$state") }}">
-								{{ \App\Registration::whereBrunch(1)->whereState($state)->count() }}
+								{{ \App\Registration::whereBrunch(1)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 							</a>
 						</td>
 					@endforeach
@@ -85,7 +94,7 @@
 					@foreach(\App\Registration::$states as $state)
 						<td>
 							<a href="{{ url("/admin/registrations?service=hosted_housing&states[]=$state") }}">
-								{{ \App\Registration::whereHostedHousing(1)->whereState($state)->count() }}
+								{{ \App\Registration::whereHostedHousing(1)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 							</a>
 						</td>
 					@endforeach
@@ -95,7 +104,7 @@
 					@foreach(\App\Registration::$states as $state)
 						<td>
 							<a href="{{ url("/admin/registrations?service=outreach_support&states[]=$state") }}">
-								{{ \App\Registration::where('outreach_support', '>', 0)->whereState($state)->count() }}
+								{{ \App\Registration::where('outreach_support', '>', 0)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 							</a>
 						</td>
 					@endforeach
@@ -105,7 +114,7 @@
 					@foreach(\App\Registration::$states as $state)
 						<td>
 							<a href="{{ url("/admin/registrations?service=outreach_request&states[]=$state") }}">
-								{{ \App\Registration::whereOutreachRequest(1)->whereState($state)->count() }}
+								{{ \App\Registration::whereOutreachRequest(1)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 							</a>
 						</td>
 					@endforeach

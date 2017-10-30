@@ -23,54 +23,6 @@ class AdminController extends Controller
 		$this->middleware('admin');
 	}
 
-	public function index(Request $request)
-	{
-		$user = Auth::user();
-		$data = [
-			'user' => $user,
-		];
-		return view('admin', $data);
-	}
-
-	public function registrations(Request $request) {
-		$sportId = intval($request->get('sport_id'));
-		$states = (array) $request->get('states');
-		$service = $request->get('service');
-		$data = [
-			'sportId' => $sportId,
-			'states' => $states,
-			'service' => $service,
-		];
-
-		if (!empty($states) || !empty($service) || !empty($sportId)) {
-			$sportRegistrations = new \App\RegistrationItem();
-			if (!empty($states) || !empty($service)) {
-				$sportRegistrations = $sportRegistrations->whereHas('registration', function ($query) use ($states, $service) {
-					if (!empty($states)) {
-						$query->whereIn('registrations.state', $states);
-					}
-					if ($service === 'concert') {
-						$query->where('registrations.concert', '>', 0);
-					} elseif ($service === 'brunch') {
-						$query->where('registrations.brunch', '>', 0);
-					} elseif ($service === 'hosted_housing') {
-						$query->where('registrations.hosted_housing', '>', 0);
-					} elseif ($service === 'outreach_support') {
-						$query->where('registrations.outreach_support', '>', 0);
-					} elseif ($service === 'outreach_request') {
-						$query->where('registrations.outreach_request', '>', 0);
-					}
-				});
-			}
-			if (!empty($sportId)) {
-				$sportRegistrations = $sportRegistrations->whereSportId($sportId);
-			};
-			$data['sportRegistrations'] = $sportRegistrations->groupBy('registration_id')->get();
-		}
-
-		return view('admin.registrations', $data);
-	}
-
 	public function registration(Request $request) {
 		$id = $request->get('id');
 		$registration = Registration::findOrFail($id);

@@ -2,13 +2,63 @@
 
 namespace App\Http\Controllers\Admin;
 
-
+use App\Tournament;
+use Illuminate\Http\Request;
 use App\Currency;
 use App\Payments;
+use App\RegistrationItem;
 use App\Registration;
 
-class RegistrationController extends Controller
-{
+class RegistrationController extends Controller {
+
+	public function overview(Request $request) {
+		$tournamentId = $request->get('tournament_id');
+		$tournament = Tournament::getActive();
+		if (!isset($tournamentId) && isset($tournament)) {
+			$tournamentId = $tournament->id;
+		}
+		if (!isset($tournamentId)) {
+			$tournamentId = Tournament::orderBy('id', 'desc')->first()->id;
+		}
+		$sportId = intval($request->get('sport_id'));
+		$states = (array) $request->get('states');
+		$service = $request->get('service');
+		$data = [
+			'tournamentId' => $tournamentId,
+			'sportId' => $sportId,
+			'states' => $states,
+			'service' => $service,
+		];
+
+
+		if (!empty($states) || !empty($service) || !empty($sportId)) {
+			$sportRegistrations = new RegistrationItem();
+			if (!empty($states) || !empty($service)) {
+				$sportRegistrations = $sportRegistrations->whereHas('registration', function ($query) use ($states, $service) {
+					if (!empty($states)) {
+						$query->whereIn('registrations.state', $states);
+					}
+					if ($service === 'concert') {
+						$query->where('registrations.concert', '>', 0);
+					} elseif ($service === 'brunch') {
+						$query->where('registrations.brunch', '>', 0);
+					} elseif ($service === 'hosted_housing') {
+						$query->where('registrations.hosted_housing', '>', 0);
+					} elseif ($service === 'outreach_support') {
+						$query->where('registrations.outreach_support', '>', 0);
+					} elseif ($service === 'outreach_request') {
+						$query->where('registrations.outreach_request', '>', 0);
+					}
+				});
+			}
+			if (!empty($sportId)) {
+				$sportRegistrations = $sportRegistrations->whereSportId($sportId);
+			};
+			$data['sportRegistrations'] = $sportRegistrations->groupBy('registration_id')->get();
+		}
+
+		return view('admin.registrations', $data);
+	}
 
 	public function log($id) {
 		$reg = Registration::findOrFail($id);
