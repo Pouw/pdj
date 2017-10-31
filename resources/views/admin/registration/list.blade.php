@@ -40,6 +40,6 @@
 			</div>
 		</div>
 
-		@include('admin.registrations_table')
+		@include('admin.registration.list_table')
 	</div>
 @endsection

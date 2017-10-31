@@ -48,71 +48,71 @@
 			</td>
 			<td class="{{ $registration->state === \App\Registration::PAID ? 'success' : '' }}">{{ $registration->state }}</td>
 			<td>{{ $registration->user->name }}</td>
-			{{--
-			@if (in_array($itemId, [\App\Item::VOLLEYBALL]))
-				<td>
-					@if ($registration->team)
-						{{ $sportReg->team->name }}
-					@endif
-				</td>
-			@endif
-			@if (in_array($itemId, [\App\Item::VOLLEYBALL]))
-				<td>
-					@if ($sportReg->team && $sportReg->team->level)
-						{{ $sportReg->team->level->name }}
-					@endif
-				</td>
-			@endif
-			@if (in_array($itemId, [\App\Item::SOCCER]))
-				<td>
-					@if ($sportReg->team_id)
-						{{ $sportReg->team->name }}
-					@endif
-				</td>
-			@endif
-			@if (in_array($itemId, [\App\Item::BEACH_VOLLEYBALL]))
-				<td>{{ $sportReg->team_name }}</td>
-				<td>
-					@if ($sportReg->level)
-						{{ $sportReg->level->name }}
-					@endif
-				</td>
-				<td>
-					@if ($sportReg->altLevel)
-						{{ $sportReg->altLevel->name }}
-					@endif
-				</td>
-			@endif
-			@if (in_array($itemId, [\App\Item::BADMINTON]))
-				<td>
-					@if ($sportReg->level)
-						{{ $sportReg->level->name }}
-					@endif
-				</td>
-				<td>
-					@if ($sportReg->altLevel)
-						{{ $sportReg->altLevel->name }}
-					@endif
-				</td>
-				<td>{{ $sportReg->team_name }}</td>
-				<td>@if($sportReg->find_partner) Yes @endif</td>
-			@endif
-			@if (in_array($itemId, [\App\Item::RUNNING]))
-				<td>
-					@if ($sportReg->disciplines->count())
-						{{ $sportReg->disciplines->first()->discipline->name }}
-					@endif
-				</td>
-			@endif
-			@if (in_array($itemId, [\App\Item::SWIMMING]))
-				<td>{{ $registration->user->birthdate }}</td>
-				@foreach(\App\Discipline::swimming() as $discipline)
+			@foreach ($registration->registrationItems as $registrationItem)
+				@if (in_array($itemId, [\App\Item::VOLLEYBALL]) && $registrationItem->tournamentItem->item_id == $itemId)
 					<td>
-						@if($sportReg->disciplines()->whereDisciplineId($discipline->id)->count()) Yes @endif
+						@if ($registrationItem->team)
+							{{ $registrationItem->team->name }}
+						@endif
 					</td>
-				@endforeach
-			@endif
-			--}}
+				@endif
+				@if (in_array($itemId, [\App\Item::VOLLEYBALL]) && $registrationItem->tournamentItem->item_id == $itemId)
+					<td>
+						@if ($registrationItem->team && $registrationItem->team->level)
+							{{ $registrationItem->team->level->name }}
+						@endif
+					</td>
+				@endif
+				@if (in_array($itemId, [\App\Item::SOCCER]) && $registrationItem->tournamentItem->item_id == $itemId)
+					<td>
+						@if ($registrationItem->team_id)
+							{{ $registrationItem->team->name }}
+						@endif
+					</td>
+				@endif
+				@if (in_array($itemId, [\App\Item::BEACH_VOLLEYBALL]) && $registrationItem->tournamentItem->item_id == $itemId)
+					<td>{{ $registrationItem->team_name }}</td>
+					<td>
+						@if ($registrationItem->level)
+							{{ $registrationItem->level->name }}
+						@endif
+					</td>
+					<td>
+						@if ($registrationItem->altLevel)
+							{{ $registrationItem->altLevel->name }}
+						@endif
+					</td>
+				@endif
+				@if (in_array($itemId, [\App\Item::BADMINTON]) && $registrationItem->tournamentItem->item_id == $itemId)
+					<td>
+						@if ($registrationItem->level)
+							{{ $registrationItem->level->name }}
+						@endif
+					</td>
+					<td>
+						@if ($registrationItem->altLevel)
+							{{ $registrationItem->altLevel->name }}
+						@endif
+					</td>
+					<td>{{ $registrationItem->team_name }}</td>
+					<td>@if($registrationItem->find_partner) Yes @endif</td>
+				@endif
+				@if (in_array($itemId, [\App\Item::RUNNING]) && $registrationItem->tournamentItem->item_id == $itemId)
+					<td>
+						@if ($registrationItem->disciplines->count())
+							{{ $registrationItem->disciplines->first()->discipline->name }}
+						@endif
+					</td>
+				@endif
+				@if (in_array($itemId, [\App\Item::SWIMMING]) && $registrationItem->tournamentItem->item_id == $itemId)
+					<td>{{ $registration->user->birthdate }}</td>
+					@foreach(\App\Discipline::swimming() as $discipline)
+						<td>
+							@if($registrationItem->disciplines()->whereDisciplineId($discipline->id)->count()) Yes @endif
+						</td>
+					@endforeach
+				@endif
+			@endforeach
 			@if ($service === 'hosted_housing')
 				<th>{{ $registration->hh_from }}</th>
 				<th>{{ $registration->hh_to }}</th>
