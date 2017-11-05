@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Libraries\PriceHelper;
 use App\Price;
 use App\Registration;
 use Illuminate\Http\Request;
@@ -14,9 +15,13 @@ class SummaryController extends Controller {
 	}
 
 	public function index(Request $request) {
+		$user = $request->user();
+		$registration = $user->getActiveRegistration();
+
 		$data = [
 			'price' => new Price(),
-			'registration' => $request->user()->getActiveRegistration(),
+			'priceHelper' => new PriceHelper($registration),
+			'registration' => $registration,
 			'isSinglePage' => $this->isSinglePage($request),
 		];
 		return view('summary', $data);

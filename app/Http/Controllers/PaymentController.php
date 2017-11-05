@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Currency;
+use App\Http\Middleware\ActiveTournament;
 use App\Payments;
 use App\Registration;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use OndraKoupil\Csob\Config;
 use OndraKoupil\Csob\Client;
 use OndraKoupil\Csob\GatewayUrl;
@@ -16,6 +16,7 @@ class PaymentController extends Controller {
 
 	public function __construct() {
 		$this->middleware('auth');
+		$this->middleware(ActiveTournament::class);
 	}
 
 	public function index(Request $request) {

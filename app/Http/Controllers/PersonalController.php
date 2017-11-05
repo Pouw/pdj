@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\ActiveTournament;
 use Illuminate\Http\Request;
 use App\Currency;
 use App\Country;
 
 class PersonalController extends Controller {
+
 	public function __construct() {
+		$this->middleware(ActiveTournament::class);
 		$this->middleware('auth');
 	}
 

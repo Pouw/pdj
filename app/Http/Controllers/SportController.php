@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\ActiveTournament;
 use App\RegistrationLog;
 use DB;
 use Illuminate\Http\Request;
@@ -10,10 +11,10 @@ use App\Item;
 use App\Team;
 use App\RegistrationItemDiscipline;
 
-class SportController extends Controller
-{
-	public function __construct()
-	{
+class SportController extends Controller {
+
+	public function __construct() {
+		$this->middleware(ActiveTournament::class);
 		$this->middleware('auth');
 	}
 

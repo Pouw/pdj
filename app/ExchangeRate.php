@@ -4,13 +4,31 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ExchangeRate extends Model
-{
+/**
+ * App\ExchangeRate
+ *
+ * @property int $id
+ * @property string $date
+ * @property float $rate
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ExchangeRate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ExchangeRate whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ExchangeRate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ExchangeRate whereRate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ExchangeRate whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+class ExchangeRate extends Model {
 
-	static public function getLastRate(): float
-	{
-//		return self::orderBy('date')->firtsOrFail();
-		return self::orderBy('date', 'DESC')->limit(1)->get()[0]->rate;
+	static public function getLastRate(): float {
+		return self::orderBy('date', 'DESC')->first()->rate;
+	}
+
+	static public function czkToEur($czk): float {
+		$rate = self::getLastRate();
+		$eur = $czk / $rate;
+		return $eur;
 	}
 
 }

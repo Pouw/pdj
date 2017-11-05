@@ -17,6 +17,24 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Item whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Item whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $title
+ * @property string|null $day
+ * @property int $price_id
+ * @property string|null $email
+ * @property int $needs_info
+ * @property int $status_id
+ * @property int $sort_key
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Discipline[] $disciplines
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Level[] $levels
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RegistrationItem[] $registrations
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Team[] $teams
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereNeedsInfo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item wherePriceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereSortKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Item whereTitle($value)
  */
 class Item extends Model
 {

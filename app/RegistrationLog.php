@@ -4,6 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\RegistrationLog
+ *
+ * @property int $id
+ * @property int $registration_id
+ * @property string $content
+ * @property \Carbon\Carbon $created_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationLog whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationLog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationLog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationLog whereRegistrationId($value)
+ * @mixin \Eloquent
+ */
 class RegistrationLog extends Model
 {
 

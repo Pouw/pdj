@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * App\Payments
+ *
  * @property integer $id
  * @property string $state
  * @property integer $registration_id
@@ -16,7 +18,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $bank_status
  * @property integer $result_code
  * @property string $result_text
- *
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read \App\Currency $currency
+ * @property-read \App\Registration $registration
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereAmountEur($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereBankStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereCurrencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments wherePayId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereRegistrationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereResultCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereResultText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Payments whereUserId($value)
+ * @mixin \Eloquent
  */
 class Payments extends Model
 {

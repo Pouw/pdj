@@ -39,7 +39,7 @@
 					<th>Currency</th>
 					<th>Country</th>
 					<th>City</th>
-					<th>Registration</th>
+					<th>Created At</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -54,11 +54,7 @@
 						<td>{{ $user->currency ? $user->currency->iso : '' }}</td>
 						<td>{{ $user->country ? $user->country->name : '' }}</td>
 						<td>{{ $user->city }}</td>
-						<td>
-							@if($user->registration)
-								<a href="{{ url('/admin/registration?id=' . $user->registration->id) }}">#{{ $user->registration->id }}</a>
-							@endif
-						</td>
+						<td>{{ $user->created_at }}</td>
 					</tr>
 				@endforeach
 				</tbody>

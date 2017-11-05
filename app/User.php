@@ -24,6 +24,21 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $birthdate
+ * @property int $is_admin
+ * @property int $is_member
+ * @property int|null $country_id
+ * @property string|null $city
+ * @property-read \App\Country|null $country
+ * @property-read \App\Currency $currency
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Registration[] $registrations
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereBirthdate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCountryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCurrencyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereIsMember($value)
  */
 class User extends Authenticatable
 {

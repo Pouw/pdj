@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\ActiveTournament;
 use App\Price;
 use App\RegistrationLog;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 class ServiceController extends Controller {
 
 	public function __construct() {
+		$this->middleware(ActiveTournament::class);
 		$this->middleware('auth');
 	}
 

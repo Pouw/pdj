@@ -5,13 +5,9 @@
 	<div class="col-md-4">
 
 		<select id="{{ $name }}" class="form-control selectpicker" name="{{ $name }}">
-			@for ($i = isset($start) ? $start : 1; $i <= 16; $i++)
+			@for ($i = isset($start) ? $start : 1; $i <= 20; $i = $i + 2)
 				<option value="{{ $i }}" {{ old($name, $default) == $i ? ' selected' : '' }}>
-					@if (intval(Auth::user()->currency_id) === \App\Currency::CZK)
-						{{ $outreachPrice->czk * $i }} Kč
-					@else
-						{{ $outreachPrice->eur * $i }} €
-					@endif
+					@include('helper.price', ['prices' => $registration->getPriceHelper()->getFinalPrices(\App\Price::OUTREACH_SUPPORT, $i)])
 				</option>
 			@endfor
 		</select>

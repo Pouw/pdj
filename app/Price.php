@@ -4,8 +4,30 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Price extends Model
-{
+/**
+ * App\Price
+ *
+ * @property int $id
+ * @property string $name
+ * @property float|null $eur
+ * @property float|null $czk
+ * @property float $czk_local
+ * @property float|null $czk_member
+ * @property string|null $note
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Price whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Price whereCzk($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Price whereCzkLocal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Price whereCzkMember($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Price whereEur($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Price whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Price whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Price whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Price whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+class Price extends Model {
 
 	const BRUNCH = 7;
 	const HOSTED_HOUSING = 8;

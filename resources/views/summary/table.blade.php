@@ -87,21 +87,27 @@
 					@endif
 				</td>
 			@endif
-			<td align="right">@include('helper.price', ['price' => $registrationItem->tournamentItem->price, 'user' => $registration->user])</td>
+			<td align="right">
+				@include('helper.price', ['prices' => $registration->getPriceHelper()->getFinalPrices($registrationItem->tournamentItem->price_id)])
+			</td>
 		</tr>
 	@endforeach
 
 	@if ($registration->brunch)
 		<tr>
 			<td>Brunch</td>
-			<td align="right">@include('helper.price', ['price' => $price->getBrunchPrice(), 'user' => $registration->user])</td>
+			<td align="right">
+				@include('helper.price', ['prices' => $registration->getPriceHelper()->getFinalPrices(\App\Price::BRUNCH)])
+			</td>
 		</tr>
 	@endif
 
 	@if ($registration->concert)
 		<tr>
 			<td>Concert Doodles and Podium Paris ticket</td>
-			<td align="right">@include('helper.price', ['price' => $price->getConcertTicketPrice(), 'user' => $registration->user])</td>
+			<td align="right">
+				@include('helper.price', ['prices' => $registration->getPriceHelper()->getFinalPrices(\App\Price::CONCERT_TICKET)])
+			</td>
 		</tr>
 	@endif
 
@@ -114,7 +120,9 @@
 					<li>To: {{ $registration->hh_to }}</li>
 				</ul>
 			</td>
-			<td align="right">@include('helper.price', ['price' => $price->getHostedHousingPrice(), 'user' => $registration->user])</td>
+			<td align="right">
+				@include('helper.price', ['prices' => $registration->getPriceHelper()->getFinalPrices(\App\Price::HOSTED_HOUSING)])
+			</td>
 		</tr>
 	@endif
 
@@ -122,11 +130,7 @@
 		<tr>
 			<td>Outreach Support</td>
 			<td align="right">
-				@if (intval($registration->user->currency_id) === \App\Currency::CZK)
-					{{ $price->getOutreachSupportPrice()->czk * $registration->outreach_support }}&nbsp;Kč
-				@else
-					{{ $price->getOutreachSupportPrice()->eur * $registration->outreach_support }}&nbsp;€
-				@endif
+				@include('helper.price', ['prices' => $registration->getPriceHelper()->getFinalPrices(\App\Price::OUTREACH_SUPPORT, $registration->outreach_support)])
 			</td>
 		</tr>
 	@endif
@@ -147,7 +151,9 @@
 	<tfoot>
 	<tr class="success">
 		<th align="left">Total Price</th>
-		<th align="right">{{ $registration->getPriceSummarize()->getTotalPrice() }}&nbsp;{{ $registration->user->currency->short }}</th>
+		<th align="right">
+			@include('helper.price', ['prices' => $registration->getPriceSummarize()->getTotalPrice()])
+		</th>
 	</tr>
 	</tfoot>
 </table>

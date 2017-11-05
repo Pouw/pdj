@@ -20,63 +20,63 @@ class PriceSummarize {
 	public function getTotalPrice() {
 		$items = [];
 		foreach ($this->registration->registrationItems as $registrationItems) {
-			$price = $registrationItems->tournamentItem->price;
+//			$price = $registrationItems->tournamentItem->price;
 			$items[] = [
-				'price' => $price,
+				'prices' => $this->registration->getPriceHelper()->getFinalPrices($registrationItems->tournamentItem->price_id),
 				'quantity' => 1,
 			];
 		}
 		$sale = $this->getSale();
 		if ($sale) {
 			$items[] = [
-				'price' => $sale,
+				'prices' => $sale,
 				'quantity' => 1,
 			];
 		}
 		if ($this->registration->brunch) {
 			$items[] = [
-				'price' => Price::getBrunchPrice(),
+				'prices' => $this->registration->getPriceHelper()->getFinalPrices(Price::BRUNCH),
 				'quantity' => 1,
 			];
 		}
 		if ($this->registration->concert) {
 			$items[] = [
-				'price' => Price::getConcertTicketPrice(),
+				'prices' => $this->registration->getPriceHelper()->getFinalPrices(Price::CONCERT_TICKET),
 				'quantity' => 1,
 			];
 		}
 		if ($this->registration->hosted_housing) {
 			$items[] = [
-				'price' => Price::getHostedHousingPrice(),
+				'prices' => $this->registration->getPriceHelper()->getFinalPrices(Price::HOSTED_HOUSING),
 				'quantity' => 1,
 			];
 		}
 		if ($this->registration->outreach_support) {
 			$items[] = [
-				'price' => Price::getOutreachSupportPrice(),
+				'prices' => $this->registration->getPriceHelper()->getFinalPrices(Price::OUTREACH_SUPPORT, $this->registration->outreach_support),
 				'quantity' => intval($this->registration->outreach_support),
 			];
 		}
 
-		$sum = 0;
-		$currencyId = intval($this->registration->user->currency_id);
+		$eur = 0;
+		$czk = 0;
 		foreach ($items as $item) {
-			$price = $item['price'];
-			if ($this->registration->user->is_member && $currencyId === Currency::CZK) {
-				if (empty($price->czk_member)) {
-					$price = $price->czk;
-				} else {
-					$price = $price->czk_member;
-				}
-			} elseif ($currencyId === Currency::EUR) {
-				$price = $price->eur;
-			} elseif ($currencyId === Currency::CZK) {
-				$price = $price->czk;
+			if (isset($item['prices']['czk'])) {
+				$czk += $item['prices']['czk'];
 			}
-			$sum += $price * $item['quantity'];
+			if (isset($item['prices']['eur'])) {
+				$eur += $item['prices']['eur'];
+			}
+		}
+		$prices = [];
+		if ($czk > 0) {
+			$prices['czk'] = $czk;
+		}
+		if ($eur > 0) {
+			$prices['eur'] = $eur;
 		}
 
-		return $sum;
+		return $prices;
 	}
 
 	public function getSale() {

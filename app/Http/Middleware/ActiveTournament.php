@@ -14,9 +14,14 @@ class ActiveTournament {
 	 * @return mixed
 	 */
 	public function handle($request, Closure $next) {
-		$tournament = Tournament::getActive();
-		if (empty($tournament)) {
-			return redirect('/');
+		if ($request->getRequestUri() !== '/closed') {
+			if (!$request->user() || !$request->user()->isAdmin()) {
+				return redirect('/closed');
+			}
+			$tournament = Tournament::getActive();
+			if (empty($tournament)) {
+				return redirect('/');
+			}
 		}
 		return $next($request);
 	}

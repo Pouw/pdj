@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Libraries\PriceHelper;
 use App\Libraries\PriceSummarize;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $user_id
  * @property string $note
+ * @property Tournament $tournament
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\App\Registration whereId($value)
@@ -19,11 +21,35 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Registration whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Registration whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $state
+ * @property int $tournament_id
+ * @property int|null $brunch
+ * @property int $concert
+ * @property int|null $hosted_housing
+ * @property string|null $hh_from
+ * @property string|null $hh_to
+ * @property int|null $outreach_support
+ * @property int|null $outreach_request
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RegistrationChange[] $changes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RegistrationLog[] $logs
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Note[] $notes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Payments[] $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RegistrationItem[] $registrationItems
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Registration whereBrunch($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Registration whereConcert($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Registration whereHhFrom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Registration whereHhTo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Registration whereHostedHousing($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Registration whereOutreachRequest($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Registration whereOutreachSupport($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Registration whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Registration whereTournamentId($value)
  */
 class Registration extends Model
 {
 
-	private $year = 17;
+	private $year = 18;
 
 	const UNFINISHED = 'unfinished';
 	const NEW = 'new';
@@ -54,9 +80,13 @@ class Registration extends Model
 		return $this->belongsTo(Tournament::class);
 	}
 
-//	public function items() {
-//		return $this->belongsToMany('App\Item');
-//	}
+	public function getPriceHelper(): PriceHelper {
+		return new PriceHelper($this);
+	}
+
+	public function getPriceSummarize(): PriceSummarize {
+		return new PriceSummarize($this);
+	}
 
 	public function isOnlySinger() {
 		$registrationItems = $this->registrationItems;
@@ -80,10 +110,6 @@ class Registration extends Model
 
 	public function paymentPurpose() {
 		return 'PRS-' . $this->year  . '-' . sprintf('%06s', $this->id);
-	}
-
-	public function getPriceSummarize(): PriceSummarize {
-		return new PriceSummarize($this);
 	}
 
 	public function save(array $options = []) {
@@ -110,30 +136,17 @@ class Registration extends Model
 	public function getAmountsForPay() {
 		$amount = $this->getPriceSummarize()->getTotalPrice();
 		$payments = $this->payments()->where('state', Payments::PAID);
-		$userCurrencyId = $this->user->currency_id;
 		if ($payments->count() > 0) {
 			foreach ($payments->get() as $payment) {
-				if ($payment->currency_id == $userCurrencyId) {
-					$amount -= $payment->amount;
-				} elseif ($userCurrencyId == Currency::EUR && $payment->currency_id == Currency::CZK && $payment->amount_eur > 0) {
-					$amount -= $payment->amount_eur;
-				} else {
-					// fail
-				}
+				$amount['czk'] -= $payment->amount;
 			}
-		}
-		if ($amount < 0) {
-			$amount = 0;
 		}
 
 		$amounts = [];
-		$amounts[Currency::EUR] = $amount;
-		if ($userCurrencyId == Currency::EUR) {
-			$exchangeRate = ExchangeRate::getLastRate();
-			$amount = round($amount * $exchangeRate);
+		$amounts['czk'] = $amount['czk'];
+		if ($this->user->currency_id == Currency::EUR) {
+			$amounts['eur'] = ExchangeRate::czkToEur($amounts['czk']);
 		}
-
-		$amounts[Currency::CZK] = $amount;
 		return $amounts;
 	}
 

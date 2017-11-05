@@ -4,7 +4,7 @@
 
 
 
-@foreach($registrationItem->tournamentItem->item->disciplines->sortBy('sort_key') as $discipline)
+@foreach($registrationItem->tournamentItem->item->disciplines->where('status_id', 1)->sortBy('sort_key') as $discipline)
 	@include('sports/input/discipline_swimming', [
 		'discipline' => $discipline,
 		'id' => 'swimming_discipline_' . $discipline->id,
@@ -14,3 +14,4 @@
 		'defaultTime' => $registrationItem->disciplines()->whereDisciplineId($discipline->id)->count() ? $registrationItem->disciplines()->whereDisciplineId($discipline->id)->first()->time : null,
 	])
 @endforeach
+

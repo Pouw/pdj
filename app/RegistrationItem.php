@@ -24,6 +24,28 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\RegistrationItem whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\RegistrationItem whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $registration_id
+ * @property int $tournament_item_id
+ * @property int|null $players
+ * @property int|null $alt_level_id
+ * @property string|null $club
+ * @property string|null $team_name
+ * @property string|null $captain
+ * @property int|null $find_partner
+ * @property-read \App\Level|null $altLevel
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\RegistrationItemDiscipline[] $disciplines
+ * @property-read \App\Level|null $level
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Registration[] $registrations
+ * @property-read \App\Team|null $team
+ * @property-read \App\TournamentItem $tournamentItem
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationItem whereAltLevelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationItem whereCaptain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationItem whereClub($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationItem whereFindPartner($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationItem wherePlayers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationItem whereRegistrationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationItem whereTeamName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\RegistrationItem whereTournamentItemId($value)
  */
 class RegistrationItem extends Model {
 

@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('/closed', 'GuestController@closed');
 Route::get('/home', function () {
     return redirect('/');
 });

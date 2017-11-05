@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Level whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Level whereSortKey($value)
  * @mixin \Eloquent
+ * @property int|null $item_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Level whereItemId($value)
  */
 class Level extends Model
 {

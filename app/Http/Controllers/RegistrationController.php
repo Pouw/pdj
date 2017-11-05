@@ -17,8 +17,8 @@ class RegistrationController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth');
 		$this->middleware(ActiveTournament::class);
+		$this->middleware('auth');
 	}
 
 	public function index(Request $request)
@@ -57,6 +57,7 @@ class RegistrationController extends Controller
 				'tournament_id' => Tournament::getActive()->id,
 			];
 			$registrationId = Registration::insertGetId($item);
+			$registration = Registration::find($registrationId);
 		} else {
 			$registrationId = $registration->id;
 		}

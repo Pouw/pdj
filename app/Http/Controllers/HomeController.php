@@ -2,30 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\ActiveTournament;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests;
-use Illuminate\Http\Request;
 
-class HomeController extends Controller
-{
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+class HomeController extends Controller {
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-    	$user = Auth::user();
-        return view('home', ['user' => $user]);
-    }
+	public function __construct() {
+		$this->middleware(ActiveTournament::class);
+		$this->middleware('auth');
+	}
+
+	public function index() {
+		$user = Auth::user();
+		return view('home', ['user' => $user]);
+	}
+
 }
