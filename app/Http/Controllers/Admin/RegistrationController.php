@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Note;
 use App\Price;
 use App\Tournament;
 use App\TournamentItem;
@@ -31,7 +32,7 @@ class RegistrationController extends Controller {
 	public function list(Request $request) {
 		$tournamentId = $request->get('tournament_id');
 		$itemId = $request->get('item_id');
-		$states = (array) $request->get('states');
+		$states = (array)$request->get('states');
 		$service = $request->get('service');
 		DB::enableQueryLog();
 		$query = new Registration();
@@ -84,6 +85,26 @@ class RegistrationController extends Controller {
 		return view('admin.registration.edit', $data);
 	}
 
+	public function save($id, Request $request) {
+		$registration = Registration::findOrFail($id);
+		$registration->state = $request->get('state');
+		$registration->save();
+
+		$request->session()->flash('alert-success', 'Data has been saved.');
+		return back();
+	}
+
+	public function noteAdd(Request $request) {
+		Note::insert([
+			'registration_id' => $request->get('registration_id'),
+			'content' => $request->get('content'),
+			'user_id' => $request->user()->id,
+		]);
+
+		$request->session()->flash('alert-success', 'Data has been saved.');
+		return back();
+	}
+
 	public function log($id) {
 		$reg = Registration::findOrFail($id);
 		foreach ($reg->logs as $log) {
@@ -93,33 +114,35 @@ class RegistrationController extends Controller {
 	}
 
 	public function checkPaid() {
-		$regs = Registration::whereState(Registration::PAID)->get();
+		$tournament = Tournament::getActive();
+		$registrations = Registration::whereState(Registration::PAID)->whereTournamentId($tournament->id);
 		$data = [];
-		foreach ($regs as $reg) {
+		foreach ($registrations->get() as $reg) {
 			$amount = $reg->getPriceSummarize()->getTotalPrice();
+			$amountCzk = $amount['czk'];
 			$userCurrencyId = $reg->user->currency_id;
-			$reg->getAmountsForPay();
 			$paid = 0;
-			$payments = $reg->payments()->where('state', Payments::PAID);
 			$currencyError = false;
-			if ($payments->count() > 0) {
-				foreach ($payments->get() as $payment) {
-					if ($payment->currency_id == $userCurrencyId) {
-						$paid += $payment->amount;
-					} elseif ($userCurrencyId == Currency::EUR && $payment->currency_id == Currency::CZK && $payment->amount_eur > 0) {
-						$paid += $payment->amount_eur;
-					} else {
-						$currencyError = true;
+			foreach ($reg->payments as $payment) {
+				if ($payment->state != Payments::PAID) {
+					continue;
+				}
+				if ($payment->currency_id == $tournament->currency_id) {
+					$paid += $payment->amount;
+				} elseif ($userCurrencyId == Currency::EUR && $payment->currency_id == Currency::CZK && $payment->amount_eur > 0) {
+					$paid += $payment->amount_eur;
+				} else {
+					$currencyError = true;
 //						dump('WRONG CURRENCY!' . $reg->id);
-					}
 				}
 			}
-			if ($amount != $paid || $currencyError) {
+			if ($amountCzk != $paid || $currencyError) {
 				$data[] = [
 					'reg' => $reg,
-					'amount' => $amount,
+					'amount' => $amountCzk,
 					'paid' => $paid,
-					'currencyError' => $currencyError
+					'amountsForPay' => $reg->getAmountsForPay()['czk'],
+					'currencyError' => $currencyError,
 				];
 			}
 		}

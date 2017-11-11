@@ -25,7 +25,7 @@
 			<td>{{ $payment->bank_status }}</td>
 			<td>{{ $payment->user->name }}</td>
 			<td>{{ $payment->created_at }}</td>
-			<td><a href="{{ url('/admin/registration?id=' . $payment->registration_id) }}">{{ $payment->registration_id }}</a></td>
+			<td><a href="{{ url('/admin/registration/id/' . $payment->registration_id) }}">{{ $payment->registration_id }}</a></td>
 		</tr>
 	@endforeach
 	</tbody>

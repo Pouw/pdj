@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		<div class="row">
-			@include('admin.payments_table')
+			@include('admin.payment.table')
 		</div>
 	</div>
 @endsection

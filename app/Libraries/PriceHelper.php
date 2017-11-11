@@ -19,6 +19,7 @@ class PriceHelper {
 
 	public function getFinalPrices($priceId, $multiplier = 1) {
 		$price = Price::findOrFail($priceId);
+//		dd($price);
 		if ($this->registration->user->currency_id == Currency::CZK) {
 			if ($this->registration->user->is_member && $price->czk_member) {
 				return [
@@ -42,8 +43,17 @@ class PriceHelper {
 			return [
 				'czk' => $price->czk * $multiplier,
 				'eur' => ExchangeRate::czkToEur($price->czk) * $multiplier,
+				'approx' => true,
 			];
 		}
+		if ($tournamentCurrency->id == Currency::EUR) {
+			if ($this->registration->user->currency_id == Currency::EUR) {
+				return [
+					'eur' => $price->eur,
+				];
+			}
+		}
+
 		throw new \Error('PriceHelper can not getFinalPrices.');
 	}
 

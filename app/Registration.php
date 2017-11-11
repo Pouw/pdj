@@ -146,6 +146,7 @@ class Registration extends Model
 		$amounts['czk'] = $amount['czk'];
 		if ($this->user->currency_id == Currency::EUR) {
 			$amounts['eur'] = ExchangeRate::czkToEur($amounts['czk']);
+			$amounts['approx'] = true;
 		}
 		return $amounts;
 	}

@@ -54,9 +54,12 @@
 			--}}
 
 			{{--@include('helper.bank_info')--}}
+			@include('form.footer', ['back' => '/summary', 'next' => false, 'paymentRedirect' => true])
+		@else
+			@include('form.footer', ['back' => '/summary', 'next' => false])
 		@endif
 
-		@include('form.footer', ['back' => '/summary', 'next' => false, 'paymentRedirect' => true])
+
 	</div>
 
 	@include('helper.panel_bottom')

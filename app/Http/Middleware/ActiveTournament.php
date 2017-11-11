@@ -20,7 +20,7 @@ class ActiveTournament {
 			}
 			$tournament = Tournament::getActive();
 			if (empty($tournament)) {
-				return redirect('/');
+				return redirect('/closed');
 			}
 		}
 		return $next($request);

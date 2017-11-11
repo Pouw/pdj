@@ -44,7 +44,6 @@ Route::get('/payment/single', 'PaymentController@index');
 Route::post('/payment', 'PaymentController@save');
 Route::get('/payment/redirect', 'PaymentController@paymentRedirect');
 Route::post('/payment/return', 'PaymentController@paymentReturn');
-Route::get('/payment/test', 'PaymentController@test');
 
 Route::get('/admin', 'AdminController@index');
 Route::get('/admin/registration/id/{id}', 'Admin\RegistrationController@edit');
@@ -53,11 +52,12 @@ Route::get('/admin/registration/overview', 'Admin\RegistrationController@overvie
 Route::get('/admin/registration/list', 'Admin\RegistrationController@list');
 Route::get('/admin/registration/log/{id}', 'Admin\RegistrationController@log');
 Route::get('/admin/registration/check-paid', 'Admin\RegistrationController@checkPaid');
+Route::post('/admin/registration/add-note', 'Admin\RegistrationController@noteAdd');
 Route::get('/admin/users', 'AdminController@users');
 Route::get('/admin/user', 'AdminController@user');
-Route::get('/admin/payments', 'AdminController@payments');
+Route::get('/admin/payment/list', 'Admin\PaymentController@list');
+Route::get('/admin/payment/test', 'Admin\PaymentController@test');
 Route::post('/admin/payment/add', 'AdminController@paymentAdd');
-Route::post('/admin/note/add', 'AdminController@noteAdd');
 Route::get('/admin/mail-test', 'AdminController@mailTest');
 Route::get('/admin/exports', 'AdminController@exports');
 Route::get('/admin/export', 'AdminController@export');

@@ -75,6 +75,9 @@ class PriceSummarize {
 		if ($eur > 0) {
 			$prices['eur'] = $eur;
 		}
+		if ($this->registration->tournament->currency_id == Currency::CZK) {
+			$prices['approx'] = true;
+		}
 
 		return $prices;
 	}

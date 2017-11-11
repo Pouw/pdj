@@ -9,5 +9,8 @@
 @endisset
 
 @isset($prices['eur'])
-	~ {{ round($prices['eur']) }} EUR
+	@if (isset($prices['approx']) && $prices['approx'])
+		~
+	@endif
+	{{ round($prices['eur']) }} EUR
 @endisset

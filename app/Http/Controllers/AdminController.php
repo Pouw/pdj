@@ -6,7 +6,6 @@ use App\Currency;
 use App\Discipline;
 use App\Note;
 use App\Payments;
-use App\Price;
 use App\Registration;
 use App\RegistrationItem;
 use App\Item;
@@ -24,16 +23,6 @@ class AdminController extends Controller
 	}
 
 
-
-	public function registrationSave(Request $request) {
-		$id = $request->get('id');
-		$registration = Registration::findOrFail($id);
-		$registration->state = $request->get('state');
-		$registration->save();
-
-		$request->session()->flash('alert-success', 'Data has been saved.');
-		return back();
-	}
 
 	public function users(Request $request) {
 		$countryId = $request->get('country_id');
@@ -54,13 +43,6 @@ class AdminController extends Controller
 		return view('admin.users', $data);
 	}
 
-	public function payments(Request $request) {
-		$data = [
-			'payments' => Payments::get(),
-		];
-		return view('admin.payments', $data);
-	}
-
 	public function paymentAdd(Request $request) {
 		$id = $request->get('id');
 		$registration = Registration::findOrFail($id);
@@ -74,7 +56,7 @@ class AdminController extends Controller
 			'registration_id' => $id,
 			'amount' => $amount,
 			'currency_id' => $currencyId,
-			'user_id' => Auth::user()->id,
+			'user_id' => $request->user()->id,
 		]);
 
 		if ($request->get('set_paid') === '1') {
@@ -93,17 +75,6 @@ class AdminController extends Controller
 					->subject('Prague Rainbow Spring - Payment Confirmation');
 			});
 		}
-		$request->session()->flash('alert-success', 'Data has been saved.');
-		return back();
-	}
-
-	public function noteAdd(Request $request) {
-		Note::insert([
-			'registration_id' => $request->get('registration_id'),
-			'content' => $request->get('content'),
-			'user_id' => Auth::user()->id,
-		]);
-
 		$request->session()->flash('alert-success', 'Data has been saved.');
 		return back();
 	}
@@ -185,7 +156,7 @@ class AdminController extends Controller
 						$reg->notes->implode('content', "\n"),
 						$reg->sports->implode('sport.name', "\n")
 					]);
-					$sheet->getCell('A' . $i)->getHyperlink()->setUrl('https://registration.praguerainbow.eu/admin/registration?id=' . $reg->id);
+					$sheet->getCell('A' . $i)->getHyperlink()->setUrl('https://registration.praguerainbow.eu/admin/registration/id/' . $reg->id);
 				}
 				$sheet->setAutoFilter();
 			});
@@ -276,7 +247,7 @@ class AdminController extends Controller
 						}
 						$row[] = $reg->registration->note;
 						$sheet->appendRow($row);
-						$sheet->getCell('A' . $i)->getHyperlink()->setUrl('https://registration.praguerainbow.eu/admin/registration?id=' . $reg->registration->id);
+						$sheet->getCell('A' . $i)->getHyperlink()->setUrl('https://registration.praguerainbow.eu/admin/registration/id/' . $reg->registration->id);
 					}
 
 					$sheet->setAutoFilter();

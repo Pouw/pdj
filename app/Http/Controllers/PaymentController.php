@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Currency;
 use App\Http\Middleware\ActiveTournament;
+use App\Libraries\Bank;
 use App\Payments;
 use App\Registration;
 use Illuminate\Http\Request;
-use OndraKoupil\Csob\Config;
-use OndraKoupil\Csob\Client;
-use OndraKoupil\Csob\GatewayUrl;
-use OndraKoupil\Csob\Payment;
 
 class PaymentController extends Controller {
 
@@ -23,48 +20,29 @@ class PaymentController extends Controller {
 		$registration = $request->user()->getActiveRegistration();
 		return view('payment', [
 			'registration' => $registration,
-			'payments' => $registration->payments()->whereState(\App\Payments::PAID),
+			'payments' => $registration->payments()->whereState(Payments::PAID),
 			'isSinglePage' => $this->isSinglePage($request),
 		]);
-	}
-
-	private function getBankClient() {
-		$config = new Config(
-			'M1E3CB1201', // My Merchant ID
-			base_path('cert') . DIRECTORY_SEPARATOR . 'rsa_M1E3CB1201.key', // path/to/my/private/key/file.key
-			base_path('cert') . DIRECTORY_SEPARATOR . 'mips_platebnibrana.csob.cz.pub', // path/to/bank/public/key.pub
-			'Rainbow Prague Spring', // My shop name
-
-			// Adresa, kam se mají zákazníci vracet poté, co zaplatí
-			$_SERVER['APP_URL'] . '/payment/return',
-
-			// URL adresa API - výchozí je adresa testovacího (integračního) prostředí,
-			// až budete připraveni přepnout se na ostré rozhraní, sem zadáte
-			// adresu ostrého API.
-			GatewayUrl::PRODUCTION_LATEST
-		);
-
-		$client = new Client($config);
-		return $client;
 	}
 
 	public function paymentRedirect(Request $request) {
 		$user = $request->user();
 		$registration = $request->user()->getActiveRegistration();
-		$bc = $this->getBankClient();
 
 		$payment = new Payments();
 		$payment->registration_id = $registration->id;
 		$amounts = $registration->getAmountsForPay();
-		$payment->amount = $amounts[Currency::CZK];
+		$payment->amount = $amounts['czk'];
 		$payment->currency_id = Currency::CZK;
-		if ($user->currency_id == Currency::EUR) {
-			$payment->amount_eur = $amounts[Currency::EUR];
+		if ($user->currency_id == Currency::EUR && $payment->registration->tournament->currency_id == Currency::EUR) {
+			$payment->amount_eur = $amounts['eur'];
 		}
 		$payment->user_id = $user->id;
 		$payment->save();
 
-		$bankPayment = new Payment($payment->id);
+		$bc = Bank::getBankClient();
+		$bankPayment = Bank::createPayment();
+		$bankPayment->orderNo = $payment->id;
 		$bankPayment->currency = 'CZK';
 		$bankPayment->language = 'EN';
 		$bankPayment->addCartItem('Registration for PRS', 1, intval($payment->amount) * 100);
@@ -77,7 +55,7 @@ class PaymentController extends Controller {
 	}
 
 	public function paymentReturn(Request $request) {
-		$bc = $this->getBankClient();
+		$bc = Bank::getBankClient();
 		$response = $bc->receiveReturningCustomer();
 		$status = intval($response['paymentStatus']);
 		$payment = Payments::where('pay_id', $response['payId'])->firstOrFail();
@@ -108,31 +86,6 @@ class PaymentController extends Controller {
 		}
 
 		return redirect('/payment');
-	}
-
-	public function test() {
-		$client = $this->getBankClient();
-		try {
-//			dump($client->testPostConnection());
-//			dump('OK');
-			echo "<pre>";
-			// 3) Platba zrušena
-			// 6) Platba zamítnuta
-			// 8) Platba zúčtována
-			$payments = Payments::whereNotNull('pay_id')->whereRaw('(bank_status NOT IN (3, 6, 8) OR bank_status IS NULL)')->get();
-			foreach ($payments as $payment) {
-				$status = $client->paymentStatus($payment->pay_id);
-				if ($payment->bank_status == $status) {
-					echo 'Same ' . $payment->id . ' - ' . $status . ' : ' . $payment->state . "\n";
-				} else {
-					echo 'Change ' . $payment->id . ' - ' . $payment->bank_status . ' => ' . $status . ' : ' . $payment->state . "\n";
-					$payment->bank_status = $status;
-					$payment->save();
-				}
-			}
-		} catch (\Exception $e) {
-			echo "Something went wrong: " . $e->getMessage();
-		}
 	}
 
 }

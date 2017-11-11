@@ -34,7 +34,7 @@
 				<tr>
 					<td><a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&item_id=$item->id") }}">{{ $item->name }}</a></td>
 					@foreach(\App\Registration::$states as $state)
-						<td><a href="{{ url("/admin/registrations?tournament_id=$tournamentId&item_id=$item->id&states[]=$state") }}">
+						<td><a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&item_id=$item->id&states[]=$state") }}">
 							{{ \App\RegistrationItem::join('registrations', 'registrations.id', '=', 'registration_items.registration_id')
 						->join('tournament_items', 'tournament_items.id', '=', 'registration_items.tournament_item_id')
 						->where('registrations.tournament_id', $tournamentId)
@@ -45,50 +45,50 @@
 				</tr>
 			@endforeach
 			<tr>
-				<td><a href="{{ url("/admin/registrations?service=concert") }}">Concert Ticket</a></td>
+				<td><a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=concert") }}">Concert Ticket</a></td>
 				@foreach(\App\Registration::$states as $state)
 					<td>
-						<a href="{{ url("/admin/registrations?service=concert&states[]=$state") }}">
+						<a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=concert&states[]=$state") }}">
 							{{ \App\Registration::whereConcert(1)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 						</a>
 					</td>
 				@endforeach
 			</tr>
 			<tr>
-				<td><a href="{{ url("/admin/registrations?service=brunch") }}">Brunch</a></td>
+				<td><a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=brunch") }}">Brunch</a></td>
 				@foreach(\App\Registration::$states as $state)
 					<td>
-						<a href="{{ url("/admin/registrations?service=brunch&states[]=$state") }}">
+						<a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=brunch&states[]=$state") }}">
 							{{ \App\Registration::whereBrunch(1)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 						</a>
 					</td>
 				@endforeach
 			</tr>
 			<tr>
-				<td><a href="{{ url("/admin/registrations?service=hosted_housing") }}">Hosted Housing</a></td>
+				<td><a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=hosted_housing") }}">Hosted Housing</a></td>
 				@foreach(\App\Registration::$states as $state)
 					<td>
-						<a href="{{ url("/admin/registrations?service=hosted_housing&states[]=$state") }}">
+						<a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=hosted_housing&states[]=$state") }}">
 							{{ \App\Registration::whereHostedHousing(1)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 						</a>
 					</td>
 				@endforeach
 			</tr>
 			<tr>
-				<td><a href="{{ url("/admin/registrations?service=outreach_support") }}">Outreach Support</a></td>
+				<td><a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=outreach_support") }}">Outreach Support</a></td>
 				@foreach(\App\Registration::$states as $state)
 					<td>
-						<a href="{{ url("/admin/registrations?service=outreach_support&states[]=$state") }}">
+						<a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=outreach_support&states[]=$state") }}">
 							{{ \App\Registration::where('outreach_support', '>', 0)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 						</a>
 					</td>
 				@endforeach
 			</tr>
 			<tr>
-				<td><a href="{{ url("/admin/registrations?service=outreach_request") }}">Outreach Request</a></td>
+				<td><a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=outreach_request") }}">Outreach Request</a></td>
 				@foreach(\App\Registration::$states as $state)
 					<td>
-						<a href="{{ url("/admin/registrations?service=outreach_request&states[]=$state") }}">
+						<a href="{{ url("/admin/registration/list?tournament_id=$tournamentId&service=outreach_request&states[]=$state") }}">
 							{{ \App\Registration::whereOutreachRequest(1)->whereTournamentId($tournamentId)->whereState($state)->count() }}
 						</a>
 					</td>

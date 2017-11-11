@@ -50,7 +50,7 @@
 				<div class="panel panel-warning">
 					<div class="panel-heading">Internal notes</div>
 					<div class="panel-body">
-						<form class="form-inline" action="{{ url('/admin/note/add') }}" method="post">
+						<form class="form-inline" action="{{ url('/admin/registration/add-note') }}" method="post">
 							{{ csrf_field() }}
 							<input type="hidden" name="registration_id" value="{{ $registration->id }}">
 							<textarea class="form-control" rows="1" name="content" title="Note" placeholder="New Internal Note"></textarea>
@@ -82,7 +82,7 @@
 					<div class="panel-heading">Payments</div>
 					<div class="panel-body">
 						@if ($registration->payments->count())
-							@include('admin.payments_table', ['payments' => $registration->payments])
+							@include('admin.payment.table', ['payments' => $registration->payments])
 						@else
 							<strong>No payments found yet</strong>
 						@endif
@@ -93,7 +93,9 @@
 							<div class="form-group">
 								<label for="amount" class="control-label col-sm-6">Amount:</label>
 								<div class="col-sm-6">
-									<input type="text" id="amount" name="amount" class="form-control" value="{{ $registration->getPriceSummarize()->getTotalPrice() }}">
+									<input type="text" id="amount" name="amount" class="form-control"
+										   value="{{$registration->getPriceSummarize()->getTotalPrice()[$registration->user->currency->code] }}"
+									>
 								</div>
 							</div>
 							<div class="form-group">
