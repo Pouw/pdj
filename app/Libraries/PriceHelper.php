@@ -19,7 +19,6 @@ class PriceHelper {
 
 	public function getFinalPrices($priceId, $multiplier = 1) {
 		$price = Price::findOrFail($priceId);
-//		dd($price);
 		if ($this->registration->user->currency_id == Currency::CZK) {
 			if ($this->registration->user->is_member && $price->czk_member) {
 				return [

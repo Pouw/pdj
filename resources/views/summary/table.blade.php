@@ -143,7 +143,10 @@
 					<li>Discount for second sport.</li>
 				</ul>
 			</td>
-			<td align="right">@include('helper.price', ['price' => $registration->getPriceSummarize()->getSale(), 'user' => $registration->user])</td>
+			<td align="right">@include('helper.price', [
+				'prices' => $registration->getPriceHelper()->getFinalPrices($registration->getPriceSummarize()->getSale()->id
+				)])
+			</td>
 		</tr>
 	@endif
 

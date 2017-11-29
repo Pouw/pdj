@@ -34,7 +34,6 @@ class RegistrationController extends Controller {
 		$itemId = $request->get('item_id');
 		$states = (array)$request->get('states');
 		$service = $request->get('service');
-		DB::enableQueryLog();
 		$query = new Registration();
 		$query = $query->select('registrations.*');
 		if ($tournamentId) {
@@ -63,8 +62,6 @@ class RegistrationController extends Controller {
 			$query = $query->where('registration_items.tournament_item_id', $tournamentItemId);
 		}
 		$registrations = $query->get();
-
-//		dump(DB::getQueryLog());
 
 		$data = [
 			'registrations' => $registrations,

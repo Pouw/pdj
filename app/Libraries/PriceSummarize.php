@@ -20,16 +20,15 @@ class PriceSummarize {
 	public function getTotalPrice() {
 		$items = [];
 		foreach ($this->registration->registrationItems as $registrationItems) {
-//			$price = $registrationItems->tournamentItem->price;
 			$items[] = [
 				'prices' => $this->registration->getPriceHelper()->getFinalPrices($registrationItems->tournamentItem->price_id),
 				'quantity' => 1,
 			];
 		}
 		$sale = $this->getSale();
-		if ($sale) {
+		if ($sale !== false) {
 			$items[] = [
-				'prices' => $sale,
+				'prices' => $this->registration->getPriceHelper()->getFinalPrices($sale->id),
 				'quantity' => 1,
 			];
 		}
@@ -69,10 +68,10 @@ class PriceSummarize {
 			}
 		}
 		$prices = [];
-		if ($czk > 0) {
+		if ($czk !== 0) {
 			$prices['czk'] = $czk;
 		}
-		if ($eur > 0) {
+		if ($eur !== 0) {
 			$prices['eur'] = $eur;
 		}
 		if ($this->registration->tournament->currency_id == Currency::CZK) {
@@ -86,7 +85,7 @@ class PriceSummarize {
 		$sportIds = [];
 		$sale = false;
 		foreach ($this->registration->registrationItems as $registrationItems) {
-			$sportIds[] = $registrationItems->tournamentItem->id;
+			$sportIds[] = $registrationItems->tournamentItem->item_id;
 		}
 		if (count(array_intersect($sportIds, Item::getMainSportIds()))) {
 			if (in_array(Item::BEACH_VOLLEYBALL, $sportIds)) {
