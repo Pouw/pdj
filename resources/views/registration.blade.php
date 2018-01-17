@@ -11,15 +11,11 @@
     <form class="form-horizontal" role="form" method="POST">
         {{ csrf_field() }}
         <div class="form-group days">
-
-				<p class="text-center">
-					Badminton registration is not open yet.
-				</p>
 			@foreach(['saturday' => 'Saturday', 'sunday' => 'Sunday', 'all' => ''] as $day => $dayTitle)
 				<div class="col-md-10 col-xs-10 col-md-offset-1 col-xs-offset-1 {{ $day }}">
 					<div class="col-md-4">{{ $dayTitle }}</div>
 					<div class="col-md-8">
-						@foreach ($items->where('day', $day)->where('id', '!=', \App\Item::BADMINTON, '!=') as $item)
+						@foreach ($items->where('day', $day) as $item)
 							<div class="checkbox {{ $item->pivot->status_id == \App\Status::DISABLED ? 'disabled' : '' }}">
 								@if ($item->pivot->status_id == \App\Status::DISABLED && in_array($item->pivot->id, old('tournament_item_ids', $defaultSports)))
 									<input type="hidden" name="tournament_item_ids[]" value="{{ $item->id }}">
