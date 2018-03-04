@@ -15,16 +15,8 @@ use Illuminate\Support\Facades\DB;
 class RegistrationController extends Controller {
 
 	public function overview(Request $request) {
-		$tournamentId = $request->get('tournament_id');
-		$tournament = Tournament::getActive();
-		if (!isset($tournamentId) && isset($tournament)) {
-			$tournamentId = $tournament->id;
-		}
-		if (!isset($tournamentId)) {
-			$tournamentId = Tournament::orderBy('id', 'desc')->first()->id;
-		}
 		$data = [
-			'tournamentId' => $tournamentId,
+			'tournamentId' => $this->getTournamentId(),
 		];
 		return view('admin.registration.overview', $data);
 	}

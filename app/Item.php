@@ -60,11 +60,6 @@ class Item extends Model
 		return $this->hasMany(Team::class);
 	}
 
-	// @deprecated
-//	public function price() {
-//		return $this->belongsTo(Price::class);
-//	}
-
 	public static function getMainSportIds() {
 		return [self::BADMINTON, self::SOCCER, self::SWIMMING, self::VOLLEYBALL];
 	}

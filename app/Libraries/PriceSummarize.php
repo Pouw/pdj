@@ -17,7 +17,7 @@ class PriceSummarize {
 		$this->registration = $registration;
 	}
 
-	public function getTotalPrice() {
+	public function getItemPrices() {
 		$items = [];
 		foreach ($this->registration->registrationItems as $registrationItems) {
 			$items[] = [
@@ -56,6 +56,11 @@ class PriceSummarize {
 				'quantity' => intval($this->registration->outreach_support),
 			];
 		}
+		return $items;
+	}
+
+	public function getTotalPrice() {
+		$items = $this->getItemPrices();
 
 		$eur = 0;
 		$czk = 0;

@@ -53,10 +53,6 @@ class RegistrationItem extends Model {
 		return $this->hasMany(Registration::class);
 	}
 
-//	public function item() {
-//		return $this->belongsToMany(Item::class, 'tournament_items')->withPivot(['id', 'status_id']);
-//	}
-
 	public function tournamentItem() {
 		return $this->belongsTo(TournamentItem::class);
 	}

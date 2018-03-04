@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\Currency $currency
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Item[] $items
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Registration[] $registrations
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Tournament findOrFail($id)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Tournament whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Tournament whereCurrencyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Tournament whereId($value)
@@ -36,6 +38,10 @@ class Tournament extends Model
 
 	public function currency() {
 		return $this->belongsTo(Currency::class);
+	}
+
+	public function registrations() {
+		return $this->hasMany(Registration::class);
 	}
 
 }

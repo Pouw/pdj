@@ -66,5 +66,6 @@ Route::get('/admin/emails', 'Admin\EmailsController@index');
 Route::get('/admin/emails/preview', 'Admin\EmailsController@preview');
 Route::get('/admin/emails/send-schedule-email', 'Admin\EmailsController@sendScheduleEmail');
 Route::post('/admin/emails/send', 'Admin\EmailsController@send');
+Route::get('/admin/incomes', 'Admin\IncomesController@index');
 
 Route::get('/cron/email', 'CronController@email');

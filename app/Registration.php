@@ -151,4 +151,8 @@ class Registration extends Model
 		return $amounts;
 	}
 
+	public function getSale() {
+		return $this->getPriceSummarize()->getSale();
+	}
+
 }
