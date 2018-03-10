@@ -64,6 +64,9 @@ class Item extends Model
 		return [self::BADMINTON, self::SOCCER, self::SWIMMING, self::VOLLEYBALL];
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public function registrations() {
 		return $this->hasMany(RegistrationItem::class);
 	}
