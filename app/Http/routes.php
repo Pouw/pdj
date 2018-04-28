@@ -63,6 +63,7 @@ Route::get('/admin/exports', 'Admin\ExportController@index');
 Route::get('/admin/export', 'Admin\ExportController@export');
 Route::get('/admin/fix-paid', 'AdminController@fixPaid');
 Route::get('/admin/emails', 'Admin\EmailsController@index');
+Route::get('/admin/emails/status', 'Admin\EmailsController@status');
 Route::get('/admin/emails/preview', 'Admin\EmailsController@preview');
 Route::get('/admin/emails/send-schedule-email', 'Admin\EmailsController@sendScheduleEmail');
 Route::post('/admin/emails/send', 'Admin\EmailsController@send');

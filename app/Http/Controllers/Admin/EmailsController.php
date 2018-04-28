@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\EmailQueue;
 use App\Registration;
+use Illuminate\Contracts\Mail\MailQueue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -19,8 +21,15 @@ class EmailsController extends Controller
 		return view('emails.schedule', ['registration' => $user->registration]);
 	}
 
-	public function sendSchedule() {
-
+	public function status() {
+		$all = EmailQueue::count();
+		$sent = EmailQueue::whereSent(1)->count();
+		$data = [
+			'all' => $all,
+			'sent' => $sent
+		];
+		dump($data);
+		return view('admin.emails.status', $data);
 	}
 
 	public function sendScheduleEmail() {

@@ -26,6 +26,7 @@ class ServiceController extends Controller {
 		$registration =  $request->user()->getActiveRegistration();
 		$registration->brunch = $request->get('brunch');
 //		$registration->concert = $request->get('concert');
+		/*
 		$registration->hosted_housing = $request->get('hosted_housing');
 		if ($request->get('hosted_housing') === '1') {
 			$range = $request->get('hosted_housing_date_range');
@@ -33,6 +34,7 @@ class ServiceController extends Controller {
 			$registration->hh_from = $matches[0][0];
 			$registration->hh_to = $matches[0][1];
 		}
+		*/
 		$registration->outreach_support = $request->get('outreach_support');
 		$registration->outreach_request = $request->get('outreach_request');
 		$registration->note = $request->get('note');
