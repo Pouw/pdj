@@ -11,7 +11,7 @@
 ])
 @include('form.yes_no', [
 	'name' => 'is_member',
-	'title' => 'Are you a member of Alcedo Prague, Aquamen or Doodles?',
+	'title' => 'Are you a member of Alcedo Prague or Aquamen?',
 	'default' => $user->is_member
 ])
 @include('form.currency', [

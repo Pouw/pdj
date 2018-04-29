@@ -61,6 +61,7 @@
 							@if ($registrationItem->tournamentItem->item_id == App\Item::SWIMMING)
 								<li>Club: {{ $registrationItem->club }}</li>
 								<li>Captain: {{ $registrationItem->captain }}</li>
+								<li>FINA registration number: {{ $registrationItem->fina }}</li>
 								<li>
 									Disciplines:
 									<ul style="margin-bottom: 0; margin-top: 0">

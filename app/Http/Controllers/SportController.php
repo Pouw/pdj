@@ -117,6 +117,7 @@ class SportController extends Controller {
 				$registrationItem->club = $request->get($sportKey . '_club');
 				$registrationItem->team_name = $request->get($sportKey . '_team_name');
 				$registrationItem->captain = $request->get($sportKey . '_captain');
+				$registrationItem->fina = $request->get($sportKey . '_fina');
 				$registrationItem->find_partner = $request->get($sportKey . '_find_partner');
 				$registrationItem->save();
 
