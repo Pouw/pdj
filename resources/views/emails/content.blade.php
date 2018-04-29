@@ -1,8 +1,8 @@
 @extends('layouts.mail')
 
 @section('content')
-	<p>Hi {{ $registration->user->name }},</p>
+	<p>Hi {{ $user->name }},</p>
 
-	{!! nl2br($content) !!}
+	{!! nl2br($mail->content) !!}
 
 @endsection

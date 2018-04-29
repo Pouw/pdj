@@ -7,11 +7,18 @@
 		<div class="row">
 			<div id="admin-content" class="panel panel-default">
 				<div class="panel-body">
-					{{ old('sport_id') }}
-					<form action="{{ url('/admin/mails/send') }}" method="post">
+					<form action="{{ url('/admin/mail/add') }}" method="post">
 						{{ csrf_field() }}
 						<div class="form-group">
-							<label>Recipients</label>
+							<label>Recipients filter</label>
+							<select class="selectpicker" name="tournament_id" title="Tournament">
+								<option></option>
+								@foreach (App\Tournament::all() as $tournament)
+									<option value="{{ $tournament->id }}" {{ old('tournament_id') == $tournament->id ? ' selected' : ''}}>
+										{{ $tournament->name }}
+									</option>
+								@endforeach
+							</select>
 							<select class="selectpicker" name="sport_id" title="Sport">
 								<option></option>
 								@foreach (App\Item::all() as $sport)
