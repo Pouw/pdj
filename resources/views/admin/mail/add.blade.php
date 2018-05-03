@@ -40,7 +40,18 @@
 						<div class="form-group">
     						<label for="content">Content</label>
 							<textarea id="content" class="form-control" name="content" >{{ old('content') }}</textarea>
-  						</div>
+						</div>
+						<div class="form-group">
+							Attachment:
+							@foreach(File::allFiles(storage_path('app/public/mail')) as $file)
+								<div class="form-check">
+									<label>
+										<input type="checkbox" name="attachments[]" value="{{ $file }}">
+										{{ basename($file) }}
+									</label>
+								</div>
+							@endforeach
+						</div>
 						<button type="submit" class="btn btn-primary" onclick="confirm('Are you sure?')"><i class="fa fa-mail"></i> Send mail</button>
 					</form>
 				</div>

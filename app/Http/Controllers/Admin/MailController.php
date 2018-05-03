@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Mail;
+use App\MailAttachment;
 use App\MailQueue;
 use App\Registration;
 use Illuminate\Http\Request;
@@ -57,6 +58,18 @@ class MailController extends Controller {
 			$mq->mail_id = $mail->id;
 			$mq->save();
 		}
+
+		$attachments = $request->get('attachments');
+		if (!empty($attachments) && is_array($attachments)) {
+			foreach ($attachments as $attachment) {
+				$ma = new MailAttachment();
+				$ma->mail_id = $mail->id;
+				$ma->path = $attachment;
+				$ma->save();
+			}
+		}
+
+
 		$request->session()->flash('alert-success', count($userIds) . ' mail has been added to queue.');
 		return redirect('/admin/mail');
 	}

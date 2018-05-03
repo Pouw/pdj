@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Mail as Mailer;
  * @property \Carbon\Carbon $updated_at
  * @property-read \App\User $user
  * @property-read \App\MailQueue $queue
+ * @property-read \App\MailAttachment $attachments
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Mail whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Mail whereDone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Mail whereStatusId($value)
@@ -35,6 +36,10 @@ class Mail extends Model {
 		return $this->hasMany(\App\MailQueue::class);
 	}
 
+	public function attachments() {
+		return $this->hasMany(\App\MailAttachment::class);
+	}
+
 	public function sendTo(\App\User $user) {
 		$data = [
 			'user' => $user,
@@ -43,6 +48,11 @@ class Mail extends Model {
 		Mailer::send('emails.content', $data, function ($m) use ($user) {
 			$m->to($user->email, $user->name)
 				->subject($this->title);
+			if ($this->attachments->count()) {
+				foreach ($this->attachments as $attachment) {
+					$m->attach($attachment->path);
+				}
+			}
 		});
 	}
 
