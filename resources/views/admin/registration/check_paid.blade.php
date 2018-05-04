@@ -16,6 +16,7 @@
 							{{--<th></th>--}}
 							<th>Amounts For Pay</th>
 							<th>Currency Error</th>
+							<th>Notes</th>
 						</tr>
 						</thead>
 						@foreach($data as $item)
@@ -31,6 +32,11 @@
 									@if($item['currencyError'])
 										!!!!!!!!!!!!!!
 									@endif
+								</td>
+								<td>
+									@foreach($item['reg']->notes as $note)
+										{{ $note->content }}<br>
+									@endforeach
 								</td>
 							</tr>
 						@endforeach
