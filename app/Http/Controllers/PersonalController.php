@@ -10,7 +10,6 @@ use App\Country;
 class PersonalController extends Controller {
 
 	public function __construct() {
-		$this->middleware(ActiveTournament::class);
 		$this->middleware('auth');
 	}
 

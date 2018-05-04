@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller {
 
 	public function __construct() {
-		$this->middleware(ActiveTournament::class);
 		$this->middleware('auth');
 	}
 

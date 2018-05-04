@@ -13,16 +13,14 @@ use Illuminate\Http\Request;
 use App\Registration;
 use App\RegistrationItem;
 
-class RegistrationController extends Controller
-{
-	public function __construct()
-	{
+class RegistrationController extends Controller {
+
+	public function __construct() {
 		$this->middleware(ActiveTournament::class);
 		$this->middleware('auth');
 	}
 
-	public function index(Request $request)
-	{
+	public function index(Request $request) {
 		$user = $request->user();
 
 		$defaultSports = [];

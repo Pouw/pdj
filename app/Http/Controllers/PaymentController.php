@@ -13,7 +13,6 @@ class PaymentController extends Controller {
 
 	public function __construct() {
 		$this->middleware('auth');
-		$this->middleware(ActiveTournament::class);
 	}
 
 	public function index(Request $request) {

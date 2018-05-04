@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 /**
  * App\Tournament
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property string $name
  * @property int $currency_id
+ * @property \Carbon\Carbon $closed_at
  * @property int $status_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
@@ -42,6 +44,12 @@ class Tournament extends Model
 
 	public function registrations() {
 		return $this->hasMany(Registration::class);
+	}
+
+	public function isOpen(): bool {
+		$now = Carbon::now();
+		$closedAt = new Carbon($this->closed_at);
+		return $now->lessThan($closedAt);
 	}
 
 }
