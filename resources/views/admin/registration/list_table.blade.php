@@ -38,6 +38,8 @@
 		<th title="Hosted Housing"><i class="fa fa-lg fa-bed"></i></th>
 		<th title="Outreach Support"><i class="fa fa-lg fa-eur support-color"></i></th>
 		<th title="Outreach Request"><i class="fa fa-lg fa-eur request-color"></i></th>
+		<th>Payments</th>
+		<th title="Internal Note"><i class="fa fa-sticky-note"></i></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -129,6 +131,21 @@
 			<td title="Hosted Housing">@if($registration->hosted_housing) <i class="fa fa-lg fa-bed"></i> @endif</td>
 			<td title="Outreach Support">@if($registration->outreach_support) <i class="fa fa-lg fa-eur support-color"></i> @endif</td>
 			<td title="Outreach Request">@if($registration->outreach_request) <i class="fa fa-lg fa-eur request-color"></i> @endif</td>
+			<td title="Payments">
+				@foreach ($registration->payments()->whereState(\App\Payments::PAID)->get() as $payment)
+					@if (!$loop->first)
+						+
+					@endif
+					{{ $payment->amount }} {{ $payment->currency->iso }}
+				@endforeach
+			</td>
+			<td title="Payments">
+				@foreach ($registration->notes as $note)
+					<p title="{{ $note->created_at }} by {{ $note->user->name }}">
+					{!! nl2br(e($note->content)) !!}
+					</p>
+				@endforeach
+			</td>
 		</tr>
 	@endforeach
 	</tbody>
