@@ -63,7 +63,7 @@ class PaymentController extends Controller {
 		$payment->result_text = $response['resultMessage'];
 
 		// See https://github.com/csob/paymentgateway/wiki/eAPI-v1-CZ#user-content-%C5%BDivotn%C3%AD-cyklus-transakce-
-		if ($status === 4 || $status === 7) {
+		if (in_array($status, [4, 7, 8])) {
 			$payment->state = Payments::PAID;
 			$request->session()->flash('alert-success', 'Your payment has been accepted.');
 		} else {
@@ -71,7 +71,7 @@ class PaymentController extends Controller {
 			$msg = '';
 			if ($status === 3) {
 				$msg = 'Payment has been canceled by user.';
-			} elseif ($status === 3) {
+			} elseif ($status === 6) {
 				$msg = 'Payment has been rejected.';
 			}
 			$request->session()->flash('alert-danger', "Transaction error:\n$msg");
