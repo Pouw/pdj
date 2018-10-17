@@ -37,7 +37,7 @@
                 <!-- Branding Image -->
 				@if (!preg_match('~^\/admin\/.*~', $_SERVER['REQUEST_URI']))
 					<a class="navbar-brand" href="{{ url('/') }}">
-						<img src="/img/logo.png" title="Prague Rainbow Spring">
+						<img src="/img/logo.png?20" title="Prague Rainbow Spring">
 					</a>
 				@endif
             </div>
