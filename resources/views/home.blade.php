@@ -6,7 +6,11 @@
 	<div class="panel-heading">Welcome</div>
 
 	<div class="panel-body">
-		@if ($user)
+		@if (empty(App\Tournament::getActive()))
+		<div class="alert alert-danger" role="alert">
+			Registrations are closed.
+		</div>
+		@elseif ($user)
 			@if ($user->hasFinishedActiveRegistration())
 				<div class="row space">
 					<div class="col-md-10 col-md-offset-2">

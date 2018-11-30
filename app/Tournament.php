@@ -30,7 +30,10 @@ use Carbon\Carbon;
 class Tournament extends Model
 {
 
-	static public function getActive(): Tournament {
+	/**
+	 * @return Tournament|null
+	 */
+	static public function getActive() {
 		return self::where('status_id', 1)->first();
 	}
 
