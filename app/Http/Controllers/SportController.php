@@ -28,7 +28,6 @@ class SportController extends Controller {
 	public function save(Request $request) {
 		$user = $request->user();
 		$registration = $user->getActiveRegistration();
-//		$validator = $this->getValidationFactory()->make($request->all(), []);
 
 		$rules = [];
 		$messages = [];
@@ -101,7 +100,7 @@ class SportController extends Controller {
 					} else {
 						$newTeam = [
 							'name' => $request->get($sportKey . '_team_name'),
-							'item_id' => $tournamentItem->item_id,
+							'tournament_item_id' => $tournamentItem->id,
 							'level_id' => $request->get($sportKey . '_team_level_id'),
 						];
 						$registrationItem->team_id = Team::insertGetId($newTeam);

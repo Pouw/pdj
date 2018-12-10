@@ -2,7 +2,7 @@
 @include('form.team', [
 	'name' => 'volleyball_team',
 	'title' => 'Team',
-	'teams' => $registrationItem->tournamentItem->item->teams,
+	'teams' => $registrationItem->tournamentItem->teams,
 	'default' => $registrationItem->team_id,
 	'levels' => $registrationItem->tournamentItem->item->levels,
 ])

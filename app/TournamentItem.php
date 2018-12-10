@@ -45,4 +45,8 @@ class TournamentItem extends Model
 		return $this->belongsTo(Price::class);
 	}
 
+	public function teams() {
+		return $this->hasMany(Team::class);
+	}
+
 }
