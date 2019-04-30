@@ -29,6 +29,7 @@ class MailController extends Controller {
 		$mail->title = $request->get('title');
 		$mail->content = $request->get('content');
 		$mail->user_id = Auth::user()->id;
+		$mail->is_default_header_footer = $request->get('is_default_header_footer');
 		$mail->saveOrFail();
 
 		$tournamentId = $request->get('tournament_id');
@@ -39,7 +40,11 @@ class MailController extends Controller {
 			$r = $r->where('tournament_id', $tournamentId);
 		}
 		if (!empty($states)) {
-			$r = $r->where('state', $states);
+			if (is_array($states)) {
+				$r = $r->whereIn('state', $states);
+			} else {
+				$r = $r->where('state', $states);
+			}
 		}
 		$r = $r->groupBy('user_id');
 

@@ -1,7 +1,9 @@
 @extends('layouts.mail')
 
 @section('content')
-	<p>Hi {{ $user->name }},</p>
+	@if ($isDefaultHeaderFooter)
+		<p>Hi {{ $user->name }},</p>
+	@endif
 
 	{!! nl2br($mail->content) !!}
 

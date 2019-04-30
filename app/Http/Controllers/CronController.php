@@ -19,7 +19,7 @@ class CronController extends Controller {
 				if ($queue->count() > 0) {
 					foreach ($queue as $mq) {
 						echo "{$mail->id},{$mq->user->id},{$mq->user->email}\n";
-						$mail->sendTo($mq->user);
+						$mail->sendTo($mq->user, $mail->is_default_header_footer);
 						$mq->sent = 1;
 						$mq->save();
 					}
@@ -29,7 +29,7 @@ class CronController extends Controller {
 				}
 			} else {
 				if (!$mail->sent_author) {
-					$mail->sendTo($mail->user);
+					$mail->sendTo($mail->user, $mail->is_default_header_footer);
 					$mail->sent_author = 1;
 					$mail->save();
 				}

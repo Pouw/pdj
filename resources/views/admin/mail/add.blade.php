@@ -41,6 +41,7 @@
     						<label for="content">Content</label>
 							<textarea id="content" class="form-control" name="content" >{{ old('content') }}</textarea>
 						</div>
+						@include('form.yes_no', ['name' => 'is_default_header_footer', 'title' => 'Use default header and footer', 'default' => true])
 						<div class="form-group">
 							Attachment:
 							@foreach(File::allFiles(storage_path('app/public/mail')) as $file)

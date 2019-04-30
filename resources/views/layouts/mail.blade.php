@@ -27,6 +27,7 @@
 									<td>
 										@yield('content')
 
+										@if ($isDefaultHeaderFooter)
 										<p>
 											For information, news and updates follow us via
 											<a href="http://www.praguerainbow.eu/" target="_blank">web</a>
@@ -36,6 +37,7 @@
 										<p>
 											Prague Rainbow Spring Team
 										</p>
+										@endIf
 									</td>
 								</tr>
 							</table>

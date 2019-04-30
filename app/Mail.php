@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail as Mailer;
  * @property string $title
  * @property string $content
  * @property bool $sent_author
+ * @property bool $is_default_header_footer
  * @property bool $done
  * @property int $status_id
  * @property \Carbon\Carbon $created_at
@@ -40,10 +41,11 @@ class Mail extends Model {
 		return $this->hasMany(\App\MailAttachment::class);
 	}
 
-	public function sendTo(\App\User $user) {
+	public function sendTo(\App\User $user, $isDefaultHeaderFooter = true) {
 		$data = [
 			'user' => $user,
 			'mail' => $this,
+			'isDefaultHeaderFooter' => $isDefaultHeaderFooter,
 		];
 		Mailer::send('emails.content', $data, function ($m) use ($user) {
 			$m->to($user->email, $user->name)
