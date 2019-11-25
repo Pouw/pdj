@@ -138,10 +138,10 @@ table.table tr.bg-reversed {
 	font-size: 1.5em;
 	color: #00420c;
 }
-.form-group.days .sunday {
+.form-group.days .sunday, .form-group.days .friday {
 	background: #ffe2f8;
 }
-.form-group.days .sunday > :first-child {
+.form-group.days .sunday > :first-child, .form-group.days .friday > :first-child {
 	font-size: 1.5em;
 	color: #9b3464;
 }

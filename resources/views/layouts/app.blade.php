@@ -37,7 +37,7 @@
                 <!-- Branding Image -->
 				@if (!preg_match('~^\/admin\/.*~', $_SERVER['REQUEST_URI']))
 					<a class="navbar-brand" href="{{ url('/') }}">
-						<img src="/img/logo.png?20" title="Prague Rainbow Spring">
+						<img src="/img/logo.png?21" title="Prague Rainbow Spring">
 					</a>
 				@endif
             </div>
@@ -108,8 +108,8 @@
 					</div>
 					<div class="col-md-6 icons text-right">
 						<a href="http://www.alcedopraha.cz/" target="_blank" class="alcedo" title="Alcedo Praha"></a>
-						<a href="http://aquamen.cz" target="_blank" class="aquamen" title="Aquamen"></a>
-						<a href="https://www.facebook.com/Prague-Rainbow-Spring-404635169567940/" target="_blank" class="fb" title="Facebook"></a>
+						<a href="https://www.facebook.com/AquamenPrague" target="_blank" class="aquamen" title="Aquamen"></a>
+						<a href="https://www.facebook.com/PragueRainbowSpring" target="_blank" class="fb" title="Facebook"></a>
 					</div>
 				</div>
 			</div>
