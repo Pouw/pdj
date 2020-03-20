@@ -5,7 +5,7 @@
 		@include('helper.flash')
 		<h1>Registration ID #{{ $registration->id }}</h1>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-8">
 				<div class="panel panel-primary">
 					<div class="panel-heading">State</div>
 					<div class="panel-body">
@@ -137,7 +137,7 @@
 				</div>
 			</div>
 
-			<div class="col-md-6">
+			<div class="col-md-4">
 				<div class="panel panel-info">
 					<div class="panel-heading">Registration Information</div>
 					<div class="panel-body">

@@ -10,6 +10,7 @@
 		<th title="Bank Status">BS</th>
 		<th>By</th>
 		<th>At</th>
+		<th>PayId</th>
 		<th>Reg</th>
 	</tr>
 	</thead>
@@ -25,6 +26,7 @@
 			<td>{{ $payment->bank_status }}</td>
 			<td>{{ $payment->user->name }}</td>
 			<td>{{ $payment->created_at }}</td>
+			<td>{{ $payment->pay_id }}</td>
 			<td><a href="{{ url('/admin/registration/id/' . $payment->registration_id) }}">{{ $payment->registration_id }}</a></td>
 		</tr>
 	@endforeach
